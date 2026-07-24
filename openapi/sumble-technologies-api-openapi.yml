@@ -1,0 +1,607 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists technologies API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: technologies
+paths:
+  /v9/technologies/find:
+    post:
+      tags:
+      - technologies
+      summary: Find technologies by name
+      operationId: get_technologies__api_version__technologies_find_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetTechnologiesRequest'
+            examples:
+              filters:
+                summary: Search for s3
+                value:
+                  query: s3
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTechnologiesResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 0
+                credits_remaining: 999
+                technologies:
+                - slug: aws-s3
+                  name: AWS S3
+                  count: 67836
+                - slug: ps3
+                  name: PS3
+                  count: 7588
+                - slug: gns3
+                  name: GNS3
+                  count: 4570
+                - slug: rhinoceros3d
+                  name: Rhinoceros3D
+                  count: 2245
+                - slug: ds3
+                  name: DS3
+                  count: 1827
+                - slug: as3
+                  name: AS3
+                  count: 1106
+                - slug: maas360
+                  name: MaaS360
+                  count: 900
+                - slug: ns3
+                  name: NS3
+                  count: 821
+                - slug: tabs3
+                  name: TABS3
+                  count: 749
+                - slug: css-css3
+                  name: CSS/CSS3
+                  count: 722
+                - slug: ibm-maas360
+                  name: IBM MaaS360
+                  count: 677
+                - slug: ccs3
+                  name: CCS3
+                  count: 656
+                - slug: tms320
+                  name: TMS320
+                  count: 615
+                - slug: vertafore-ams360
+                  name: Vertafore AMS360
+                  count: 535
+                - slug: s3-bucket
+                  name: S3 Bucket
+                  count: 471
+                - slug: s3-buckets
+                  name: S3 Buckets
+                  count: 434
+                - slug: s3d
+                  name: S3D
+                  count: 383
+                - slug: css3-scss
+                  name: CSS3/SCSS
+                  count: 274
+                - slug: rs3
+                  name: RS3
+                  count: 265
+                - slug: s3-storage
+                  name: S3 Storage
+                  count: 247
+                - slug: cs3
+                  name: CS3
+                  count: 240
+                - slug: money-s3
+                  name: Money S3
+                  count: 170
+                - slug: lms365
+                  name: LMS365
+                  count: 164
+                - slug: jes3
+                  name: JES3
+                  count: 161
+                - slug: windows365
+                  name: Windows365
+                  count: 142
+                - slug: html-css3
+                  name: HTML/CSS3
+                  count: 128
+                - slug: as3000
+                  name: AS3000
+                  count: 124
+                - slug: adobe-cs3
+                  name: Adobe CS3
+                  count: 109
+                - slug: flash-as3
+                  name: Flash AS3
+                  count: 108
+                - slug: s3000l
+                  name: S3000L
+                  count: 107
+                - slug: css3+
+                  name: CSS3+
+                  count: 106
+                - slug: css3-animation
+                  name: CSS3 Animation
+                  count: 106
+                - slug: vbs3
+                  name: VBS3
+                  count: 102
+                - slug: adobe-illustrator-cs3
+                  name: Adobe Illustrator CS3
+                  count: 101
+                - slug: ms365-suite
+                  name: MS365 Suite
+                  count: 96
+                - slug: aws-s3-bucket
+                  name: AWS S3 Bucket
+                  count: 96
+                - slug: yokogawa-cs3000
+                  name: Yokogawa CS3000
+                  count: 94
+                - slug: ms-dynamics365
+                  name: MS Dynamics365
+                  count: 93
+                - slug: ms360
+                  name: MS360
+                  count: 92
+                - slug: adobe-flash-cs3
+                  name: Adobe Flash CS3
+                  count: 90
+                - slug: abacus360
+                  name: Abacus360
+                  count: 89
+                - slug: os390
+                  name: OS390
+                  count: 88
+                - slug: dynamics365-crm
+                  name: Dynamics365 CRM
+                  count: 84
+                - slug: s3-glacier
+                  name: S3 Glacier
+                  count: 81
+                - slug: html5+css3
+                  name: HTML5+CSS3
+                  count: 80
+                - slug: adobe-dreamweaver-cs3
+                  name: Adobe Dreamweaver CS3
+                  count: 78
+                - slug: oas3
+                  name: OAS3
+                  count: 78
+                - slug: css3-animations
+                  name: CSS3 Animations
+                  count: 72
+                - slug: bucket-s3
+                  name: Bucket S3
+                  count: 72
+                - slug: helios3d
+                  name: Helios3D
+                  count: 72
+                total_count: 1167
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/technologies/lookup:
+    post:
+      tags:
+      - technologies
+      summary: Look up technologies by name, slug, or alias
+      operationId: lookup_technologies__api_version__technologies_lookup_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LookupTechnologiesRequest'
+            examples:
+              filters:
+                summary: Look up bigquery and windows-azure
+                value:
+                  technologies:
+                  - bigquery
+                  - windows-azure
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupTechnologiesResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 1
+                credits_remaining: 999
+                matched_count: 2
+                results:
+                - input: bigquery
+                  technology:
+                    id: 176
+                    slug: gcp-bigquery
+                    name: GCP BigQuery
+                    categories:
+                    - slug: cloud-data-warehouse
+                      name: Cloud Data Warehouse
+                      name_short: Warehouse
+                    - slug: modern-data-platform
+                      name: Modern Data Platform
+                      name_short: Modern Data
+                    - slug: olap
+                      name: OLAP
+                      name_short: OLAP
+                - input: windows-azure
+                  technology:
+                    id: 9
+                    slug: azure
+                    name: Azure
+                    categories:
+                    - slug: cloud-vendor
+                      name: Cloud Vendor
+                      name_short: Cloud
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/technologies/categories/lookup:
+    post:
+      tags:
+      - technologies
+      summary: Look up technology categories by slug or name
+      operationId: lookup_technology_categories__api_version__technologies_categories_lookup_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LookupTechnologyCategoriesRequest'
+            examples:
+              filters:
+                summary: Look up the cloud vendor category
+                value:
+                  technology_categories:
+                  - cloud-vendor
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupTechnologyCategoriesResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 1
+                credits_remaining: 999
+                matched_count: 1
+                results:
+                - input: cloud-vendor
+                  category:
+                    slug: cloud-vendor
+                    name: Cloud Vendor
+                    name_short: Cloud
+                    technologies:
+                    - id: 6
+                      slug: aws
+                      name: AWS
+                    - id: 9
+                      slug: azure
+                      name: Azure
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    app__schemas__paid_api__technologies__GetTechnologiesResponse__TechDetails:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - slug
+      - name
+      - count
+      title: TechDetails
+    LookupTechnologyCategoriesResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        matched_count:
+          type: integer
+          title: Matched Count
+        results:
+          items:
+            $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult'
+          type: array
+          title: Results
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - matched_count
+      - results
+      title: LookupTechnologyCategoriesResponse
+    LookupTechnologyCategoriesRequest:
+      properties:
+        technology_categories:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Technology Categories
+          description: List of technology category slugs or names to look up
+      type: object
+      required:
+      - technology_categories
+      title: LookupTechnologyCategoriesRequest
+    Technology:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      title: Technology
+    app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        categories:
+          items:
+            $ref: '#/components/schemas/TechCategory'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - categories
+      title: TechDetails
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    app__schemas__paid_api__technologies__LookupTechnologiesResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        technology:
+          anyOf:
+          - $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - technology
+      title: LookupResult
+    LookupTechnologiesRequest:
+      properties:
+        technologies:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Technologies
+          description: List of technology names, slugs, or aliases to look up
+      type: object
+      required:
+      - technologies
+      title: LookupTechnologiesRequest
+    LookupTechnologiesResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        matched_count:
+          type: integer
+          title: Matched Count
+        results:
+          items:
+            $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologiesResponse__LookupResult'
+          type: array
+          title: Results
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - matched_count
+      - results
+      title: LookupTechnologiesResponse
+    TechCategory:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        name_short:
+          type: string
+          title: Name Short
+      type: object
+      required:
+      - slug
+      - name
+      - name_short
+      title: TechCategory
+    app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/CategoryDetails'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - category
+      title: LookupResult
+    GetTechnologiesRequest:
+      properties:
+        query:
+          type: string
+          title: Query
+      type: object
+      required:
+      - query
+      title: GetTechnologiesRequest
+    GetTechnologiesResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        technologies:
+          items:
+            $ref: '#/components/schemas/app__schemas__paid_api__technologies__GetTechnologiesResponse__TechDetails'
+          type: array
+          title: Technologies
+        total_count:
+          type: integer
+          title: Total Count
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - technologies
+      - total_count
+      title: GetTechnologiesResponse
+    CategoryDetails:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        name_short:
+          type: string
+          title: Name Short
+        technologies:
+          items:
+            $ref: '#/components/schemas/Technology'
+          type: array
+          title: Technologies
+          description: Technologies in the category. Technologies mentioned most often in job postings appear first.
+      type: object
+      required:
+      - slug
+      - name
+      - name_short
+      - technologies
+      title: CategoryDetails
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

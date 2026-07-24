@@ -1,0 +1,458 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: contact-lists
+paths:
+  /v9/contact-lists:
+    get:
+      tags:
+      - contact-lists
+      summary: List contact lists
+      operationId: list_contact_lists__api_version__contact_lists_get
+      security:
+      - api_token: []
+      parameters: []
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactListsResponse'
+              example:
+                id: 019d25ba-90e8-7a3c-a008-7f0bf41ac79a
+                credits_used: 1
+                credits_remaining: 9992
+                contact_lists:
+                - id: 3839
+                  name: Sumblers
+                  people_count: 17
+                  url: https://sumble.com/lists/3839
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - contact-lists
+      summary: Create a contact list
+      operationId: create_contact_list__api_version__contact_lists_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContactListRequest'
+            example:
+              name: Target contacts
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateContactListResponse'
+              example:
+                id: 3839
+                name: Target contacts
+                url: https://sumble.com/lists/3839
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/contact-lists/{list_id}/people:
+    post:
+      tags:
+      - contact-lists
+      summary: Add people to a contact list
+      operationId: add_contacts_to_list__api_version__contact_lists__list_id__people_post
+      security:
+      - api_token: []
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: List Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddContactsRequest'
+            example:
+              people_ids:
+              - 177409621
+              - 254399875
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddContactsResponse'
+              example:
+                added: 2
+                already_on_list: 0
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/contact-lists/{list_id}:
+    get:
+      tags:
+      - contact-lists
+      summary: Get contact list details
+      operationId: get_contact_list__api_version__contact_lists__list_id__get
+      security:
+      - api_token: []
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: List Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactListResponse'
+              example:
+                id: 019d265b-526d-74cf-a4e0-2c41dc0f4866
+                credits_used: 2
+                credits_remaining: 99986
+                list_info:
+                  id: 3839
+                  name: Target contacts
+                  people_count: 2
+                  url: https://sumble.com/lists/3839
+                people:
+                - id: 169860318
+                  url: https://sumble.com/l/person/cSAZUHj6Nmt8
+                  name: Jared Nightingale
+                  job_title: Business Operations Specialist
+                  job_function_name: Operations
+                  job_function_slug: operations
+                  linkedin_url: https://www.linkedin.com/in/jared-nightingale
+                  organization_id: 1726684
+                  organization_name: Sumble
+                  organization_slug: sumble
+                - id: 177409621
+                  url: https://sumble.com/l/person/mOGBSiARsL83
+                  name: Gervasio Marchand
+                  job_title: Founding Engineer
+                  job_function_name: Engineer
+                  job_function_slug: engineer
+                  linkedin_url: https://www.linkedin.com/in/g3rv4
+                  organization_id: 1726684
+                  organization_name: Sumble
+                  organization_slug: sumble
+                  contact_info:
+                    emails:
+                    - gervasio@sumble.com
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreateContactListResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+      type: object
+      required:
+      - id
+      - name
+      - url
+      title: CreateContactListResponse
+    AddContactsRequest:
+      properties:
+        people_ids:
+          items:
+            type: integer
+          type: array
+          title: People Ids
+      type: object
+      required:
+      - people_ids
+      title: AddContactsRequest
+    ContactListResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        list_info:
+          $ref: '#/components/schemas/ContactListSummary'
+        people:
+          items:
+            $ref: '#/components/schemas/ContactListPerson'
+          type: array
+          title: People
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - list_info
+      - people
+      title: ContactListResponse
+    ContactListSummary:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        people_count:
+          type: integer
+          title: People Count
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+      type: object
+      required:
+      - id
+      - name
+      - people_count
+      - url
+      title: ContactListSummary
+    ContactListContactInfo:
+      properties:
+        emails:
+          items:
+            type: string
+          type: array
+          title: Emails
+        phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone
+        requested:
+          $ref: '#/components/schemas/ContactInfoRequested'
+      type: object
+      required:
+      - emails
+      title: ContactListContactInfo
+      description: 'Paid-API contact info for a contact-list person.
+
+
+        Deliberately decoupled from the shared `ProfileContactInfo` (as
+
+        `/people/enrich` already is): the shared model carries web-only fields (e.g.
+
+        the async-reveal `pending` flag, SMB-2070) that must not drift into the
+
+        Cadwyn-versioned paid response. This mirrors the shared model''s current paid
+
+        contract exactly — `emails`, `phone`, `requested`.'
+    ContactInfoRequested:
+      properties:
+        email:
+          type: boolean
+          title: Email
+          default: false
+        phone:
+          type: boolean
+          title: Phone
+          default: false
+      type: object
+      title: ContactInfoRequested
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateContactListRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateContactListRequest
+    ContactListsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        contact_lists:
+          items:
+            $ref: '#/components/schemas/ContactListSummary'
+          type: array
+          title: Contact Lists
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - contact_lists
+      title: ContactListsResponse
+    AddContactsResponse:
+      properties:
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        added:
+          type: integer
+          title: Added
+        already_on_list:
+          type: integer
+          title: Already On List
+      type: object
+      required:
+      - url
+      - added
+      - already_on_list
+      title: AddContactsResponse
+    ContactListPerson:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: Id
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        name:
+          type: string
+          title: Name
+        job_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Title
+        job_function_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function Name
+        job_function_slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function Slug
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+        organization_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Name
+        organization_slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Slug
+        contact_info:
+          anyOf:
+          - $ref: '#/components/schemas/ContactListContactInfo'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - url
+      - name
+      title: ContactListPerson
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

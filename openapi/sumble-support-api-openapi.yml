@@ -1,0 +1,159 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists support API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: support
+paths:
+  /v9/support/data-quality:
+    post:
+      tags:
+      - support
+      summary: Create Data Quality Report
+      description: Report a data quality issue. Routed to the data team for triage.
+      operationId: create_data_quality_report__api_version__support_data_quality_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDataQualityReportRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportRequestResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/support:
+    post:
+      tags:
+      - support
+      summary: Create Support Request
+      description: Submit a general support request.
+      operationId: create_support_request__api_version__support_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSupportRequestRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportRequestResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreateDataQualityReportRequest:
+      properties:
+        message:
+          type: string
+          maxLength: 5000
+          title: Message
+        url:
+          anyOf:
+          - type: string
+            maxLength: 2048
+          - type: 'null'
+          title: Url
+        page_title:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Page Title
+      type: object
+      required:
+      - message
+      title: CreateDataQualityReportRequest
+    SupportRequestResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: SupportRequestResponse
+    CreateSupportRequestRequest:
+      properties:
+        message:
+          type: string
+          maxLength: 5000
+          title: Message
+        url:
+          anyOf:
+          - type: string
+            maxLength: 2048
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - message
+      title: CreateSupportRequestRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

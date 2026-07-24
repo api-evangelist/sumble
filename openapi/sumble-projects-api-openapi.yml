@@ -1,0 +1,178 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists projects API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: projects
+paths:
+  /v9/projects/lookup:
+    post:
+      tags:
+      - projects
+      summary: Look up projects by name
+      operationId: lookup_projects__api_version__projects_lookup_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LookupProjectsRequest'
+            examples:
+              filters:
+                summary: Look up cloud migration and generative AI projects
+                value:
+                  projects:
+                  - cloud migration
+                  - generative_ai
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupProjectsResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 1
+                credits_remaining: 999
+                matched_count: 2
+                results:
+                - input: cloud migration
+                  project:
+                    id: 1
+                    slug: cloud_migration
+                    name: Cloud Migration
+                - input: generative_ai
+                  project:
+                    id: 3
+                    slug: generative_ai
+                    name: Generative AI
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    LookupProjectsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        matched_count:
+          type: integer
+          title: Matched Count
+        results:
+          items:
+            $ref: '#/components/schemas/app__schemas__paid_api__projects__LookupProjectsResponse__LookupResult'
+          type: array
+          title: Results
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - matched_count
+      - results
+      title: LookupProjectsResponse
+    ProjectDetails:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      title: ProjectDetails
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    app__schemas__paid_api__projects__LookupProjectsResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        project:
+          anyOf:
+          - $ref: '#/components/schemas/ProjectDetails'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - project
+      title: LookupResult
+    LookupProjectsRequest:
+      properties:
+        projects:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Projects
+          description: List of project names or slugs to look up
+      type: object
+      required:
+      - projects
+      title: LookupProjectsRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

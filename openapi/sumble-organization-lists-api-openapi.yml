@@ -1,0 +1,613 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists organization-lists API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: organization-lists
+paths:
+  /v9/organization-lists:
+    get:
+      tags:
+      - organization-lists
+      summary: List organization lists
+      operationId: list_organization_lists__api_version__organization_lists_get
+      security:
+      - api_token: []
+      parameters:
+      - name: include_deleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Deleted
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationListsResponse'
+              example:
+                id: 0195f8d2-1f67-7f52-b1d1-4d63c1e6e7b8
+                credits_used: 3
+                credits_remaining: 997
+                organization_lists:
+                - id: 41
+                  name: My Accounts
+                  url: https://sumble.com/account-lists/41
+                  organizations_count: 25
+                  type: user
+                  read_only: false
+                  deletable: false
+                  deleted: false
+                  include_in_signals: true
+                - id: 42
+                  name: Enterprise Targets
+                  url: https://sumble.com/account-lists/42
+                  organizations_count: 150
+                  type: group
+                  read_only: true
+                  deletable: false
+                  deleted: false
+                  include_in_signals: true
+                - id: 43
+                  name: SMB Pipeline
+                  url: https://sumble.com/account-lists/43
+                  organizations_count: 75
+                  type: user
+                  read_only: false
+                  deletable: true
+                  deleted: false
+                  include_in_signals: false
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - organization-lists
+      summary: Create an organization list
+      operationId: create_organization_list__api_version__organization_lists_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationListRequest'
+            example:
+              name: Enterprise Targets
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrganizationListResponse'
+              example:
+                id: 42
+                name: Enterprise Targets
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/organization-lists/{list_id}:
+    get:
+      tags:
+      - organization-lists
+      summary: Get organization list details
+      operationId: get_organization_list__api_version__organization_lists__list_id__get
+      security:
+      - api_token: []
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: List Id
+      - name: include_deleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Deleted
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationListResponse'
+              example:
+                id: 0195f8d2-1f67-7f52-b1d1-4d63c1e6e7b8
+                credits_used: 1
+                credits_remaining: 997
+                list_info:
+                  id: 42
+                  name: Enterprise Targets
+                  url: https://sumble.com/account-lists/42
+                  organizations_count: 1
+                  type: group
+                  read_only: true
+                  deletable: false
+                  deleted: false
+                  include_in_signals: true
+                organizations:
+                - id: 1726684
+                  name: Sumble
+                  slug: sumble
+                  sumble_url: https://sumble.com/orgs/sumble
+                  url: https://sumble.com
+                  employee_count: 12
+                  account_status: customer
+                  crm_url: https://example.my.salesforce.com/lightning/r/Account/001XX/view
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/organization-lists/{list_id}/deleted:
+    post:
+      tags:
+      - organization-lists
+      summary: Set an organization list's deleted status
+      description: 'Soft-delete or restore an organization list.
+
+
+        Soft-deletion is reversible: pass ``deleted=false`` to restore a list.
+
+        Deleting or restoring a list does not delete or restore individual
+
+        organizations in the list. Pass ``include_deleted=true`` to the list/detail
+
+        endpoints to see deleted lists.'
+      operationId: set_organization_list_deleted__api_version__organization_lists__list_id__deleted_post
+      security:
+      - api_token: []
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: List Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetOrganizationListDeletedRequest'
+            example:
+              deleted: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetOrganizationListDeletedResponse'
+              example:
+                id: 42
+                deleted: true
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/organization-lists/{list_id}/organizations:
+    post:
+      tags:
+      - organization-lists
+      summary: Add organizations to a list
+      operationId: add_organizations_to_list__api_version__organization_lists__list_id__organizations_post
+      security:
+      - api_token: []
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: List Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddOrganizationsRequest'
+            example:
+              organization_ids:
+              - 1
+              - 99999999
+              organization_slugs:
+              - sumble
+              - non-existing-org
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddOrganizationsResponse'
+              example:
+                added:
+                - 1
+                - 1726684
+                failed_ids:
+                - 99999999
+                failed_slugs:
+                - non-existing-org
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/organization-lists/{list_id}/signals:
+    post:
+      tags:
+      - organization-lists
+      summary: Set a list's signals inclusion setting
+      description: 'Include or exclude an organization list''s accounts from your signals feed.
+
+
+        Pass ``include_in_signals=false`` to exclude this list''s accounts from your
+
+        signals, or ``true`` to include them again. Lists are included by default.
+
+        This mirrors the per-list signals toggle in the dashboard.'
+      operationId: set_organization_list_signals__api_version__organization_lists__list_id__signals_post
+      security:
+      - api_token: []
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: List Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetOrganizationListSignalsRequest'
+            example:
+              include_in_signals: false
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationListSignalsResponse'
+              example:
+                id: 42
+                include_in_signals: false
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreateOrganizationListResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+      type: object
+      required:
+      - id
+      - name
+      - url
+      title: CreateOrganizationListResponse
+    AddOrganizationsResponse:
+      properties:
+        added:
+          items:
+            type: integer
+          type: array
+          title: Added
+        failed_ids:
+          items:
+            type: integer
+          type: array
+          title: Failed Ids
+        failed_slugs:
+          items:
+            type: string
+          type: array
+          title: Failed Slugs
+      type: object
+      required:
+      - added
+      - failed_ids
+      - failed_slugs
+      title: AddOrganizationsResponse
+    OrganizationListsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organization_lists:
+          items:
+            $ref: '#/components/schemas/OrganizationListSummary'
+          type: array
+          title: Organization Lists
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organization_lists
+      title: OrganizationListsResponse
+    AddOrganizationsRequest:
+      properties:
+        organization_ids:
+          items:
+            type: integer
+          type: array
+          title: Organization Ids
+          default: []
+        organization_slugs:
+          items:
+            type: string
+          type: array
+          title: Organization Slugs
+          default: []
+      type: object
+      title: AddOrganizationsRequest
+    OrganizationListType:
+      type: string
+      enum:
+      - group
+      - user
+      title: OrganizationListType
+    OrganizationListOrganization:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        employee_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Employee Count
+        account_status:
+          anyOf:
+          - type: string
+            enum:
+            - customer
+            - prospect
+            - not_in_crm
+          - type: 'null'
+          title: Account Status
+        crm_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Crm Url
+      type: object
+      title: OrganizationListOrganization
+    CreateOrganizationListRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateOrganizationListRequest
+    OrganizationListSignalsResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
+      type: object
+      required:
+      - id
+      - include_in_signals
+      title: OrganizationListSignalsResponse
+    OrganizationListResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        list_info:
+          $ref: '#/components/schemas/OrganizationListSummary'
+        organizations:
+          items:
+            $ref: '#/components/schemas/OrganizationListOrganization'
+          type: array
+          title: Organizations
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - list_info
+      - organizations
+      title: OrganizationListResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SetOrganizationListDeletedResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - id
+      - deleted
+      title: SetOrganizationListDeletedResponse
+    OrganizationListSummary:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        organizations_count:
+          type: integer
+          title: Organizations Count
+        type:
+          $ref: '#/components/schemas/OrganizationListType'
+        read_only:
+          type: boolean
+          title: Read Only
+        deletable:
+          type: boolean
+          title: Deletable
+        deleted:
+          type: boolean
+          title: Deleted
+          default: false
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
+          default: true
+      type: object
+      required:
+      - id
+      - name
+      - url
+      - organizations_count
+      - type
+      - read_only
+      - deletable
+      title: OrganizationListSummary
+    SetOrganizationListSignalsRequest:
+      properties:
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
+      type: object
+      required:
+      - include_in_signals
+      title: SetOrganizationListSignalsRequest
+    SetOrganizationListDeletedRequest:
+      properties:
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - deleted
+      title: SetOrganizationListDeletedRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

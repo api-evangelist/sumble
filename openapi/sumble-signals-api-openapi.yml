@@ -1,0 +1,725 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists signals API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: signals
+paths:
+  /v9/signals:
+    post:
+      tags:
+      - signals
+      summary: Search signals
+      description: 'Signals are sales-relevant events such as champion job changes, recent hires and promotions, technology and product mentions, projects and initiatives, and technology and job-function trends. Job-post signals (technology and product mentions, projects, and first mentions) also include `suggested_contacts`: the top few people to consider reaching out to at the account, plus a link to view all of them. Each signal also carries `account_status`: the CRM relationship between the signal''s organization and the calling account (''customer'', ''prospect'', or ''not_in_crm''). Only populated when the calling account has a linked CRM seat (Salesforce or HubSpot).'
+      operationId: search_signals__api_version__signals_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchSignalsRequest'
+            examples:
+              by_technology:
+                summary: Signals matching technologies
+                value:
+                  filter:
+                    organization_ids:
+                    - 171
+                    technology_slugs:
+                    - zoominfo
+                    account_list_ids:
+                    - 4
+              by_job_function:
+                summary: Signals matching job functions
+                value:
+                  filter:
+                    organization_ids:
+                    - 31
+                    person_ids:
+                    - 12729201
+                    signal_ids:
+                    - 123
+                    job_functions:
+                    - Account Executive
+                    account_list_ids:
+                    - 4
+              by_accounts:
+                summary: Signals for specific accounts or lists
+                value:
+                  filter:
+                    organization_ids:
+                    - 171
+                    account_list_ids:
+                    - 4
+              by_priority:
+                summary: Signals matching priorities
+                value:
+                  filter:
+                    organization_ids:
+                    - 171
+                    priorities:
+                    - high
+      responses:
+        '200':
+          description: Signals matching the requested filters. Charged one credit per signal returned. Job-post signals also carry `suggested_contacts` with the top contacts to consider and a link to view all.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalsResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 2
+                credits_remaining: 998
+                signals:
+                - title: Amazon hired Jane Doe
+                  subtitle: Started Jun 2026
+                  explanation: Jane Doe joined the platform team.
+                  sales_angle: The team is expanding Kubernetes.
+                  date: '2026-06-17T12:00:00Z'
+                  sumble_url: https://sumble.com/orgs/amazon/signals/s/123
+                  signal_id: 123
+                  display_type: New hire using Kubernetes
+                  type: technology_recent_hires
+                  organization_name: Amazon
+                  organization_id: 1
+                  job_post_id: 789
+                  person_id: 456
+                  linkedin_url: https://www.linkedin.com/in/jane-doe
+                  location: Seattle, WA
+                  job_function: Engineering
+                  priority: high
+                - title: Amazon is hiring for Kubernetes
+                  explanation: Kubernetes mentioned in a job post.
+                  date: '2026-06-18T12:00:00Z'
+                  sumble_url: https://sumble.com/orgs/amazon/signals/s/124
+                  signal_id: 124
+                  display_type: Kubernetes mentioned
+                  type: technology_any_mentions
+                  organization_name: Amazon
+                  organization_id: 1
+                  job_post_id: 790
+                  priority: medium
+                  suggested_contacts:
+                    people:
+                    - person_id: 456
+                      name: John Smith
+                      title: Director of Platform Engineering
+                      linkedin_url: https://www.linkedin.com/in/john-smith
+                      score: 7.6
+                    sumble_url: https://sumble.com/orgs/amazon/teams/platform/jobs/790
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/signals/priority:
+    post:
+      tags:
+      - signals
+      summary: Search priority signals
+      description: Priority signals are AI-generated digest items summarizing the most important signals in a user's account feed. They optionally can be searched by signal, organization, person, or job post IDs attached to their source signals. Returns the most recent 20 priority signals based on the specified filters, or omit filters to simply return the latest.
+      operationId: search_priority_signals__api_version__signals_priority_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPrioritySignalsRequest'
+            examples:
+              by_entity_ids:
+                summary: Priority signals matching source entities
+                value:
+                  filter:
+                    organization_ids:
+                    - 171
+                    person_ids:
+                    - 12729201
+                    signal_ids:
+                    - 123
+                    job_post_ids:
+                    - 789
+      responses:
+        '200':
+          description: Priority signals matching the requested filters. Charged one credit per priority signal returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrioritySignalsResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 1
+                credits_remaining: 998
+                priority_signals:
+                - url: https://sumble.com/signals/priority/88
+                  headline: Amazon is expanding Kubernetes hiring
+                  content: Amazon has multiple high-priority signals...
+                  date: '2026-06-17'
+                  signal_ids:
+                  - 123
+                  organization_ids:
+                  - 1
+                  person_ids:
+                  - 456
+                  job_post_ids:
+                  - 789
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/signals/priority/{item_id}/relevance:
+    put:
+      tags:
+      - signals
+      summary: Update priority signal relevance
+      description: 'Mark a priority signal (identified by its `id` from Search Priority Signals) as relevant or not relevant, or clear previously-set feedback by passing `is_relevant: null`. Mirrors the relevant / not relevant feedback available in the web app. Free -- does not consume credits.'
+      operationId: update_priority_signal_relevance__api_version__signals_priority__item_id__relevance_put
+      security:
+      - api_token: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Item Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePrioritySignalRelevanceRequest'
+            examples:
+              mark_relevant:
+                summary: Mark relevant
+                value:
+                  is_relevant: true
+              clear_feedback:
+                summary: Clear feedback
+                value: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrioritySignalRelevanceResponse'
+              example:
+                id: 88
+                is_relevant: true
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    UpdatePrioritySignalRelevanceRequest:
+      properties:
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
+      additionalProperties: false
+      type: object
+      required:
+      - is_relevant
+      title: UpdatePrioritySignalRelevanceRequest
+    PrioritySignal:
+      properties:
+        id:
+          type: integer
+          title: Id
+        url:
+          type: string
+          title: Url
+        headline:
+          type: string
+          title: Headline
+        content:
+          type: string
+          title: Content
+        date:
+          type: string
+          format: date
+          title: Date
+        signal_ids:
+          items:
+            type: integer
+          type: array
+          title: Signal Ids
+        organization_ids:
+          items:
+            type: integer
+          type: array
+          title: Organization Ids
+        person_ids:
+          items:
+            type: integer
+          type: array
+          title: Person Ids
+        job_post_ids:
+          items:
+            type: integer
+          type: array
+          title: Job Post Ids
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: 'Your relevance feedback on this priority signal: true (relevant), false (not relevant), or null (no feedback given). Update it with the Update Priority Signal Relevance endpoint.'
+      type: object
+      required:
+      - id
+      - url
+      - headline
+      - content
+      - date
+      title: PrioritySignal
+    SearchPrioritySignalsFilter:
+      properties:
+        organization_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Organization Ids
+          description: Organization IDs to filter priority signals by.
+          examples:
+          - - 171
+        person_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Person Ids
+          description: Sumble person IDs to filter priority signals by.
+          examples:
+          - - 12729201
+        signal_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Signal Ids
+          description: Signal IDs to filter priority signals by.
+          examples:
+          - - 123
+        job_post_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Job Post Ids
+          description: Job post IDs to filter priority signals by.
+          examples:
+          - - 789
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: 'Filter by your relevance feedback: true for priority signals you marked relevant, false for ones you marked not relevant. Omit to return priority signals regardless of feedback -- this does not match only unreviewed (null-feedback) signals.'
+          examples:
+          - true
+      additionalProperties: false
+      type: object
+      title: SearchPrioritySignalsFilter
+    PrioritySignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        priority_signals:
+          items:
+            $ref: '#/components/schemas/PrioritySignal'
+          type: array
+          title: Priority Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - priority_signals
+      title: PrioritySignalsResponse
+    SuggestedContact:
+      properties:
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+      type: object
+      title: SuggestedContact
+    SearchSignalsFilter:
+      properties:
+        organization_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Organization Ids
+          description: Organization IDs to filter signals by.
+          examples:
+          - - 171
+        person_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Person Ids
+          description: Sumble person IDs to filter signals by.
+          examples:
+          - - 12729201
+        signal_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Signal Ids
+          description: Signal IDs to filter signals by.
+          examples:
+          - - 123
+        technology_slugs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Technology Slugs
+          description: Canonical technology slugs to filter signals by, such as `kubernetes` or `salesforce`.
+          examples:
+          - - zoominfo
+        job_functions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Job Functions
+          description: Job function names to filter signals by, such as `Engineering` or `Sales`.
+          examples:
+          - - Account Executive
+        priorities:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - high
+              - medium
+              - low
+            type: array
+          - type: 'null'
+          title: Priorities
+          description: Priorities to filter signals by. Matches the `priority` field returned on each signal.
+          examples:
+          - - high
+        account_list_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Account List Ids
+          description: Account list IDs to filter signals to accounts in those lists.
+          examples:
+          - - 4
+      additionalProperties: false
+      type: object
+      title: SearchSignalsFilter
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Signal:
+      properties:
+        signal_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Signal Id
+        title:
+          type: string
+          title: Title
+        subtitle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subtitle
+        explanation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Explanation
+        sales_angle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sales Angle
+        date:
+          type: string
+          format: date-time
+          title: Date
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+        display_type:
+          type: string
+          title: Display Type
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+        matched_technologies:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SignalTechnology'
+            type: array
+          - type: 'null'
+          title: Matched Technologies
+        organization_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Name
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+        job_post_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Job Post Id
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        job_function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function
+        priority:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Priority
+        suggested_contacts:
+          anyOf:
+          - $ref: '#/components/schemas/SuggestedContacts'
+          - type: 'null'
+        account_status:
+          anyOf:
+          - type: string
+            enum:
+            - customer
+            - prospect
+            - not_in_crm
+          - type: 'null'
+          title: Account Status
+          description: 'CRM relationship between the signal''s organization and the calling account: ''customer'' (a customer account in the calling account''s CRM), ''prospect'' (tracked in CRM but not a customer), or ''not_in_crm'' (no CRM record). Only populated when the calling account has a linked CRM seat (Salesforce or HubSpot); omitted otherwise, even when requested.'
+      type: object
+      required:
+      - title
+      - date
+      - display_type
+      title: Signal
+    SearchPrioritySignalsRequest:
+      properties:
+        filter:
+          $ref: '#/components/schemas/SearchPrioritySignalsFilter'
+          description: Filter criteria for priority signals search.
+      additionalProperties: false
+      type: object
+      title: SearchPrioritySignalsRequest
+    SearchSignalsRequest:
+      properties:
+        filter:
+          $ref: '#/components/schemas/SearchSignalsFilter'
+          description: Filter criteria for signals search.
+      additionalProperties: false
+      type: object
+      title: SearchSignalsRequest
+    SignalTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      type: object
+      required:
+      - name
+      - slug
+      title: SignalTechnology
+    SuggestedContacts:
+      properties:
+        people:
+          items:
+            $ref: '#/components/schemas/SuggestedContact'
+          type: array
+          title: People
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+      type: object
+      required:
+      - people
+      title: SuggestedContacts
+    PrioritySignalRelevanceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+      type: object
+      required:
+      - id
+      title: PrioritySignalRelevanceResponse
+    SignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        signals:
+          items:
+            $ref: '#/components/schemas/Signal'
+          type: array
+          title: Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - signals
+      title: SignalsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

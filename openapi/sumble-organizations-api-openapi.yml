@@ -1,0 +1,1185 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists organizations API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: organizations
+paths:
+  /v9/organizations:
+    post:
+      tags:
+      - organizations
+      summary: Unified organizations endpoint
+      operationId: enrich_organizations_unified__api_version__organizations_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichOrganizationsRequest'
+            examples:
+              by_id:
+                summary: Lookup by Sumble id (no attributes requested)
+                value:
+                  organizations:
+                  - id: 1726684
+                  select: {}
+              by_filter:
+                summary: Filter (advanced query) instead of a list
+                value:
+                  filter:
+                    query: technology EQ 'react'
+                  limit: 5
+                  order_by_column: employee_count
+                  order_by_direction: DESC
+                  select:
+                    attributes:
+                    - id
+                    - name
+                    - url
+                    entities:
+                    - type: technology
+                      term: kubernetes
+                      metrics: all
+              by_filter_concentration_sort:
+                summary: Filter sorted by a job function's people concentration (no source_data_url)
+                value:
+                  filter:
+                    query: technology EQ 'react'
+                  limit: 5
+                  order_by_column: people_concentration
+                  order_by_direction: DESC
+                  order_by_job_function: Data Engineer
+                  select:
+                    attributes:
+                    - id
+                    - name
+                    - url
+                    entities:
+                    - type: job_function
+                      term: Data Engineer
+                      metrics:
+                      - people_count
+                      - people_concentration
+              by_filter_aq_concentration_sort:
+                summary: Filter sorted by an advanced query's job post concentration (no source_data_url)
+                value:
+                  filter:
+                    query: employee_count EQ '1000-'
+                  limit: 5
+                  order_by_column: job_post_concentration
+                  order_by_direction: DESC
+                  order_by_advanced_query: technology EQ 'react' AND job_function EQ 'Data Engineer'
+                  select:
+                    attributes:
+                    - id
+                    - name
+                    - url
+                    entities:
+                    - type: advanced_query
+                      term: technology EQ 'react' AND job_function EQ 'Data Engineer'
+                      metrics:
+                      - job_post_count
+                      - job_post_concentration
+              by_name_url_with_attrs:
+                summary: Match by name/URL, request attributes
+                value:
+                  organizations:
+                  - name: Sumble
+                    url: sumble.com
+                  - name: Google
+                    location: US
+                  select:
+                    attributes:
+                    - id
+                    - slug
+                    - name
+                    - url
+                    - employee_count
+                    - industry
+                    - jobs_count
+                    - teams_count
+                    - headquarters_country
+                    - sumble_score
+                    - sumble_url
+                    - parent_id
+                    - subsidiary_ids
+                    - tags
+                    entities:
+                    - type: technology
+                      term: kubernetes
+                      metrics:
+                      - job_post_count
+                      - people_count
+                      - job_post_count_growth_1y
+                    - type: technology
+                      term: react
+                      metrics:
+                      - job_post_count
+                      - team_count
+                      since: '2026-02-01'
+                    - type: job_function
+                      term: Data Engineer
+                      metrics: all
+                    - type: advanced_query
+                      term: technology EQ 'react'
+                      metrics:
+                      - job_post_count
+                      - team_count
+                      - people_count
+                      - job_post_concentration
+                    - type: technology_category
+                      term: logging-observability-monitoring
+                      granularity: aggregate
+                      metrics: all
+                    - type: technology_category
+                      term: logging-observability-monitoring
+                      granularity: exploded
+                      metrics:
+                      - job_post_count
+                      since: '2026-02-01'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichOrganizationsResponse'
+              example:
+                id: 019d06c6-9d55-75a4-bf7f-2bde9b85b772
+                credits_used: 73
+                credits_remaining: 98927
+                organizations:
+                - input:
+                    name: Sumble
+                    url: sumble.com
+                  attributes:
+                    id: 1726684
+                    slug: sumble
+                    name: Sumble
+                    url: sumble.com
+                    employee_count: 120
+                    industry: Information
+                    jobs_count: 42
+                    teams_count: 8
+                    headquarters_country: US
+                    sumble_score: 82.5
+                    sumble_url: https://sumble.com/l/org/TH2y9mGkRr1q
+                    subsidiary_ids: []
+                    tags:
+                    - digital_native
+                    - b2b
+                    - is_ai_native
+                    - is_venture_backed
+                  entities:
+                  - type: technology
+                    term: kubernetes
+                    job_post_count: 3
+                    job_post_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/jobs
+                    people_count: 2
+                    people_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/people
+                    job_post_count_growth_1y: 51.9
+                    job_post_count_growth_1y_url: https://sumble.com/l/org/TH2y9mGkRr1q/trends/technologies
+                  - type: job_function
+                    term: Data Engineer
+                    job_post_count: 1
+                    job_post_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/jobs
+                    team_count: 1
+                    team_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/teams
+                    people_count: 0
+                    people_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/people
+                    people_concentration: 0.0
+                    people_count_growth_1y: 0.25
+                    people_count_growth_1y_url: https://sumble.com/l/org/TH2y9mGkRr1q/trends/job_functions_people
+                  - type: advanced_query
+                    term: technology EQ 'react'
+                    job_post_count: 2
+                    job_post_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/jobs
+                    team_count: 1
+                    team_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/teams
+                    people_count: 1
+                    people_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/people
+                    job_post_concentration: 0.0476
+                  - type: technology_category
+                    term: logging-observability-monitoring
+                    granularity: aggregate
+                    job_post_count: 4
+                    job_post_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/jobs
+                    team_count: 2
+                    team_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/teams
+                    people_count: 3
+                    people_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/people
+                  - type: technology_category
+                    term: logging-observability-monitoring
+                    granularity: exploded
+                    components:
+                    - type: technology
+                      term: datadog
+                      job_post_count: 3
+                      job_post_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/jobs
+                    - type: technology
+                      term: prometheus
+                      job_post_count: 1
+                      job_post_count_url: https://sumble.com/l/org/TH2y9mGkRr1q/jobs
+                - input:
+                    name: Nonexistent
+                    url: nonexistent.example
+                  attributes: {}
+                  entities: []
+                matched_count: 1
+                total: 2
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v9/organizations/{organization_id}/intelligence-brief:
+    get:
+      tags:
+      - organizations
+      summary: Retrieve the intelligence brief for an organization
+      operationId: get_intelligence_brief__api_version__organizations__organization_id__intelligence_brief_get
+      security:
+      - api_token: []
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Organization Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/IntelligenceBriefResponse'
+                - $ref: '#/components/schemas/IntelligenceBriefPendingResponse'
+                title: Response Get Intelligence Brief  Api Version  Organizations  Organization Id  Intelligence Brief Get
+              example:
+                id: 019d25ba-90e8-7a3c-a008-7f0bf41ac79a
+                credits_used: 50
+                credits_remaining: 9900
+                organization_id: 1726684
+                organization_slug: vanta
+                title: Vanta intelligence brief for Sumble
+                body: 'Vanta intelligence brief for Sumble
+
+
+                  This brief is also [available on Sumble.com](https://sumble.com/l/org/MIkfQDbGSbraK/overview?intelligence_brief=1)
+
+
+                  ## What''s the Angle
+
+
+                  Vanta is hiring into teams...
+
+
+                  ## Who To Contact First
+
+
+                  Prioritize engineering leaders...'
+                sumble_url: https://sumble.com/l/org/MIkfQDbGSbraK/overview?intelligence_brief=1
+        '422':
+          description: The organization/domain does not have enough data to generate an intelligence brief. No credits are consumed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail: Unfortunately, we don't have enough information for Vanta to generate an intelligence brief.
+        '202':
+          description: The brief is being generated. Retry the same URL after the `Retry-After` header. No credits are consumed.
+          headers:
+            Retry-After:
+              description: Suggested seconds to wait before retrying the same URL
+              schema:
+                type: integer
+                example: 20
+          content:
+            application/json:
+              example:
+                status: pending
+                organization_id: 1726684
+                organization_slug: vanta
+                message: The intelligence brief is being generated. Retry the same URL after the `Retry-After` time. No credits are consumed for this response.
+  /v9/organizations/{organization_id}/signals:
+    get:
+      tags:
+      - organizations
+      summary: Get organization signals
+      operationId: get_organization_signals__api_version__organizations__organization_id__signals_get
+      security:
+      - api_token: []
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Organization Id
+      - name: technology_slugs
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Technology slugs to filter signals by. Repeat this query parameter to filter by multiple technologies. Use POST /technologies/lookup to resolve technology names, slugs, or aliases to canonical slugs; use POST /technologies/find to search for matching technologies.
+          title: Technology Slugs
+        description: Technology slugs to filter signals by. Repeat this query parameter to filter by multiple technologies. Use POST /technologies/lookup to resolve technology names, slugs, or aliases to canonical slugs; use POST /technologies/find to search for matching technologies.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalsResponse'
+              example:
+                id: 019c2a87-11f0-78b3-b82d-cdd178cf4018
+                credits_used: 1
+                credits_remaining: 998
+                signals:
+                - title: Amazon hired Jane Doe
+                  subtitle: Started Jun 2026
+                  explanation: Jane Doe joined the platform team.
+                  sales_angle: The team is expanding Kubernetes.
+                  date: '2026-06-17T12:00:00Z'
+                  sumble_url: https://sumble.com/orgs/amazon/signals/s/123
+                  display_type: New hire using Kubernetes
+                  type: technology_recent_hires
+                  organization_name: Amazon
+                  organization_id: 1
+                  job_post_id: 789
+                  person_id: 456
+                  linkedin_url: https://www.linkedin.com/in/jane-doe
+                  location: Seattle, WA
+                  job_function: Engineering
+                  priority: high
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    EnrichOrganizationsRequest:
+      properties:
+        organizations:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/MatchOrganizationInput'
+            type: array
+            maxItems: 1000
+            minItems: 1
+          - type: 'null'
+          title: Organizations
+          description: List of organizations to resolve and enrich. Mutually exclusive with `filter`.
+        filter:
+          anyOf:
+          - $ref: '#/components/schemas/Query'
+          - type: 'null'
+          description: Advanced query selecting the organizations to return. Mutually exclusive with `organizations`.
+        select:
+          $ref: '#/components/schemas/Select'
+          description: Dictates exactly which columns are returned.
+        limit:
+          type: integer
+          maximum: 200.0
+          minimum: 1.0
+          title: Limit
+          description: Maximum number of results to return.
+          default: 10
+        offset:
+          type: integer
+          maximum: 10000.0
+          minimum: 0.0
+          title: Offset
+          description: Number of results to skip.
+          default: 0
+        order_by_column:
+          anyOf:
+          - type: string
+            enum:
+            - industry
+            - employee_count
+            - employee_count_int
+            - first_activity_time
+            - last_activity_time
+            - jobs_count
+            - teams_count
+            - people_count
+            - jobs_count_growth_6mo
+            - cloud_spend_estimate_millions_usd
+            - account_score
+          - type: string
+            enum:
+            - people_concentration
+            - people_count_growth_1y
+          - type: string
+            const: job_post_concentration
+          - type: 'null'
+          title: Order By Column
+          description: 'Column to order by (filter mode only). Parameterized sorts (this endpoint only): `people_concentration` and `people_count_growth_1y` sort by the named job function''s people metrics — the all-time fraction of the org''s tracked people in it, and its current YoY people growth % (latest month vs. one year earlier; orgs without growth data sort last) respectively — and require `order_by_job_function`. `job_post_concentration` sorts by the all-time fraction of the org''s job posts matching `order_by_advanced_query`, which it requires. `source_data_url` is omitted for all three, since the listing page cannot reproduce their ordering.'
+        order_by_direction:
+          anyOf:
+          - type: string
+            enum:
+            - ASC
+            - DESC
+          - type: 'null'
+          title: Order By Direction
+          description: Direction to order by (filter mode only).
+        order_by_job_function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Order By Job Function
+          description: Job function whose people metrics drive the sort. Required with (and only valid with) `order_by_column="people_concentration"` or `order_by_column="people_count_growth_1y"`.
+        order_by_advanced_query:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Order By Advanced Query
+          description: 'Advanced query whose matching job posts form the sort numerator. Required with (and only valid with) `order_by_column="job_post_concentration"`. Allowed fields: technology, technology_category, job_function, project, job_level, country. Both the matching and total job counts are all-time.'
+      additionalProperties: false
+      type: object
+      required:
+      - select
+      title: EnrichOrganizationsRequest
+    EnrichOrganizationsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organizations:
+          items:
+            $ref: '#/components/schemas/ResultRow'
+          type: array
+          title: Organizations
+        matched_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Matched Count
+        total:
+          type: integer
+          title: Total
+        source_data_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Source Data Url
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organizations
+      - total
+      title: EnrichOrganizationsResponse
+    Query:
+      properties:
+        query:
+          type: string
+          title: Query
+      type: object
+      required:
+      - query
+      title: Query
+    SuggestedContact:
+      properties:
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+      type: object
+      title: SuggestedContact
+    IntelligenceBriefPendingResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Always 'pending' for 202 responses
+          default: pending
+        organization_id:
+          type: integer
+          title: Organization Id
+        organization_slug:
+          type: string
+          title: Organization Slug
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - organization_id
+      - organization_slug
+      - message
+      title: IntelligenceBriefPendingResponse
+      description: 'Returned with HTTP 202 when the brief is being generated.
+
+
+        The caller should retry the same URL after the `Retry-After` header. No
+
+        credits are consumed for 202 responses.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Signal:
+      properties:
+        signal_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Signal Id
+        title:
+          type: string
+          title: Title
+        subtitle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subtitle
+        explanation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Explanation
+        sales_angle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sales Angle
+        date:
+          type: string
+          format: date-time
+          title: Date
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+        display_type:
+          type: string
+          title: Display Type
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+        matched_technologies:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SignalTechnology'
+            type: array
+          - type: 'null'
+          title: Matched Technologies
+        organization_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Name
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+        job_post_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Job Post Id
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        job_function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function
+        priority:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Priority
+        suggested_contacts:
+          anyOf:
+          - $ref: '#/components/schemas/SuggestedContacts'
+          - type: 'null'
+        account_status:
+          anyOf:
+          - type: string
+            enum:
+            - customer
+            - prospect
+            - not_in_crm
+          - type: 'null'
+          title: Account Status
+          description: 'CRM relationship between the signal''s organization and the calling account: ''customer'' (a customer account in the calling account''s CRM), ''prospect'' (tracked in CRM but not a customer), or ''not_in_crm'' (no CRM record). Only populated when the calling account has a linked CRM seat (Salesforce or HubSpot); omitted otherwise, even when requested.'
+      type: object
+      required:
+      - title
+      - date
+      - display_type
+      title: Signal
+    IntelligenceBriefResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organization_id:
+          type: integer
+          title: Organization Id
+        organization_slug:
+          type: string
+          title: Organization Slug
+        title:
+          type: string
+          title: Title
+        body:
+          type: string
+          title: Body
+        sumble_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Sumble Url
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organization_id
+      - organization_slug
+      - title
+      - body
+      - sumble_url
+      title: IntelligenceBriefResponse
+    ResultRow:
+      properties:
+        input:
+          anyOf:
+          - $ref: '#/components/schemas/MatchOrganizationInput'
+          - type: 'null'
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/Attributes'
+          - type: 'null'
+        entities:
+          items:
+            $ref: '#/components/schemas/EntityResult'
+          type: array
+          title: Entities
+          default: []
+      type: object
+      title: ResultRow
+    Attributes:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        employee_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Employee Count
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
+        jobs_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobs Count
+        teams_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Teams Count
+        headquarters_country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Country
+        sumble_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Sumble Score
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+        parent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Parent Id
+        subsidiary_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Subsidiary Ids
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        account_status:
+          anyOf:
+          - type: string
+            enum:
+            - customer
+            - prospect
+            - not_in_crm
+          - type: 'null'
+          title: Account Status
+          description: 'CRM relationship between the org and the user''s account: ''customer'' (a customer account in the user''s CRM), ''prospect'' (tracked in CRM but not a customer), or ''not_in_crm'' (no CRM record). Free (no credit cost). Only populated when the user''s account has a linked CRM seat; omitted for other users even if requested.'
+        funding_total_raised:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Funding Total Raised
+          description: Total funding raised across all rounds, in whole USD. LLM-extracted from SEC filings and web search; approximate, and may be unconverted for non-USD rounds.
+        funding_valuation:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Funding Valuation
+          description: Most recent post-money valuation, in whole USD. LLM-extracted; approximate.
+        funding_last_round_raised:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Funding Last Round Raised
+          description: Amount raised in the latest funding round, in whole USD. LLM-extracted; approximate.
+        funding_last_round_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Funding Last Round Type
+          description: Latest funding round type, e.g. seed, series_a, private_equity.
+        funding_last_round_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Funding Last Round Date
+          description: Date of the latest funding round (ISO YYYY-MM-DD).
+        cloud_spend_estimate_millions_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Cloud Spend Estimate Millions Usd
+      type: object
+      title: Attributes
+    MatchOrganizationInput:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Organization name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Organization website URL or domain
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+          description: Organization location (country name or code)
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+          description: Organization Id on Sumble. When set, the row identifies a Sumble org directly and bypasses matching; name/url/location are not required.
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+          description: Organization slug on Sumble. When set, the row identifies a Sumble org directly and bypasses matching; name/url/location are not required.
+      additionalProperties: false
+      type: object
+      title: MatchOrganizationInput
+    SignalTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      type: object
+      required:
+      - name
+      - slug
+      title: SignalTechnology
+    Select:
+      properties:
+        attributes:
+          items:
+            type: string
+            enum:
+            - id
+            - slug
+            - name
+            - url
+            - employee_count
+            - industry
+            - jobs_count
+            - teams_count
+            - headquarters_country
+            - sumble_score
+            - sumble_url
+            - parent_id
+            - subsidiary_ids
+            - tags
+            - account_status
+            - funding_total_raised
+            - funding_valuation
+            - funding_last_round_raised
+            - funding_last_round_type
+            - funding_last_round_date
+          type: array
+          title: Attributes
+          description: Baseline company attributes to include. Off by default.
+          default: []
+        entities:
+          items:
+            $ref: '#/components/schemas/EntitySelection'
+          type: array
+          title: Entities
+          description: Per-entity metric selections.
+          default: []
+      additionalProperties: false
+      type: object
+      title: Select
+    SuggestedContacts:
+      properties:
+        people:
+          items:
+            $ref: '#/components/schemas/SuggestedContact'
+          type: array
+          title: People
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+      type: object
+      required:
+      - people
+      title: SuggestedContacts
+    EntitySelection:
+      properties:
+        type:
+          type: string
+          enum:
+          - job_function
+          - technology
+          - project
+          - advanced_query
+          - technology_category
+          title: Type
+          description: The entity type to enrich against.
+        term:
+          type: string
+          minLength: 1
+          title: Term
+          description: 'The entity term: a technology name, job function, project, category, or advanced query string.'
+        metrics:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: string
+            const: all
+          - type: 'null'
+          title: Metrics
+          description: Metric names valid for `type`, or "all". Required for every type.
+        granularity:
+          anyOf:
+          - type: string
+            enum:
+            - aggregate
+            - exploded
+          - type: 'null'
+          title: Granularity
+          description: '`technology_category` only (required there, disallowed elsewhere). `aggregate` rolls the category up into one set of counts; `exploded` decomposes into per-component-technology counts.'
+        since:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Since
+          description: Scopes job_post_count, job_post_used_count, team_count, and people_count to activity since this date (YYYY-MM-DD). Does not affect people_count_growth_1y.
+      additionalProperties: false
+      type: object
+      required:
+      - type
+      - term
+      title: EntitySelection
+    EntityResult:
+      properties:
+        type:
+          type: string
+          enum:
+          - job_function
+          - technology
+          - project
+          - advanced_query
+          - technology_category
+          title: Type
+        term:
+          type: string
+          title: Term
+        job_post_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Job Post Count
+        job_post_count_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Post Count Url
+        job_post_used_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Job Post Used Count
+          description: technology only. Number of the org's job posts that list this technology as actively used (rather than merely mentioned). Scoped to the same `since` window as job_post_count when set. None for non-technology entities.
+        team_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Team Count
+        team_count_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Count Url
+        people_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: People Count
+        people_count_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: People Count Url
+        job_post_concentration:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Job Post Concentration
+          description: advanced_query only. Fraction (0-1) of the org's job posts matching the query. Scoped to the same `since` window as job_post_count when set. None for unresolved orgs or orgs with no job posts.
+        people_concentration:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: People Concentration
+          description: 'job_function only. Fraction (0-1) of the org''s tracked people in this job function: people_count / total people in the org. Scoped to the same `since` window as people_count when set. None for unresolved orgs or orgs with no tracked people.'
+        people_count_growth_1y:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: People Count Growth 1Y
+        people_count_growth_1y_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: People Count Growth 1Y Url
+        job_post_count_growth_1y:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Job Post Count Growth 1Y
+        job_post_count_growth_1y_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Post Count Growth 1Y Url
+        granularity:
+          anyOf:
+          - type: string
+            enum:
+            - aggregate
+            - exploded
+          - type: 'null'
+          title: Granularity
+        components:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/EntityResult'
+            type: array
+          - type: 'null'
+          title: Components
+      type: object
+      required:
+      - type
+      - term
+      title: EntityResult
+    SignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        signals:
+          items:
+            $ref: '#/components/schemas/Signal'
+          type: array
+          title: Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - signals
+      title: SignalsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer

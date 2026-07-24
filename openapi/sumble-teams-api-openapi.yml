@@ -1,0 +1,1072 @@
+openapi: 3.1.0
+info:
+  title: Sumble contact-lists teams API
+  description: The official Sumble API for programmatic enrichment.
+  contact:
+    name: Sumble
+    email: support@sumble.com
+  version: v9
+servers:
+- url: https://api.sumble.com
+tags:
+- name: teams
+paths:
+  /v9/teams:
+    post:
+      tags:
+      - teams
+      summary: Unified teams endpoint
+      operationId: find_teams__api_version__teams_post
+      security:
+      - api_token: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindTeamsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindTeamsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    JobTeam:
+      properties:
+        team_id:
+          type: integer
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the team's Sumble page.
+      type: object
+      required:
+      - team_id
+      - name
+      - slug
+      title: JobTeam
+    FindTeamsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        teams:
+          items:
+            $ref: '#/components/schemas/TeamResultRow'
+          type: array
+          title: Teams
+        matched_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Matched Count
+          description: 'List mode only: how many input ids matched a Sumble team.'
+        total:
+          type: integer
+          title: Total
+        source_data_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Source Data Url
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - teams
+      - total
+      title: FindTeamsResponse
+    TeamRelatedPeopleSelection:
+      properties:
+        attributes:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - name
+              - email
+              - phone
+              - linkedin_url
+              - job_title
+              - job_function
+              - job_level
+              - location
+              - country
+              - current_employer
+              - technologies
+              - person_score
+              - confidence
+            type: array
+          - type: string
+            const: all
+          title: Attributes
+          description: Person-level attributes to include for each related person, or 'all' for every attribute available here. Contact attributes (email, phone) and `person_score` are not available here; `confidence` (the person-team match score breakdown) is only available here.
+          default: []
+        max_per_team:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Per Team
+          description: Maximum related people returned per team.
+          default: 10
+      additionalProperties: false
+      type: object
+      title: TeamRelatedPeopleSelection
+    FindTeamsRequest:
+      properties:
+        teams:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+            maxItems: 1000
+            minItems: 1
+          - type: 'null'
+          title: Teams
+          description: List of Sumble team ids to retrieve and enrich. One result row per entry, in input order. Mutually exclusive with `filter`.
+        filter:
+          anyOf:
+          - $ref: '#/components/schemas/TeamsFilter'
+          - type: 'null'
+          description: Query selecting the teams to return. Mutually exclusive with `teams`.
+        select:
+          $ref: '#/components/schemas/TeamsSelect'
+          description: Dictates exactly which attributes are returned.
+        limit:
+          type: integer
+          maximum: 200.0
+          minimum: 1.0
+          title: Limit
+          description: Maximum number of teams to return (filter mode only; ignored when `teams` is provided).
+          default: 10
+        offset:
+          type: integer
+          maximum: 10000.0
+          minimum: 0.0
+          title: Offset
+          description: Number of results to skip (filter mode only; ignored when `teams` is provided).
+          default: 0
+        order_by_column:
+          anyOf:
+          - type: string
+            enum:
+            - jobs_count
+            - first_activity
+            - last_activity
+            - score
+          - type: 'null'
+          title: Order By Column
+          description: 'Column to order by (filter mode only): `jobs_count`, `first_activity` or `last_activity`. Default: jobs_count.'
+        order_by_direction:
+          anyOf:
+          - type: string
+            enum:
+            - ASC
+            - DESC
+          - type: 'null'
+          title: Order By Direction
+          description: Sort direction; DESC when omitted.
+      additionalProperties: false
+      type: object
+      required:
+      - select
+      title: FindTeamsRequest
+    JobAttributes:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        posted_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Posted Date
+        organization:
+          anyOf:
+          - $ref: '#/components/schemas/JobOrganization'
+          - type: 'null'
+        technologies:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobTechnology'
+            type: array
+          - type: 'null'
+          title: Technologies
+          description: All technologies extracted from the posting; empty list when requested but none were extracted.
+        teams:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobTeam'
+            type: array
+          - type: 'null'
+          title: Teams
+          description: Teams extracted from the posting; empty list when requested but none were extracted.
+        job_functions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/app__schemas__paid_api__jobs_unified__JobFunction'
+            type: array
+          - type: 'null'
+          title: Job Functions
+          description: Job functions classified from the posting; empty list when requested but none were classified.
+        job_levels:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/app__schemas__paid_api__jobs_unified__JobLevel'
+            type: array
+          - type: 'null'
+          title: Job Levels
+          description: Seniority levels classified from the posting; empty list when requested but none were classified.
+        projects:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobProject'
+            type: array
+          - type: 'null'
+          title: Projects
+          description: Projects extracted from the posting; empty list when requested but none were extracted.
+      type: object
+      title: JobAttributes
+    TeamScore:
+      properties:
+        value:
+          type: number
+          title: Value
+          description: How well the team matches your ideal customer profile (ICP), 0-100.
+        fit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fit
+          description: Qualitative fit bucket (e.g. 'Great', 'Good', 'Possible').
+        components:
+          items:
+            $ref: '#/components/schemas/TeamScoreComponent'
+          type: array
+          title: Components
+          description: The matched features behind the score, highest contribution first.
+          default: []
+      type: object
+      required:
+      - value
+      title: TeamScore
+    TeamAttributes:
+      properties:
+        organization:
+          anyOf:
+          - $ref: '#/components/schemas/TeamOrganization'
+          - type: 'null'
+        breadcrumbs:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TeamBreadcrumb'
+            type: array
+          - type: 'null'
+          title: Breadcrumbs
+          description: Parent-team chain from the root to this team.
+        jobs_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobs Count
+        technology_list:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TeamTechnology'
+            type: array
+          - type: 'null'
+          title: Technology List
+          description: Technologies the team uses, aggregated from its job postings (all-time).
+        job_function_list:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TeamJobFunction'
+            type: array
+          - type: 'null'
+          title: Job Function List
+          description: Job functions the team hires for, aggregated from its job postings (all-time).
+        location_list:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TeamLocation'
+            type: array
+          - type: 'null'
+          title: Location List
+          description: Locations where the team operates, derived from its job postings (all-time).
+        first_activity:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: First Activity
+          description: Earliest job posting mentioning the team.
+        last_activity:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Activity
+          description: Latest job posting mentioning the team.
+        score:
+          anyOf:
+          - $ref: '#/components/schemas/TeamScore'
+          - type: 'null'
+          description: 'Sumble team score against your ICP, 0-100. Returned only when an ICP is configured for your account (`attributes: "all"` skips it otherwise instead of erroring).'
+      type: object
+      title: TeamAttributes
+    TeamMembershipFeature:
+      properties:
+        match_type:
+          type: string
+          enum:
+          - team
+          - job_function
+          - technology
+          - location
+          - embedding
+          title: Match Type
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        is_parent:
+          type: boolean
+          title: Is Parent
+          default: false
+        score:
+          type: number
+          title: Score
+          description: Share of the match score attributable to this feature.
+      type: object
+      required:
+      - match_type
+      - score
+      title: TeamMembershipFeature
+    TeamOrganization:
+      properties:
+        organization_id:
+          type: integer
+          title: Organization Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the organization's Sumble profile page.
+      type: object
+      required:
+      - organization_id
+      title: TeamOrganization
+    TeamJobPostRow:
+      properties:
+        job_id:
+          type: integer
+          title: Job Id
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the job posting's Sumble page.
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/JobAttributes'
+          - type: 'null'
+          description: The requested job components; absent when none are requested.
+      type: object
+      required:
+      - job_id
+      title: TeamJobPostRow
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CurrentEmployer:
+      properties:
+        organization_id:
+          type: integer
+          title: Organization Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        start_date:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start Date
+          description: Start of the person's current role (YYYY-MM).
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the organization's Sumble profile page.
+      type: object
+      required:
+      - organization_id
+      title: CurrentEmployer
+    TeamResultRow:
+      properties:
+        input:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Input
+          description: The input team id this row corresponds to (list mode only).
+        team_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Team Id
+          description: Absent when the input id didn't match a Sumble team.
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the team's Sumble page.
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/TeamAttributes'
+          - type: 'null'
+          description: The requested team attributes; absent when none are requested.
+        related_people:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TeamRelatedPersonRow'
+            type: array
+          - type: 'null'
+          title: Related People
+          description: People associated with the team. Present (possibly empty) when `select.related_people` is requested and the team matched; absent otherwise.
+        job_posts:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TeamJobPostRow'
+            type: array
+          - type: 'null'
+          title: Job Posts
+          description: Job postings mentioning the team. Present (possibly empty) when `select.job_posts` is requested and the team matched; absent otherwise.
+      type: object
+      title: TeamResultRow
+    TeamTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        used:
+          type: boolean
+          title: Used
+          description: True when the team's postings indicate the technology is used, not merely mentioned.
+          default: false
+        jobs_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobs Count
+          description: Job postings mentioning this technology for the team.
+      type: object
+      required:
+      - name
+      - slug
+      title: TeamTechnology
+    app__schemas__paid_api__jobs_unified__JobLevel:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: JobLevel
+    TeamBreadcrumb:
+      properties:
+        team_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the ancestor team's Sumble page.
+      type: object
+      required:
+      - name
+      title: TeamBreadcrumb
+    JobProject:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: The posting organization's jobs page filtered to this project.
+      type: object
+      required:
+      - name
+      - slug
+      title: JobProject
+    PersonScoreFeature:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        match_type:
+          type: string
+          enum:
+          - technology
+          - job_function
+          title: Match Type
+        contribution:
+          type: number
+          title: Contribution
+          description: Points of the 0-100 score attributable to this feature.
+      type: object
+      required:
+      - name
+      - slug
+      - match_type
+      - contribution
+      title: PersonScoreFeature
+    app__schemas__paid_api__jobs_unified__JobFunction:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: The posting organization's jobs page filtered to this job function.
+      type: object
+      required:
+      - name
+      - slug
+      title: JobFunction
+    JobOrganization:
+      properties:
+        organization_id:
+          type: integer
+          title: Organization Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        domain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Domain
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the organization's Sumble profile page.
+      type: object
+      required:
+      - organization_id
+      title: JobOrganization
+    Query:
+      properties:
+        query:
+          type: string
+          title: Query
+      type: object
+      required:
+      - query
+      title: Query
+    TeamJobFunction:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        jobs_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobs Count
+          description: Job postings hiring for this job function for the team.
+      type: object
+      required:
+      - name
+      - slug
+      title: TeamJobFunction
+    TeamsSelect:
+      properties:
+        attributes:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - organization
+              - breadcrumbs
+              - jobs_count
+              - technology_list
+              - job_function_list
+              - location_list
+              - first_activity
+              - last_activity
+              - score
+            type: array
+          - type: string
+            const: all
+          title: Attributes
+          description: Team attributes to include, or 'all' for every available attribute. Off by default. 'all' includes `score` only when it is available (an ICP configured for your account) — otherwise it is skipped, not an error. Note that 'all' grows — and its cost grows — as new attributes are added to the endpoint.
+          default: []
+        related_people:
+          anyOf:
+          - $ref: '#/components/schemas/TeamRelatedPeopleSelection'
+          - type: 'null'
+          description: Also return the people associated with each team, with a person-team match score. Available in both modes. Each related person returned costs 1 credit.
+        job_posts:
+          anyOf:
+          - $ref: '#/components/schemas/JobPostsSelection'
+          - type: 'null'
+          description: Also return the job postings mentioning each team, with composable job components. Each job posting returned costs 1 credit.
+      additionalProperties: false
+      type: object
+      title: TeamsSelect
+    TeamRelatedPersonRow:
+      properties:
+        person_id:
+          type: integer
+          title: Person Id
+        sumble_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Sumble Url
+          description: Link to the person's Sumble profile page.
+        confidence:
+          anyOf:
+          - $ref: '#/components/schemas/TeamMembershipConfidence'
+          - type: 'null'
+          description: 'Why this person was returned: person-team match score with a per-feature breakdown. Present when the `confidence` attribute is requested.'
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/PersonAttributes'
+          - type: 'null'
+          description: The requested person-level attributes; absent when none resolve.
+      type: object
+      required:
+      - person_id
+      - sumble_url
+      title: TeamRelatedPersonRow
+    PersonScore:
+      properties:
+        value:
+          type: number
+          title: Value
+          description: How well the person matches your ideal customer profile (ICP), 0-100. Sum of the three contributions below.
+        skill_contribution:
+          type: number
+          title: Skill Contribution
+          description: Points from technologies the person uses that match your ICP.
+        job_function_contribution:
+          type: number
+          title: Job Function Contribution
+          description: Points from the person's job function matching your ICP.
+        seniority_contribution:
+          type: number
+          title: Seniority Contribution
+          description: Points from the person's job level (seniority).
+        matched_features:
+          items:
+            $ref: '#/components/schemas/PersonScoreFeature'
+          type: array
+          title: Matched Features
+          description: The matched technologies and job functions behind the skill and job-function contributions, highest contribution first.
+      type: object
+      required:
+      - value
+      - skill_contribution
+      - job_function_contribution
+      - seniority_contribution
+      - matched_features
+      title: PersonScore
+    TeamScoreComponent:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        match_type:
+          type: string
+          title: Match Type
+        contribution:
+          type: number
+          title: Contribution
+          description: Points of the 0-100 score attributable to this feature.
+      type: object
+      required:
+      - match_type
+      - contribution
+      title: TeamScoreComponent
+    JobTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        used:
+          type: boolean
+          title: Used
+          description: True when the posting indicates the technology is used by the team, not merely mentioned.
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: The posting organization's jobs page filtered to this technology.
+      type: object
+      required:
+      - name
+      - slug
+      - used
+      title: JobTechnology
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    JobPostsSelection:
+      properties:
+        components:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - job_details
+              - technologies
+              - job_functions
+              - job_level
+            type: array
+          - type: string
+            const: all
+          title: Components
+          description: 'Job components to return per posting, or ''all'' for every available component. Mirrors the unified jobs endpoint: `job_details` (title, location, posted date), `technologies`, `job_functions`, `job_level`. Never includes the full description (fetch that from the jobs endpoint with the returned job ids).'
+          default: []
+        max_per_team:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Per Team
+          description: Maximum job postings returned per team.
+          default: 10
+        since:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Since
+          description: Only return job postings pulled on or after this date (YYYY-MM-DD).
+      additionalProperties: false
+      type: object
+      title: JobPostsSelection
+    TeamsFilter:
+      properties:
+        organization_ids:
+          items:
+            type: integer
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Organization Ids
+          description: Sumble organization ids to search within. Teams are returned for these organizations only — no parent/subsidiary roll-up. Unknown ids simply match no teams.
+        query:
+          anyOf:
+          - $ref: '#/components/schemas/Query'
+          - type: 'null'
+          description: Advanced query narrowing the teams returned (technologies, technology categories, job functions, hiring period).
+        since:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Since
+          description: Only count activity (jobs_count, first/last activity) on or after this date (YYYY-MM-DD). Does not affect the aggregated technology / job-function / location lists, which are all-time.
+      additionalProperties: false
+      type: object
+      required:
+      - organization_ids
+      title: TeamsFilter
+    TeamLocation:
+      properties:
+        name:
+          type: string
+          title: Name
+        jobs_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobs Count
+          description: Job postings for the team in this location.
+      type: object
+      required:
+      - name
+      title: TeamLocation
+    PersonTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - slug
+      title: PersonTechnology
+    PersonAttributes:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+          description: Revealed work email (match mode only). The first successful reveal per person costs 10 credits; repeat reveals while active are free.
+        phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone
+          description: Revealed phone number (match mode only). The first successful reveal per person costs 80 credits; repeat reveals while active are free.
+        linkedin_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Linkedin Url
+        job_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Title
+        job_function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function
+        job_level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Level
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        current_employer:
+          anyOf:
+          - $ref: '#/components/schemas/CurrentEmployer'
+          - type: 'null'
+        technologies:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/PersonTechnology'
+            type: array
+          - type: 'null'
+          title: Technologies
+          description: Technologies from the skills on the person's LinkedIn profile, normalized to Sumble's technology catalog. The slug can be used in `filter.query` (technology EQ '<slug>'). Empty when none of the profile's skills map to a known technology.
+        person_score:
+          anyOf:
+          - $ref: '#/components/schemas/PersonScore'
+          - type: 'null'
+          description: 'How well the person matches your ideal customer profile (ICP), 0-100, with a per-feature breakdown. Priced like other paid attributes. Filter mode only; selecting it explicitly requires the filter to resolve to exactly one organization and an ICP configured for your account (`attributes: "all"` skips it instead when unavailable). Included automatically when sorting with `order_by_column="person_score"`.'
+      type: object
+      title: PersonAttributes
+    TeamMembershipConfidence:
+      properties:
+        score:
+          type: number
+          title: Score
+          description: How strongly this person relates to the team, based on shared team, job-function, technology, location and title-embedding signals. Unrelated to the ICP-based team `score` attribute.
+        matched_features:
+          items:
+            $ref: '#/components/schemas/TeamMembershipFeature'
+          type: array
+          title: Matched Features
+          description: The specific matched features behind the score.
+          default: []
+      type: object
+      required:
+      - score
+      title: TeamMembershipConfidence
+  securitySchemes:
+    api_token:
+      type: http
+      scheme: bearer
