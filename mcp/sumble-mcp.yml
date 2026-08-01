@@ -1,0 +1,28 @@
+generated: '2026-07-21'
+method: searched
+status: published
+source: https://docs.sumble.com/api/mcp
+server:
+  name: sumble
+  transport: http
+  url: https://mcp.sumble.com
+  description: >-
+    Sumble's hosted remote MCP server. Ask questions in natural language and get
+    back structured data about organizations, technologies, job postings, and
+    people directly inside AI tools; the assistant calls Sumble's API on your
+    behalf. Authenticates with a Sumble API key (bearer token).
+directories:
+  - platform: Claude
+    url: https://claude.ai/directory/connectors/sumble
+    availability: Paid plans only; admin must enable connectors (Team/Enterprise)
+  - platform: ChatGPT
+    url: https://chatgpt.com/apps/sumble/asdk_app_69d6aed609708191a384fb6b59438690
+    availability: App directory (one-click install)
+install:
+  claude_directory: https://claude.ai/directory/connectors/sumble
+  claude_code: claude mcp add --transport http sumble https://mcp.sumble.com --scope user
+  cursor_config: '{ "sumblemcp": { "type": "http", "url": "https://mcp.sumble.com" } }'
+notes: >-
+  Backed by the Sumble REST API (openapi/sumble-openapi-original.json). Tool
+  surface maps to the API's organization/people/job/technology/signal
+  operations. See mcp.md for platform-specific setup.

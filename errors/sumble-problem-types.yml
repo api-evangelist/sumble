@@ -1,0 +1,35 @@
+generated: '2026-07-21'
+method: derived
+format: http-status
+source: openapi/sumble-openapi-original.json + https://docs.sumble.com/api/api
+envelope: >-
+  Validation errors (422) return a FastAPI-style body { "detail": [ { "loc": [],
+  "msg": "...", "type": "..." } ] } (HTTPValidationError schema). Other errors
+  return an HTTP status with a short message; not RFC 9457 problem+json.
+problems:
+  - status: 200
+    title: Success
+  - status: 202
+    title: Accepted, in progress
+    remediation: Request accepted but not yet complete; retry shortly.
+  - status: 400
+    title: Bad request
+    remediation: Check your request body.
+  - status: 401
+    title: Unauthorized
+    remediation: Invalid or missing API key; pass a valid bearer token.
+  - status: 402
+    title: Insufficient credits
+    remediation: Top up credits or upgrade plan; see docs credits page.
+  - status: 422
+    type: about:blank
+    title: Validation error
+    schema: HTTPValidationError
+    remediation: Fix the offending fields listed in detail[].loc.
+    source_operation: openapi/sumble-openapi-original.json (all operations declare 422)
+  - status: 429
+    title: Rate limited
+    remediation: Aggregate limit is 10 requests/second per user; wait and retry.
+  - status: 500
+    title: Server error
+    remediation: Contact support@sumble.com.

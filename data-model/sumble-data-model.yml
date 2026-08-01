@@ -1,0 +1,73 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/sumble-openapi-original.json + https://docs.sumble.com/api/core-data
+entities:
+  - name: organization
+    id: organization_id
+    endpoint: /v9/organizations
+    description: A company; primary entity. Resolve by url/domain or search by technology, job function, industry, firmographics.
+  - name: person
+    id: person_id
+    endpoint: /v9/people
+    description: A person, typically resolved or searched within an organization; may include contact info and related people.
+  - name: job
+    id: job_id
+    endpoint: /v9/jobs
+    description: A job post; carries description, extracted technologies, teams, functions, and related people.
+  - name: team
+    id: team_id
+    endpoint: /v9/teams
+    description: A team within an organization; carries ICP fit score, related people, and job posts.
+  - name: technology
+    endpoint: /v9/technologies/find
+    description: A technology/tool used by organizations; found and looked up by name/slug/category.
+  - name: project
+    endpoint: /v9/projects/lookup
+    description: A named project/initiative entity resolvable by lookup.
+  - name: signal
+    endpoint: /v9/signals
+    description: An intelligence signal about an organization (hiring, buying intent, etc.).
+  - name: organization_list
+    id: list_id
+    endpoint: /v9/organization-lists
+    description: A saved list of organizations, with signal configuration.
+  - name: contact_list
+    id: list_id
+    endpoint: /v9/contact-lists
+    description: A saved list of people/contacts.
+relationships:
+  - from: person
+    to: organization
+    kind: belongs_to
+    via: organization_id
+  - from: job
+    to: organization
+    kind: belongs_to
+    via: organization_id
+  - from: team
+    to: organization
+    kind: belongs_to
+    via: organization_id
+  - from: organization
+    to: signal
+    kind: has_many
+    via: /v9/organizations/{organization_id}/signals
+  - from: organization
+    to: job
+    kind: has_many
+  - from: organization
+    to: team
+    kind: has_many
+  - from: team
+    to: person
+    kind: has_many
+  - from: job
+    to: technology
+    kind: has_many
+    via: extracted technologies
+  - from: organization_list
+    to: organization
+    kind: has_many
+  - from: contact_list
+    to: person
+    kind: has_many

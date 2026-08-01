@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Sumble API
+  version: 1.0.0
+extends: openapi/sumble-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-21'
+      x-apievangelist-auth: 'HTTP bearer API token (Authorization: Bearer)'
+      x-apievangelist-rate-limit: '10 requests/second per user; 429 when exceeded'
+      x-apievangelist-billing: 'credit-based; 402 on insufficient credits'
+      x-apievangelist-mcp: 'https://mcp.sumble.com'
+      x-apievangelist-docs: 'https://docs.sumble.com/api/api'
+  - target: $.info
+    update:
+      x-apievangelist-conventions: conventions/sumble-conventions.yml
+      x-apievangelist-errors: errors/sumble-problem-types.yml
+      x-apievangelist-data-model: data-model/sumble-data-model.yml

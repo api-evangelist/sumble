@@ -1,0 +1,37 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.sumble.com/api/api + openapi/sumble-openapi-original.json
+authentication:
+  style: HTTP bearer API token
+  header: 'Authorization: Bearer YOUR_API_KEY'
+  key_management: https://sumble.com/account/api-keys
+  ref: authentication/sumble-authentication.yml
+idempotency:
+  supported: false
+  note: No idempotency-key contract documented; write endpoints are not declared idempotent.
+pagination:
+  style: limit/offset
+  request_params: [limit, offset]
+  response_fields: [total]
+  note: >-
+    Search/enrich request bodies accept limit and offset; responses include a
+    total count. Applies to organizations, people, jobs, and teams enrich/search.
+selection:
+  mechanism: select block
+  note: >-
+    Core-data endpoints use a composable `select` block to choose exactly which
+    attributes and per-entity metrics are returned (drives credit cost).
+versioning:
+  style: uri-path + versioned spec query param
+  current: v9
+  ref: lifecycle/sumble-lifecycle.yml
+rate_limiting:
+  limit: 10 requests/second per user (aggregated across endpoints)
+  exceeded_status: 429
+  note: Occasional bursts allowed.
+error_envelope:
+  format: http-status + FastAPI detail body on 422
+  ref: errors/sumble-problem-types.yml
+billing:
+  model: credit-based
+  note: Endpoints consume credits per matched entity/metric; 402 on insufficient credits.

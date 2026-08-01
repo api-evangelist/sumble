@@ -1,0 +1,23 @@
+generated: '2026-07-21'
+method: searched
+probe: true
+url: https://docs.sumble.com/trust-and-security/trust-and-security
+certifications:
+  - SOC 2
+  - GDPR
+programs:
+  - name: SOC 2
+    detail: Sumble maintains SOC 2 compliance; details available through the trust center.
+  - name: GDPR
+    detail: >-
+      Processes data in accordance with GDPR; people data sourced from public
+      professional profiles handled per applicable data protection regulations.
+infrastructure:
+  provider: Google Cloud Platform (GCP)
+  encryption_in_transit: TLS for client and internal service-to-service traffic
+  encryption_at_rest: GCP default encryption at rest
+  network_isolation: Production databases not accessible from the public internet
+  access_controls: Least-privilege internal access; administrative actions logged to an audit trail
+evidence:
+  - source: https://docs.sumble.com/trust-and-security/trust-and-security
+    keywords: [soc 2, gdpr, encryption, trust center, access controls]

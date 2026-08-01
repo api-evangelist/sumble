@@ -1,0 +1,22 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.sumble.com/api/openapi + https://api.sumble.com/openapi.json?version=v9
+versioning:
+  scheme: uri-path + query-param
+  current: v9
+  detail: >-
+    API version appears in the request path (/v9/...) and the spec is published
+    per-version at https://api.sumble.com/openapi.json?version=v9. Swagger UI at
+    https://api.sumble.com/docs.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation/sunset policy found.
+sla:
+  url: null
+  note: No published SLA/uptime target found.
+status_page: null
+deprecated_operations: []
+notes: >-
+  No status page or deprecation policy was found on the docs site as of the
+  generated date; only the versioned spec convention is documented.

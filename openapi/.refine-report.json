@@ -1,0 +1,32 @@
+{
+  "provider": "sumble",
+  "sources": [
+    "sumble-contact-lists-api-openapi.yml",
+    "sumble-jobs-api-openapi.yml",
+    "sumble-organization-lists-api-openapi.yml",
+    "sumble-organizations-api-openapi.yml",
+    "sumble-people-api-openapi.yml",
+    "sumble-projects-api-openapi.yml",
+    "sumble-signals-api-openapi.yml",
+    "sumble-support-api-openapi.yml",
+    "sumble-teams-api-openapi.yml",
+    "sumble-technologies-api-openapi.yml"
+  ],
+  "outputs": [
+    "sumble-contact-lists-api-openapi.yml",
+    "sumble-jobs-api-openapi.yml",
+    "sumble-organization-lists-api-openapi.yml",
+    "sumble-organizations-api-openapi.yml",
+    "sumble-people-api-openapi.yml",
+    "sumble-projects-api-openapi.yml",
+    "sumble-signals-api-openapi.yml",
+    "sumble-support-api-openapi.yml",
+    "sumble-teams-api-openapi.yml",
+    "sumble-technologies-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

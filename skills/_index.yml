@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: generated
+source: openapi/sumble-openapi-original.json + https://docs.sumble.com/api
+skills:
+  - file: sumble-enrich-organizations.md
+    name: Enrich and search organizations
+    api: openapi/sumble-openapi-original.json
+    operations:
+      - enrich_organizations_unified__api_version__organizations_post
+      - get_organization_signals__api_version__organizations__organization_id__signals_get
+  - file: sumble-find-technology-users.md
+    name: Find companies using a technology
+    api: openapi/sumble-openapi-original.json
+    operations:
+      - get_technologies__api_version__technologies_find_post
+      - lookup_technologies__api_version__technologies_lookup_post
+      - enrich_organizations_unified__api_version__organizations_post
+  - file: sumble-build-account-list-with-signals.md
+    name: Build an account list and arm it with signals
+    api: openapi/sumble-openapi-original.json
+    operations:
+      - create_organization_list__api_version__organization_lists_post
+      - add_organizations_to_list__api_version__organization_lists__list_id__organizations_post
+      - set_organization_list_signals__api_version__organization_lists__list_id__signals_post
+      - get_organization_list__api_version__organization_lists__list_id__get

@@ -1,0 +1,31 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/sumble-openapi-original.json + https://docs.sumble.com/trust-and-security/trust-and-security
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: spec declares openapi 3.1.0 (Sumble API v9)
+  - id: rest
+    conforms: true
+    evidence: resource-oriented HTTP+JSON API over https://api.sumble.com
+  - id: oauth2
+    conforms: false
+    evidence: API auth is an HTTP bearer API token, not an OAuth2 flow
+  - id: oidc
+    conforms: true
+    evidence: enterprise user SSO via Okta OIDC (docs system-setup users-access); not the API auth path
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: errors returned as plain HTTP status codes; 422 uses FastAPI HTTPValidationError, not application/problem+json
+  - id: pagination
+    conforms: true
+    evidence: search/enrich requests take limit+offset; responses carry total
+  - id: idempotency
+    conforms: false
+    evidence: no Idempotency-Key header or idempotency contract documented
+  - id: soc2
+    conforms: true
+    evidence: Sumble maintains SOC 2 compliance (trust-and-security docs)
+  - id: gdpr
+    conforms: true
+    evidence: processes data in accordance with GDPR (trust-and-security docs)
