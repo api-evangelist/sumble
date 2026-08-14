@@ -18,20 +18,27 @@ x-backed-by:
 x-tier: stub
 x-tier-reason: portfolio-lead
 accessModel:
-  pricing: unknown
+  pricing: freemium
   onboarding: self-serve
-  trial: false
-  try_now: false
+  trial: true
+  try_now: true
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Freemium · Self-serve signup
+  confidence: high
   source:
-  - authentication
-  generated: '2026-07-22'
-  method: derived
+  - plans
+  - https://docs.sumble.com/system-setup-and-configuration/pricing
+  - https://docs.sumble.com/get-started/get-started-with-sumble
+  generated: '2026-08-13'
+  method: searched
+  note: >-
+    Free tier plus $99/user/month Pro; a corporate email unlocks a 30-day Pro
+    trial with no credit card. Sign-up is self-serve (magic link) and API keys
+    can be generated on all plans, but the underlying data is gated — no
+    anonymous access to organization, job or people records.
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-13'
 tags:
 - Company
 - Account Intelligence
@@ -223,8 +230,30 @@ common:
   url: agentic-access/sumble-agentic-access.yml
 - type: Website
   url: https://sumble.com/
+- type: LLMsTxt
+  url: llms/sumble-root-llms.txt
+- type: ToolCrosswalk
+  url: mcp/sumble-tool-crosswalk.yml
+- type: WellKnown
+  url: well-known/sumble-well-known.yml
+- type: Packages
+  url: packages/sumble-packages.yml
+- type: RateLimits
+  url: rate-limits/sumble-rate-limits.yml
+- type: Plans
+  url: plans/sumble-plans-pricing.yml
+- type: Examples
+  url: examples/sumble-examples.yml
+- type: StatusPage
+  url: https://status.sumble.com
+- type: TrustCenter
+  url: https://trust.sumble.com/
+- type: GitHubOrganization
+  url: https://github.com/SumbleData
+- type: AgentSkill
+  url: https://github.com/SumbleData/sumble-skills-public
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 14
+  artifacts_added: 15
   pass: local-v1
