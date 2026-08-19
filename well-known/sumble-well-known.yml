@@ -1,0 +1,76 @@
+generated: '2026-08-13'
+method: probed
+source: live GET of /.well-known/* on every Sumble host
+note: >-
+  Two real discovery documents were found, both on the MCP host
+  (mcp.sumble.com): RFC 8414 OAuth 2.0 Authorization Server Metadata and
+  RFC 9728 OAuth 2.0 Protected Resource Metadata. These are what an MCP
+  client reads to run the OAuth handshake before calling tools/list.
+  IMPORTANT NEGATIVE RESULT: www.sumble.com (sumble.com) is a single-page
+  app whose catch-all returns HTTP 200 with an HTML shell for EVERY
+  /.well-known/* path probed — including security.txt, agent-card.json and
+  api-catalog. None of those are documents; they are all recorded below as
+  soft-200 misses and none of them earns a pointer. No security.txt is
+  served anywhere on the Sumble estate.
+hosts:
+  - host: https://mcp.sumble.com
+    role: MCP server
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        real_document: true
+        file: sumble-mcp-oauth-authorization-server.json
+        spec: RFC 8414
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: application/json
+        real_document: true
+        file: sumble-mcp-oauth-protected-resource.json
+        spec: RFC 9728
+      - {path: /.well-known/security.txt, status: 404, real_document: false}
+      - {path: /.well-known/openid-configuration, status: 404, real_document: false}
+      - {path: /.well-known/api-catalog, status: 404, real_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, real_document: false}
+      - {path: /.well-known/agent-card.json, status: 404, real_document: false}
+      - {path: /.well-known/agent.json, status: 404, real_document: false}
+  - host: https://api.sumble.com
+    role: REST API
+    documents:
+      - {path: /.well-known/security.txt, status: 404, real_document: false}
+      - {path: /.well-known/openid-configuration, status: 404, real_document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real_document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, real_document: false}
+      - {path: /.well-known/api-catalog, status: 404, real_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, real_document: false}
+      - {path: /.well-known/agent-card.json, status: 404, real_document: false}
+      - {path: /.well-known/agent.json, status: 404, real_document: false}
+  - host: https://docs.sumble.com
+    role: documentation
+    documents:
+      - {path: /.well-known/security.txt, status: 404, real_document: false}
+      - {path: /.well-known/openid-configuration, status: 404, real_document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real_document: false}
+      - {path: /.well-known/api-catalog, status: 404, real_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, real_document: false}
+      - {path: /.well-known/agent-card.json, status: 404, real_document: false}
+      - {path: /.well-known/agent.json, status: 404, real_document: false}
+  - host: https://sumble.com
+    role: marketing site (SPA)
+    soft_200_catch_all: true
+    documents:
+      - {path: /.well-known/security.txt, status: 200, real_document: false, note: HTML app shell, not RFC 9116 text}
+      - {path: /.well-known/openid-configuration, status: 200, real_document: false, note: HTML app shell}
+      - {path: /.well-known/oauth-authorization-server, status: 200, real_document: false, note: HTML app shell}
+      - {path: /.well-known/oauth-protected-resource, status: 200, real_document: false, note: HTML app shell}
+      - {path: /.well-known/api-catalog, status: 200, real_document: false, note: HTML app shell}
+      - {path: /.well-known/ai-plugin.json, status: 200, real_document: false, note: HTML app shell}
+      - {path: /.well-known/agent-card.json, status: 200, real_document: false, note: HTML app shell — NOT an agent card}
+      - {path: /.well-known/agent.json, status: 200, real_document: false, note: HTML app shell — NOT an agent card}
+summary:
+  real_documents: 2
+  soft_200_misses: 8
+  security_txt: false
+  agent_card: false
+  api_catalog: false
+checked: '2026-08-13'

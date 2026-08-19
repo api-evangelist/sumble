@@ -1,0 +1,22 @@
+{
+  "filter": {
+    "organization_list_id": 123,
+    "query": {
+      "query": "job_function EQ 'Engineer' AND technology EQ 'kubernetes' AND country EQ 'US'"
+    }
+  },
+  "select": {
+    "attributes": [
+      "name",
+      "linkedin_url",
+      "job_title",
+      "job_function",
+      "job_level",
+      "location",
+      "country",
+      "current_employer",
+      "technologies"
+    ]
+  },
+  "limit": 50
+}

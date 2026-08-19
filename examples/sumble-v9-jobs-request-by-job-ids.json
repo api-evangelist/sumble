@@ -1,0 +1,24 @@
+{
+  "jobs": [
+    {
+      "job_id": 95107725
+    },
+    {
+      "job_id": 12345
+    }
+  ],
+  "select": {
+    "attributes": [
+      "title",
+      "description",
+      "organization"
+    ],
+    "related_people": {
+      "attributes": [
+        "name",
+        "job_title"
+      ],
+      "limit": 3
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "filter": {
+    "organization_ids": [
+      1726684
+    ]
+  },
+  "select": {
+    "attributes": "all"
+  },
+  "order_by_column": "person_score",
+  "limit": 25
+}

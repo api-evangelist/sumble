@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists signals API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "signals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/signals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Signals are sales-relevant events such as champion job changes, recent hires and promotions, technology and product mentions, projects and initiatives, and technology and job-function trends. Job-post signals (technology and product mentions, projects, and first mentions) also include `suggested_contacts`: the top few people to consider reaching out to at the account, plus a link to view all of them. Each signal also carries `account_status`: the CRM relationship between the signal's organizatio"
+        },
+        {
+          "info": {
+            "name": "Search priority signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/signals/priority",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Priority signals are AI-generated digest items summarizing the most important signals in a user's account feed. They optionally can be searched by signal, organization, person, or job post IDs attached to their source signals. Returns the most recent 20 priority signals based on the specified filters, or omit filters to simply return the latest."
+        },
+        {
+          "info": {
+            "name": "Update priority signal relevance",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sumble.com/v9/signals/priority/:item_id/relevance",
+            "params": [
+              {
+                "name": "item_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Mark a priority signal (identified by its `id` from Search Priority Signals) as relevant or not relevant, or clear previously-set feedback by passing `is_relevant: null`. Mirrors the relevant / not relevant feedback available in the web app. Free -- does not consume credits."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

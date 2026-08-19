@@ -1,0 +1,190 @@
+{
+  "item": [
+    {
+      "id": "36dffce3-3267-4028-99fb-4cdd68f46733",
+      "name": "teams",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "77145011-77c7-49f2-8c6f-ec0be72d057c",
+          "name": "Unified teams endpoint",
+          "request": {
+            "name": "Unified teams endpoint",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "teams"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"select\": {\n    \"attributes\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"related_people\": {\n      \"attributes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"max_per_team\": 10\n    },\n    \"job_posts\": {\n      \"components\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"max_per_team\": 10,\n      \"since\": \"<string>\"\n    }\n  },\n  \"teams\": [\n    \"<integer>\"\n  ],\n  \"filter\": {\n    \"organization_ids\": [\n      \"<integer>\"\n    ],\n    \"query\": {\n      \"query\": \"<string>\"\n    },\n    \"since\": \"<string>\"\n  },\n  \"limit\": 10,\n  \"offset\": 0,\n  \"order_by_column\": \"<string>\",\n  \"order_by_direction\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b5473136-b0ab-452e-8360-87408ad6e597",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "teams"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"select\": {\n    \"attributes\": [\n      \"score\",\n      \"technology_list\"\n    ],\n    \"related_people\": {\n      \"attributes\": [\n        \"person_score\",\n        \"job_function\"\n      ],\n      \"max_per_team\": 10\n    },\n    \"job_posts\": {\n      \"components\": [\n        \"job_details\",\n        \"technologies\"\n      ],\n      \"max_per_team\": 10,\n      \"since\": \"string\"\n    }\n  },\n  \"teams\": [\n    \"<integer>\"\n  ],\n  \"filter\": {\n    \"organization_ids\": [\n      7841\n    ],\n    \"query\": {\n      \"query\": \"string\"\n    },\n    \"since\": \"string\"\n  },\n  \"limit\": 10,\n  \"offset\": 0,\n  \"order_by_column\": \"<string>\",\n  \"order_by_direction\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"4fd4b8cc-4abf-612c-7414-50e3c73bf61c\",\n  \"credits_used\": 3439,\n  \"credits_remaining\": 7359,\n  \"teams\": [\n    {\n      \"input\": 528,\n      \"team_id\": 2357,\n      \"name\": \"string\",\n      \"sumble_url\": \"http://KPhQWYZouYB.bjNYoaR,Z1sqjpk5hUzDAulTwNphWwk7mzNr\",\n      \"attributes\": {\n        \"organization\": {\n          \"organization_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"sumble_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"breadcrumbs\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"jobs_count\": 2466,\n        \"technology_list\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"job_function_list\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"location_list\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"first_activity\": \"1999-01-26T18:22:02.319Z\",\n        \"last_activity\": \"1993-03-01T09:53:06.492Z\",\n        \"score\": {\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"fit\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"components\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"related_people\": [\n        {\n          \"person_id\": 4726,\n          \"sumble_url\": \"https://UHMQOxOREQhWJkIAVUfyUuYPgU.yyIAdVHAM32a7HOWUb6Hmagvt\",\n          \"confidence\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"person_id\": 5817,\n          \"sumble_url\": \"http://llubzpoFedZlFuToSrMnkjODKrmtNdow.agadxk34Jr8tjcLuQpuoC9Vvj,nYCQ\",\n          \"confidence\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"job_posts\": [\n        {\n          \"job_id\": 740,\n          \"sumble_url\": \"https://Sv.tudfH8sKiO5lTzsDi6SENs6763cgaqT9iDxDEXywk0ORa\",\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"job_id\": 5555,\n          \"sumble_url\": \"https://dqdgGMXrhEjxdCvvFdoaxIfkntftaTjDk.oothkFCCPyqbXu836BZviv,WM6AWqStyPrqtTtMX\",\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"input\": 1643,\n      \"team_id\": 4872,\n      \"name\": \"string\",\n      \"sumble_url\": \"https://KWj.fqrjrhqUcWemMhKzK2nuWyi8wVfMayLIaHpVbVNGo5dn,\",\n      \"attributes\": {\n        \"organization\": {\n          \"organization_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"sumble_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"breadcrumbs\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"jobs_count\": 6900,\n        \"technology_list\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"job_function_list\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"location_list\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"first_activity\": \"1959-12-09T11:22:59.177Z\",\n        \"last_activity\": \"2019-08-05T00:33:20.307Z\",\n        \"score\": {\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"fit\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"components\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"related_people\": [\n        {\n          \"person_id\": 9764,\n          \"sumble_url\": \"https://bmzMz.maTGG-LHOz4UdSlhTbYmXDIA5zRSmcat\",\n          \"confidence\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"person_id\": 5890,\n          \"sumble_url\": \"https://lOLoczlFuzFdMOILmprTbIBBroyTn.wmwvWmqBxW4aWvQU-NIuMvPOqxikdghoOLvZ1c\",\n          \"confidence\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"job_posts\": [\n        {\n          \"job_id\": 186,\n          \"sumble_url\": \"http://Z.ssjxtZQFTBNqZytXtnQtchLo+6Hce8\",\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"job_id\": 182,\n          \"sumble_url\": \"http://IyXuYeppbUYgI.lkPT4aD5QhwdeNbpIuSua.Dd3wcQrmuk\",\n          \"attributes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": 7562,\n  \"matched_count\": 646,\n  \"source_data_url\": \"https://wliuYnPoCKSZJzmrdAYYWgImlCyrfXbK.caiaoWzEgYzil97wPohQHD0dEVOYDlVO1,,TALAO8S9f76GHSxyz-0Ke+HexTm81\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22699c12-b64c-46e9-a5fa-8a9b226d5cf1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "teams"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"select\": {\n    \"attributes\": [\n      \"score\",\n      \"technology_list\"\n    ],\n    \"related_people\": {\n      \"attributes\": [\n        \"person_score\",\n        \"job_function\"\n      ],\n      \"max_per_team\": 10\n    },\n    \"job_posts\": {\n      \"components\": [\n        \"job_details\",\n        \"technologies\"\n      ],\n      \"max_per_team\": 10,\n      \"since\": \"string\"\n    }\n  },\n  \"teams\": [\n    \"<integer>\"\n  ],\n  \"filter\": {\n    \"organization_ids\": [\n      7841\n    ],\n    \"query\": {\n      \"query\": \"string\"\n    },\n    \"since\": \"string\"\n  },\n  \"limit\": 10,\n  \"offset\": 0,\n  \"order_by_column\": \"<string>\",\n  \"order_by_direction\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sumble.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "52dd7f12-4cd9-45e4-919d-9cd994e18956",
+    "name": "Sumble contact-lists teams API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The official Sumble API for programmatic enrichment.\n\nContact Support:\n Name: Sumble\n Email: support@sumble.com",
+      "type": "text/plain"
+    }
+  }
+}

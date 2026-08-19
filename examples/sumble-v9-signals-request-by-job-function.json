@@ -1,0 +1,19 @@
+{
+  "filter": {
+    "organization_ids": [
+      31
+    ],
+    "person_ids": [
+      12729201
+    ],
+    "signal_ids": [
+      123
+    ],
+    "job_functions": [
+      "Account Executive"
+    ],
+    "account_list_ids": [
+      4
+    ]
+  }
+}

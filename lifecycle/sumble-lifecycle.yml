@@ -1,22 +1,62 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://docs.sumble.com/api/openapi + https://api.sumble.com/openapi.json?version=v9
+source: >-
+  https://docs.sumble.com/api/openapi + https://docs.sumble.com/trust-and-security/trust-and-security
+  + live probes of https://api.sumble.com/openapi.json?version=* and https://status.sumble.com
 versioning:
   scheme: uri-path + query-param
   current: v9
   detail: >-
-    API version appears in the request path (/v9/...) and the spec is published
-    per-version at https://api.sumble.com/openapi.json?version=v9. Swagger UI at
-    https://api.sumble.com/docs.
+    The API version appears in the request path (/v9/...) and the spec is
+    published per-version at https://api.sumble.com/openapi.json?version=v9.
+    Swagger UI at https://api.sumble.com/docs. Responses carry an
+    `api_version` header echoing the resolved version (observed: v9).
+  probed_versions:
+    - {version: v8, spec_status: 200, bytes: 206264, note: still served}
+    - {version: v9, spec_status: 200, bytes: 149167, note: current}
+    - {version: v10, spec_status: 400, note: '{"detail":"Invalid API version"} — v9 is the newest'}
+    - {version: none, spec_status: 400, note: 'GET /openapi.json without ?version returns 400 Invalid API version None'}
+  observation: >-
+    v8 is still served and is 38% LARGER than v9, so the v9 release removed
+    surface rather than adding it. Sumble publishes no note explaining what
+    was withdrawn.
 deprecation:
   policy_url: null
   sunset_header: false
-  note: No published deprecation/sunset policy found.
+  deprecation_header: false
+  note: >-
+    No published deprecation or sunset policy, and no RFC 8594
+    Sunset/Deprecation header support. Older versions (v8) simply keep
+    answering and newer ones (v10) 400, with no dated notice either way.
 sla:
   url: null
-  note: No published SLA/uptime target found.
-status_page: null
+  uptime_target: null
+  note: No published SLA or uptime target.
+status_page:
+  url: https://status.sumble.com
+  provider: Instatus
+  verified: probed
+  http_status: 200
+  machine_readable:
+    - {url: 'https://status.sumble.com/summary.json', status: 200, shape: '{page:{name,url,status}, activeIncidents:[{id,name,started,status,impact,url,updatedAt}]}'}
+    - {url: 'https://status.sumble.com/api/v2/summary.json', status: 200, note: Statuspage-compatible alias}
+    - {url: 'https://status.sumble.com/history.rss', status: 200, note: incident history feed}
+  observed:
+    checked: '2026-08-13'
+    page_status: HASISSUES
+    active_incident: 'Magic link and Okta login is down (IDENTIFIED, PARTIALOUTAGE, started 2026-08-13T21:10:00Z)'
+  linked_from: https://docs.sumble.com/trust-and-security/trust-and-security
+changelog:
+  url: null
+  note: >-
+    No dated changelog is published. https://sumble.com/changelog returns
+    HTTP 200 but is an empty single-page-app shell with no entries;
+    https://docs.sumble.com/changelog returns 404. No changelog/ artifact is
+    emitted.
 deprecated_operations: []
-notes: >-
-  No status page or deprecation policy was found on the docs site as of the
-  generated date; only the versioned spec convention is documented.
+evidence:
+  - {url: 'https://status.sumble.com/summary.json', status: 200}
+  - {url: 'https://api.sumble.com/openapi.json?version=v9', status: 200}
+  - {url: 'https://api.sumble.com/openapi.json?version=v10', status: 400}
+  - {url: 'https://docs.sumble.com/changelog', status: 404}
+checked: '2026-08-13'

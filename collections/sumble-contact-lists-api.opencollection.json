@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "contact-lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List contact lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sumble.com/v9/contact-lists",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List contact lists"
+        },
+        {
+          "info": {
+            "name": "Create a contact list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/contact-lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a contact list"
+        },
+        {
+          "info": {
+            "name": "Add people to a contact list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/contact-lists/:list_id/people",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add people to a contact list"
+        },
+        {
+          "info": {
+            "name": "Get contact list details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sumble.com/v9/contact-lists/:list_id",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get contact list details"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

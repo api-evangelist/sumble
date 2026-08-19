@@ -1,0 +1,34 @@
+{
+  "id": "019c9529-9d27-7e16-b721-76d18c339e3e",
+  "credits_used": 1,
+  "credits_remaining": 999,
+  "matched_count": 2,
+  "results": [
+    {
+      "input": "software engineer",
+      "job_function": {
+        "id": 97,
+        "slug": "software-engineer",
+        "name": "Software Engineer"
+      },
+      "job_level": {
+        "id": -1,
+        "name": "Individual Contributor",
+        "level_rank": 0
+      }
+    },
+    {
+      "input": "senior data scientist",
+      "job_function": {
+        "id": 74,
+        "slug": "data-scientist",
+        "name": "Data Scientist"
+      },
+      "job_level": {
+        "id": 18,
+        "name": "Senior",
+        "level_rank": 1
+      }
+    }
+  ]
+}

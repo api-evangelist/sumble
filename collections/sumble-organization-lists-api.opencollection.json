@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists organization-lists API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "organization-lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sumble.com/v9/organization-lists",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List organization lists"
+        },
+        {
+          "info": {
+            "name": "Create an organization list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/organization-lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an organization list"
+        },
+        {
+          "info": {
+            "name": "Get organization list details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sumble.com/v9/organization-lists/:list_id",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get organization list details"
+        },
+        {
+          "info": {
+            "name": "Set an organization list's deleted status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/organization-lists/:list_id/deleted",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Soft-delete or restore an organization list.\n\nSoft-deletion is reversible: pass ``deleted=false`` to restore a list.\nDeleting or restoring a list does not delete or restore individual\norganizations in the list. Pass ``include_deleted=true`` to the list/detail\nendpoints to see deleted lists."
+        },
+        {
+          "info": {
+            "name": "Add organizations to a list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/organization-lists/:list_id/organizations",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add organizations to a list"
+        },
+        {
+          "info": {
+            "name": "Set a list's signals inclusion setting",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/organization-lists/:list_id/signals",
+            "params": [
+              {
+                "name": "list_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Include or exclude an organization list's accounts from your signals feed.\n\nPass ``include_in_signals=false`` to exclude this list's accounts from your\nsignals, or ``true`` to include them again. Lists are included by default.\nThis mirrors the per-list signals toggle in the dashboard."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,16 @@
+{
+  "filter": {
+    "query": {
+      "query": "technology EQ 'kubernetes' AND job_function EQ 'Data Engineer' AND hiring_period EQ '6mo'"
+    }
+  },
+  "select": {
+    "attributes": [
+      "title",
+      "location",
+      "posted_date",
+      "organization"
+    ]
+  },
+  "limit": 50
+}

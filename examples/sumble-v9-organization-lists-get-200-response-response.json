@@ -1,0 +1,40 @@
+{
+  "id": "0195f8d2-1f67-7f52-b1d1-4d63c1e6e7b8",
+  "credits_used": 3,
+  "credits_remaining": 997,
+  "organization_lists": [
+    {
+      "id": 41,
+      "name": "My Accounts",
+      "url": "https://sumble.com/account-lists/41",
+      "organizations_count": 25,
+      "type": "user",
+      "read_only": false,
+      "deletable": false,
+      "deleted": false,
+      "include_in_signals": true
+    },
+    {
+      "id": 42,
+      "name": "Enterprise Targets",
+      "url": "https://sumble.com/account-lists/42",
+      "organizations_count": 150,
+      "type": "group",
+      "read_only": true,
+      "deletable": false,
+      "deleted": false,
+      "include_in_signals": true
+    },
+    {
+      "id": 43,
+      "name": "SMB Pipeline",
+      "url": "https://sumble.com/account-lists/43",
+      "organizations_count": 75,
+      "type": "user",
+      "read_only": false,
+      "deletable": true,
+      "deleted": false,
+      "include_in_signals": false
+    }
+  ]
+}

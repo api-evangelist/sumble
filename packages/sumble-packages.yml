@@ -1,0 +1,46 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.sumble.com/api/openapi + npm/PyPI/RubyGems registry searches + github.com/SumbleData
+package_count: 0
+official_sdk_count: 0
+packages: []
+finding: >-
+  Sumble publishes NO first-party client library, and says so explicitly in
+  its own documentation: "Sumble doesn't publish a first-party SDK. Instead,
+  the API is fully described by an OpenAPI 3 spec, so you can generate a
+  typed client in your language of choice."
+  (https://docs.sumble.com/api/openapi). The documented path is
+  openapi-generator against https://api.sumble.com/openapi.json?version=v9.
+generation_guidance:
+  spec_url: https://api.sumble.com/openapi.json?version=v9
+  tool: https://github.com/OpenAPITools/openapi-generator
+  example: |
+    openapi-generator-cli generate \
+      -i "https://api.sumble.com/openapi.json?version=v9" \
+      -g python \
+      -o ./sumble-client
+  languages_documented: [python, typescript, go, java, csharp]
+  auth: API key passed as a Bearer token
+registries_checked:
+  - {registry: npm, query: sumble, endpoint: 'https://registry.npmjs.org/-/v1/search?text=sumble', status: 200, results: 0, version: null}
+  - {registry: pypi, package: sumble, endpoint: https://pypi.org/pypi/sumble/json, status: 404, version: null}
+  - {registry: rubygems, package: sumble, endpoint: https://rubygems.org/api/v1/gems/sumble.json, status: 404, version: null}
+  - {registry: crates.io, query: sumble, status: 403, version: null, note: crates.io data-access policy blocked the anonymous query; no Sumble crate is referenced anywhere in the docs}
+  - {registry: github, org: SumbleData, status: 200, version: null, note: 'two public repos — sumble-skills-public (Agent Skills, MIT) and sumble-mcp (MCP usage skill); neither is a client library'}
+related_first_party_repos:
+  - name: sumble-skills-public
+    url: https://github.com/SumbleData/sumble-skills-public
+    kind: agent-skills
+    license: MIT
+    version: null
+    published: null
+    note: >-
+      Distributed by git/`npx skills add SumbleData/sumble-skills-public`,
+      not through a package registry, so there is no registry metadata
+      endpoint to read a version from. Captured in skills/.
+  - name: sumble-mcp
+    url: https://github.com/SumbleData/sumble-mcp
+    kind: agent-skill
+    version: null
+    published: null
+    note: Usage skill for the hosted MCP server; not an installable client library.

@@ -1,12 +1,72 @@
-generated: '2026-07-21'
-method: derived
-source: openapi/sumble-openapi-original.json
+generated: '2026-08-13'
+method: searched
+source: >-
+  openapi/_original/sumble-openapi-original.json (derived) upgraded from
+  https://docs.sumble.com/api/api,
+  https://docs.sumble.com/trust-and-security/trust-and-security, and live
+  probes of the MCP OAuth discovery documents.
+docs: https://docs.sumble.com/api/api
 summary:
-  types:
-  - http
+  types: [http, oauth2]
+  http_schemes: [bearer]
+  oauth2_flows: [authorizationCode]
+  api_key_in: [header]
+  note: >-
+    Two distinct auth surfaces. The REST API takes a long-lived account API
+    key as an HTTP bearer token. The hosted MCP server takes OAuth 2.0 with
+    PKCE and dynamic client registration — a different credential entirely,
+    and the reason an MCP client can be connected without ever handling the
+    API key.
 schemes:
-- name: api_token
-  type: http
-  scheme: bearer
-  sources:
-  - openapi/sumble-openapi-original.json
+  - name: api_token
+    surface: REST API
+    type: http
+    scheme: bearer
+    in: header
+    header: 'Authorization: Bearer YOUR_API_KEY'
+    sources: [openapi/_original/sumble-openapi-original.json]
+    applied_to: 'all 26 operations (declared per-operation as security[{api_token: []}])'
+    key_management:
+      url: https://sumble.com/account/api-keys
+      issuance: 'Account > API Keys > Create Key; name the key, copy the token immediately'
+      display: shown in full only once at creation
+      rotation: keys can be revoked at any time; lost keys are deleted and regenerated
+      availability: API keys can be generated on all plans
+    failure_status: 401
+  - name: mcp_oauth
+    surface: MCP server (https://mcp.sumble.com)
+    type: oauth2
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://mcp.sumble.com/authorize
+        tokenUrl: https://mcp.sumble.com/token
+        registrationUrl: https://mcp.sumble.com/register
+        code_challenge_methods: [S256]
+        grant_types: [authorization_code, refresh_token]
+        token_endpoint_auth_methods: [client_secret_post, client_secret_basic]
+        scopes: {}
+    dynamic_client_registration: true
+    discovery:
+      - {spec: 'RFC 8414 (Authorization Server Metadata)', url: 'https://mcp.sumble.com/.well-known/oauth-authorization-server', status: 200, file: ../well-known/sumble-mcp-oauth-authorization-server.json}
+      - {spec: 'RFC 9728 (Protected Resource Metadata)', url: 'https://mcp.sumble.com/.well-known/oauth-protected-resource', status: 200, file: ../well-known/sumble-mcp-oauth-protected-resource.json}
+    bearer_methods_supported: [header]
+    failure_status: 401
+    challenge: 'WWW-Authenticate: Bearer error="invalid_token", error_description="Authentication required", resource_metadata="https://mcp.sumble.com/.well-known/oauth-protected-resource"'
+    scopes_published: false
+    note: >-
+      scopes_supported is absent from the authorization-server metadata and no
+      scope/permission reference is published, so there is no scope surface to
+      capture; scopes/ is intentionally not emitted.
+user_authentication:
+  surface: web app (not the API)
+  methods:
+    - {method: magic-link, detail: users sign in with their email address via magic link}
+    - {method: sso, protocol: 'Okta OIDC', availability: enterprise plans, docs: 'https://docs.sumble.com/system-setup-and-configuration/users-access/okta-sso-oidc'}
+  session: JWT-based
+  source: https://docs.sumble.com/trust-and-security/trust-and-security
+evidence:
+  - {url: 'https://docs.sumble.com/api/api.md', status: 200}
+  - {url: 'https://mcp.sumble.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://mcp.sumble.com/.well-known/oauth-protected-resource', status: 200}
+  - {url: 'https://api.sumble.com/v9/organizations', status: 401, note: live unauthenticated POST confirms bearer enforcement}
+checked: '2026-08-13'

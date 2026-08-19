@@ -1,0 +1,518 @@
+{
+  "item": [
+    {
+      "id": "ca3006cf-86de-4405-b818-1d20015b47f3",
+      "name": "technologies",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f89c9a7a-25c0-4dac-9467-5418fbfd8e90",
+          "name": "Find technologies by name",
+          "request": {
+            "name": "Find technologies by name",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "technologies",
+                "find"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3f135b43-76cb-47a0-ab29-4dd49f4d50c9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "technologies",
+                    "find"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"s3\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019c2a87-11f0-78b3-b82d-cdd178cf4018\",\n  \"credits_used\": 0,\n  \"credits_remaining\": 999,\n  \"technologies\": [\n    {\n      \"slug\": \"aws-s3\",\n      \"name\": \"AWS S3\",\n      \"count\": 67836\n    },\n    {\n      \"slug\": \"ps3\",\n      \"name\": \"PS3\",\n      \"count\": 7588\n    },\n    {\n      \"slug\": \"gns3\",\n      \"name\": \"GNS3\",\n      \"count\": 4570\n    },\n    {\n      \"slug\": \"rhinoceros3d\",\n      \"name\": \"Rhinoceros3D\",\n      \"count\": 2245\n    },\n    {\n      \"slug\": \"ds3\",\n      \"name\": \"DS3\",\n      \"count\": 1827\n    },\n    {\n      \"slug\": \"as3\",\n      \"name\": \"AS3\",\n      \"count\": 1106\n    },\n    {\n      \"slug\": \"maas360\",\n      \"name\": \"MaaS360\",\n      \"count\": 900\n    },\n    {\n      \"slug\": \"ns3\",\n      \"name\": \"NS3\",\n      \"count\": 821\n    },\n    {\n      \"slug\": \"tabs3\",\n      \"name\": \"TABS3\",\n      \"count\": 749\n    },\n    {\n      \"slug\": \"css-css3\",\n      \"name\": \"CSS/CSS3\",\n      \"count\": 722\n    },\n    {\n      \"slug\": \"ibm-maas360\",\n      \"name\": \"IBM MaaS360\",\n      \"count\": 677\n    },\n    {\n      \"slug\": \"ccs3\",\n      \"name\": \"CCS3\",\n      \"count\": 656\n    },\n    {\n      \"slug\": \"tms320\",\n      \"name\": \"TMS320\",\n      \"count\": 615\n    },\n    {\n      \"slug\": \"vertafore-ams360\",\n      \"name\": \"Vertafore AMS360\",\n      \"count\": 535\n    },\n    {\n      \"slug\": \"s3-bucket\",\n      \"name\": \"S3 Bucket\",\n      \"count\": 471\n    },\n    {\n      \"slug\": \"s3-buckets\",\n      \"name\": \"S3 Buckets\",\n      \"count\": 434\n    },\n    {\n      \"slug\": \"s3d\",\n      \"name\": \"S3D\",\n      \"count\": 383\n    },\n    {\n      \"slug\": \"css3-scss\",\n      \"name\": \"CSS3/SCSS\",\n      \"count\": 274\n    },\n    {\n      \"slug\": \"rs3\",\n      \"name\": \"RS3\",\n      \"count\": 265\n    },\n    {\n      \"slug\": \"s3-storage\",\n      \"name\": \"S3 Storage\",\n      \"count\": 247\n    },\n    {\n      \"slug\": \"cs3\",\n      \"name\": \"CS3\",\n      \"count\": 240\n    },\n    {\n      \"slug\": \"money-s3\",\n      \"name\": \"Money S3\",\n      \"count\": 170\n    },\n    {\n      \"slug\": \"lms365\",\n      \"name\": \"LMS365\",\n      \"count\": 164\n    },\n    {\n      \"slug\": \"jes3\",\n      \"name\": \"JES3\",\n      \"count\": 161\n    },\n    {\n      \"slug\": \"windows365\",\n      \"name\": \"Windows365\",\n      \"count\": 142\n    },\n    {\n      \"slug\": \"html-css3\",\n      \"name\": \"HTML/CSS3\",\n      \"count\": 128\n    },\n    {\n      \"slug\": \"as3000\",\n      \"name\": \"AS3000\",\n      \"count\": 124\n    },\n    {\n      \"slug\": \"adobe-cs3\",\n      \"name\": \"Adobe CS3\",\n      \"count\": 109\n    },\n    {\n      \"slug\": \"flash-as3\",\n      \"name\": \"Flash AS3\",\n      \"count\": 108\n    },\n    {\n      \"slug\": \"s3000l\",\n      \"name\": \"S3000L\",\n      \"count\": 107\n    },\n    {\n      \"slug\": \"css3+\",\n      \"name\": \"CSS3+\",\n      \"count\": 106\n    },\n    {\n      \"slug\": \"css3-animation\",\n      \"name\": \"CSS3 Animation\",\n      \"count\": 106\n    },\n    {\n      \"slug\": \"vbs3\",\n      \"name\": \"VBS3\",\n      \"count\": 102\n    },\n    {\n      \"slug\": \"adobe-illustrator-cs3\",\n      \"name\": \"Adobe Illustrator CS3\",\n      \"count\": 101\n    },\n    {\n      \"slug\": \"ms365-suite\",\n      \"name\": \"MS365 Suite\",\n      \"count\": 96\n    },\n    {\n      \"slug\": \"aws-s3-bucket\",\n      \"name\": \"AWS S3 Bucket\",\n      \"count\": 96\n    },\n    {\n      \"slug\": \"yokogawa-cs3000\",\n      \"name\": \"Yokogawa CS3000\",\n      \"count\": 94\n    },\n    {\n      \"slug\": \"ms-dynamics365\",\n      \"name\": \"MS Dynamics365\",\n      \"count\": 93\n    },\n    {\n      \"slug\": \"ms360\",\n      \"name\": \"MS360\",\n      \"count\": 92\n    },\n    {\n      \"slug\": \"adobe-flash-cs3\",\n      \"name\": \"Adobe Flash CS3\",\n      \"count\": 90\n    },\n    {\n      \"slug\": \"abacus360\",\n      \"name\": \"Abacus360\",\n      \"count\": 89\n    },\n    {\n      \"slug\": \"os390\",\n      \"name\": \"OS390\",\n      \"count\": 88\n    },\n    {\n      \"slug\": \"dynamics365-crm\",\n      \"name\": \"Dynamics365 CRM\",\n      \"count\": 84\n    },\n    {\n      \"slug\": \"s3-glacier\",\n      \"name\": \"S3 Glacier\",\n      \"count\": 81\n    },\n    {\n      \"slug\": \"html5+css3\",\n      \"name\": \"HTML5+CSS3\",\n      \"count\": 80\n    },\n    {\n      \"slug\": \"adobe-dreamweaver-cs3\",\n      \"name\": \"Adobe Dreamweaver CS3\",\n      \"count\": 78\n    },\n    {\n      \"slug\": \"oas3\",\n      \"name\": \"OAS3\",\n      \"count\": 78\n    },\n    {\n      \"slug\": \"css3-animations\",\n      \"name\": \"CSS3 Animations\",\n      \"count\": 72\n    },\n    {\n      \"slug\": \"bucket-s3\",\n      \"name\": \"Bucket S3\",\n      \"count\": 72\n    },\n    {\n      \"slug\": \"helios3d\",\n      \"name\": \"Helios3D\",\n      \"count\": 72\n    }\n  ],\n  \"total_count\": 1167\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "681c6bed-49a6-4868-a066-a6c0de754d4b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "technologies",
+                    "find"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"s3\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea3f82d3-1034-42f9-bdc1-acd12267eff2",
+          "name": "Look up technologies by name, slug, or alias",
+          "request": {
+            "name": "Look up technologies by name, slug, or alias",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "technologies",
+                "lookup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"technologies\": [\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "005e474a-a2f2-4f9b-8361-002d31262c52",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "technologies",
+                    "lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"technologies\": [\n    \"bigquery\",\n    \"windows-azure\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019c2a87-11f0-78b3-b82d-cdd178cf4018\",\n  \"credits_used\": 1,\n  \"credits_remaining\": 999,\n  \"matched_count\": 2,\n  \"results\": [\n    {\n      \"input\": \"bigquery\",\n      \"technology\": {\n        \"id\": 176,\n        \"slug\": \"gcp-bigquery\",\n        \"name\": \"GCP BigQuery\",\n        \"categories\": [\n          {\n            \"slug\": \"cloud-data-warehouse\",\n            \"name\": \"Cloud Data Warehouse\",\n            \"name_short\": \"Warehouse\"\n          },\n          {\n            \"slug\": \"modern-data-platform\",\n            \"name\": \"Modern Data Platform\",\n            \"name_short\": \"Modern Data\"\n          },\n          {\n            \"slug\": \"olap\",\n            \"name\": \"OLAP\",\n            \"name_short\": \"OLAP\"\n          }\n        ]\n      }\n    },\n    {\n      \"input\": \"windows-azure\",\n      \"technology\": {\n        \"id\": 9,\n        \"slug\": \"azure\",\n        \"name\": \"Azure\",\n        \"categories\": [\n          {\n            \"slug\": \"cloud-vendor\",\n            \"name\": \"Cloud Vendor\",\n            \"name_short\": \"Cloud\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3e0c6fe-e679-4c4b-acbb-edf51eaf5bc6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "technologies",
+                    "lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"technologies\": [\n    \"bigquery\",\n    \"windows-azure\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7008d0e1-8a56-4aad-863f-7a80648e5872",
+          "name": "Look up technology categories by slug or name",
+          "request": {
+            "name": "Look up technology categories by slug or name",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "technologies",
+                "categories",
+                "lookup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"technology_categories\": [\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "834e4b4a-24d8-4a8c-948b-8b7f0e9845ed",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "technologies",
+                    "categories",
+                    "lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"technology_categories\": [\n    \"cloud-vendor\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019c2a87-11f0-78b3-b82d-cdd178cf4018\",\n  \"credits_used\": 1,\n  \"credits_remaining\": 999,\n  \"matched_count\": 1,\n  \"results\": [\n    {\n      \"input\": \"cloud-vendor\",\n      \"category\": {\n        \"slug\": \"cloud-vendor\",\n        \"name\": \"Cloud Vendor\",\n        \"name_short\": \"Cloud\",\n        \"technologies\": [\n          {\n            \"id\": 6,\n            \"slug\": \"aws\",\n            \"name\": \"AWS\"\n          },\n          {\n            \"id\": 9,\n            \"slug\": \"azure\",\n            \"name\": \"Azure\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fbb7606-7789-4e07-8640-f61b48885634",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "technologies",
+                    "categories",
+                    "lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"technology_categories\": [\n    \"cloud-vendor\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sumble.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "981e14e6-fedc-4ad6-b2c1-da157b1c6e33",
+    "name": "Sumble contact-lists technologies API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The official Sumble API for programmatic enrichment.\n\nContact Support:\n Name: Sumble\n Email: support@sumble.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "0195f8d2-1f67-7f52-b1d1-4d63c1e6e7b8",
+  "credits_used": 1,
+  "credits_remaining": 997,
+  "list_info": {
+    "id": 42,
+    "name": "Enterprise Targets",
+    "url": "https://sumble.com/account-lists/42",
+    "organizations_count": 1,
+    "type": "group",
+    "read_only": true,
+    "deletable": false,
+    "deleted": false,
+    "include_in_signals": true
+  },
+  "organizations": [
+    {
+      "id": 1726684,
+      "name": "Sumble",
+      "slug": "sumble",
+      "sumble_url": "https://sumble.com/orgs/sumble",
+      "url": "https://sumble.com",
+      "employee_count": 12,
+      "account_status": "customer",
+      "crm_url": "https://example.my.salesforce.com/lightning/r/Account/001XX/view"
+    }
+  ]
+}

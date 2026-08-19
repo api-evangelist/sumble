@@ -1,0 +1,87 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.sumble.com/system-setup-and-configuration/pricing
+also_published_at: https://sumble.com/pricing
+plan_count: 3
+currency: USD
+billing_model: >-
+  Seat subscription plus a credit allotment. Every API and MCP call consumes
+  credits from the account balance; the plan sets the monthly allotment and
+  extra credits can be purchased at sumble.com/account/purchase.
+plans:
+  - name: Free
+    price: 0
+    currency: USD
+    period: month
+    unit: user
+    audience: Anyone who wants to interact with the data at a high level.
+    included:
+      - Search the live knowledge graph across millions of companies (technologies, org functions, roles being hired for)
+      - A monthly allotment of credits for lookups
+      - Slack delivery
+    limits:
+      search_results: First page of results only
+      signals: Up to 7 signals per week
+      api_access: 'API keys can be generated on all plans; the get-started guide notes API steps require a Pro plan or an active free trial'
+      credits: Monthly allotment (amount not published)
+    sign_up: https://sumble.com/
+  - name: Pro
+    price: 99
+    currency: USD
+    period: month
+    unit: user
+    audience: Individual GTM users who use Sumble daily and want to go deeper.
+    trial: 30-day trial when signing in with a corporate email; no credit card required
+    included:
+      - Everything in Free
+      - Project filters
+      - People matching (roles and projects tied to contacts)
+      - Trends across technologies, job functions, and headcount
+      - Full-text search and deeper result pages
+      - Draft outreach built from a company's own job posts
+    limits:
+      search_results: Up to 10 pages
+      signals: Up to 20 signals per day
+      credits: Larger monthly credit allotment (amount not published)
+    sign_up: https://sumble.com/pricing
+  - name: Enterprise
+    price: null
+    currency: USD
+    period: null
+    audience: Whole go-to-market org — RevOps, Sales, Marketing, Customer Success.
+    contact: https://calendly.com/d/cnzk-sjk-q38/sumble
+    included:
+      - Everything in Pro, delivered as a service into the customer's own systems
+      - Account scoring and prioritization, TAM and whitespace sizing, ongoing CRM enrichment
+      - Live triggers in front of reps and their AI workflows
+      - ABM target lists, event/campaign audiences, inbound lead enrichment
+      - Churn-risk and expansion monitoring
+      - Data destinations (Snowflake, Databricks, BigQuery, GCS blob store)
+      - Okta SSO / OIDC
+    limits:
+      note: Priced and scoped by contract; no public price is published.
+overage:
+  model: purchase additional credits
+  url: https://sumble.com/account/purchase
+  note: Credit costs per endpoint are published at https://docs.sumble.com/api/api#credits
+credit_costs_summary:
+  - {endpoint: organizations, cost: '1 base credit per matched org + 1 per paid attribute + per-entity metric costs; unmatched inputs free'}
+  - {endpoint: organization signals, cost: 1 credit per signal returned}
+  - {endpoint: organization tech stack, cost: 1 credit per technology returned}
+  - {endpoint: signals search, cost: 1 credit per signal returned}
+  - {endpoint: priority signals search, cost: 1 credit per priority signal returned}
+  - {endpoint: intelligence briefs, cost: 50 credits per completed brief}
+  - {endpoint: people, cost: '1 base credit + 1 per paid attribute + 1 per related person; 10 credits per first email reveal, 80 per first phone reveal'}
+  - {endpoint: jobs, cost: 1 base credit + 1 per paid attribute + 1 per related person returned}
+  - {endpoint: teams, cost: 1 base credit + 1 per paid attribute + 1 per related person + 1 per job post returned}
+  - {endpoint: job title lookup, cost: 1 credit per 100 matched titles}
+  - {endpoint: technologies find, cost: 1 credit if results found}
+  - {endpoint: technologies lookup, cost: 1 credit per 100 matched technologies}
+  - {endpoint: technology categories lookup, cost: 1 credit per 100 matched categories}
+  - {endpoint: projects lookup, cost: 1 credit per 100 matched projects}
+  - {endpoint: organization lists, cost: 1 credit per list or organization returned}
+  - {endpoint: contact lists, cost: 1 credit per list or person returned}
+  - {endpoint: create/add to list, cost: free}
+  - {endpoint: support endpoints, cost: free}
+  - {endpoint: 'MCP RunSqlQuery', cost: 1 credit per 100 bytes of response data}
+checked: '2026-08-13'

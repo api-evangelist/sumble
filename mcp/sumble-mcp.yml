@@ -1,16 +1,56 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
 status: published
 source: https://docs.sumble.com/api/mcp
+status_probe:
+  url: https://mcp.sumble.com/
+  method: 'POST tools/list (jsonrpc 2.0)'
+  http_status: 401
+  www_authenticate: 'Bearer error="invalid_token", error_description="Authentication required", resource_metadata="https://mcp.sumble.com/.well-known/oauth-protected-resource"'
+  checked: '2026-08-13'
+  interpretation: >-
+    The live tool schemas are OAuth-gated, which is the correct MCP posture:
+    the 401 carries a WWW-Authenticate challenge pointing at RFC 9728
+    protected-resource metadata. The tool NAMES and DESCRIPTIONS below are the
+    provider's own published list from docs.sumble.com/api/mcp; per-tool
+    inputSchema requires an authenticated tools/list call and is NOT recorded
+    here rather than guessed.
 server:
   name: sumble
   transport: http
   url: https://mcp.sumble.com
   description: >-
-    Sumble's hosted remote MCP server. Ask questions in natural language and get
-    back structured data about organizations, technologies, job postings, and
-    people directly inside AI tools; the assistant calls Sumble's API on your
-    behalf. Authenticates with a Sumble API key (bearer token).
+    Sumble's hosted remote MCP server. Ask questions in natural language and
+    get back structured data about organizations, technologies, job postings,
+    and people directly inside AI tools; the assistant calls Sumble's API on
+    your behalf.
+deployment:
+  mode: remote
+  endpoint: https://mcp.sumble.com
+  auth: oauth
+  verified: probed
+  checked: '2026-08-13'
+  note: >-
+    Remote-only. There is no npx/stdio package — the GitHub repo named
+    SumbleData/sumble-mcp is an Agent Skill describing how to USE the hosted
+    server, not a runnable stdio server.
+authorization:
+  scheme: OAuth 2.0 (authorization code + PKCE S256, dynamic client registration)
+  issuer: https://mcp.sumble.com/
+  authorization_endpoint: https://mcp.sumble.com/authorize
+  token_endpoint: https://mcp.sumble.com/token
+  registration_endpoint: https://mcp.sumble.com/register
+  grant_types: [authorization_code, refresh_token]
+  code_challenge_methods: [S256]
+  bearer_methods: [header]
+  discovery:
+    - {spec: RFC 8414, url: 'https://mcp.sumble.com/.well-known/oauth-authorization-server', status: 200, file: ../well-known/sumble-mcp-oauth-authorization-server.json}
+    - {spec: RFC 9728, url: 'https://mcp.sumble.com/.well-known/oauth-protected-resource', status: 200, file: ../well-known/sumble-mcp-oauth-protected-resource.json}
+  scopes_published: false
+  note: >-
+    The authorization-server metadata declares no scopes_supported, and no
+    scope/permission reference is published in the docs, so no scopes/
+    artifact is emitted for this provider.
 directories:
   - platform: Claude
     url: https://claude.ai/directory/connectors/sumble
@@ -22,7 +62,62 @@ install:
   claude_directory: https://claude.ai/directory/connectors/sumble
   claude_code: claude mcp add --transport http sumble https://mcp.sumble.com --scope user
   cursor_config: '{ "sumblemcp": { "type": "http", "url": "https://mcp.sumble.com" } }'
-notes: >-
-  Backed by the Sumble REST API (openapi/sumble-openapi-original.json). Tool
-  surface maps to the API's organization/people/job/technology/signal
-  operations. See mcp.md for platform-specific setup.
+  gemini_cli: gemini mcp add sumble https://mcp.sumble.com
+  clients_documented: [Claude Desktop, Claude Code, Cursor, ChatGPT, Gemini CLI]
+billing:
+  model: credits
+  note: >-
+    MCP calls consume the same account credits as the REST API; structured
+    find/enrich tools follow the corresponding REST endpoint pricing.
+    RunSqlQuery is priced at 1 credit per 100 bytes of response data.
+tool_count: 33
+tools:
+  - {name: FindMatchAndEnrichOrganizations, category: organizations, description: 'Find, match, and enrich organizations in one call — search by advanced query or resolve a list of names/URLs/IDs; returns selected attributes and per-entity metrics (technology, jobs, teams, people).', credit_cost: '1 credit per matched org + 1 per paid attribute + per-entity metric costs'}
+  - {name: GetIntelligenceBrief, category: organizations, description: 'LLM-generated sales intelligence brief for a target account, synthesized by Google Gemini from Sumble structured data.', credit_cost: 50 credits per completed brief}
+  - {name: GetOrganizationTechStack, category: organizations, description: 'Get an organization CONFIRMED-USED technology stack, grouped by business function and technology category.', credit_cost: 1 credit per technology returned}
+  - {name: ListOrganizationLists, category: organization-lists, description: 'List saved organization lists with IDs, web app URLs, organization counts, read-only/deletable flags, deleted status, and Signals inclusion settings.', credit_cost: 1 credit per list}
+  - {name: GetOrganizationList, category: organization-lists, description: 'Get one organization list and the organizations in it.', credit_cost: 1 credit per organization}
+  - {name: CreateOrganizationList, category: organization-lists, description: Create a new empty organization list., credit_cost: Free}
+  - {name: RenameOrganizationList, category: organization-lists, description: 'Rename an existing organization list, keeping its ID, URL, and organizations.', credit_cost: Free}
+  - {name: AddOrganizationsToList, category: organization-lists, description: Add organizations to an existing list by ID or slug., credit_cost: Free}
+  - {name: SetOrganizationListDeleted, category: organization-lists, description: 'Soft-delete an organization list, or restore a deleted one.', credit_cost: Free}
+  - {name: SetOrganizationListSignals, category: organization-lists, description: "Include or exclude a list's accounts from future Signals delivery.", credit_cost: Free}
+  - {name: SearchSignals, category: signals, description: 'Search Sumble Signals by signal IDs, organization IDs, person IDs, technologies, job functions, priorities, or saved organization lists. Returns only signals from the last 60 days except direct signal_ids lookups.', credit_cost: 1 credit per signal returned}
+  - {name: SearchPrioritySignals, category: signals, description: 'Search Priority Signals digest items by source signal IDs, organization IDs, person IDs, job post IDs, or relevance feedback.', credit_cost: 1 credit per priority signal returned}
+  - {name: UpdatePrioritySignalRelevance, category: signals, description: 'Mark a priority signal relevant or not relevant, or clear the feedback.', credit_cost: Free}
+  - {name: ListSignalConfigs, category: signals, description: 'List the active standing rules that decide which signals you receive. Read-only.', credit_cost: Free}
+  - {name: FindMatchAndEnrichJobs, category: jobs, description: 'Find, look up, and enrich job postings in one call — search by advanced query or enrich a list of job IDs.', credit_cost: 1 credit per job + 1 per paid attribute + 1 per related person returned}
+  - {name: LookupJobTitles, category: jobs, description: Resolve a list of job titles to their canonical job function and level., credit_cost: 1 credit per 100 matched titles}
+  - {name: FindMatchAndEnrichPeople, category: people, description: 'Find, match, and enrich people in one call — resolve person IDs, LinkedIn URLs, or emails, or search within organizations; optional email/phone contact reveals.', credit_cost: '1 credit per person + 1 per paid attribute + 1 per related person; 10 credits per first email reveal, 80 per first phone reveal'}
+  - {name: ListContactLists, category: contact-lists, description: List saved contact (people) lists with IDs and people counts., credit_cost: 1 credit per list}
+  - {name: GetContactList, category: contact-lists, description: Get one contact list and the people in it., credit_cost: 1 credit per person}
+  - {name: CreateContactList, category: contact-lists, description: Create a new empty contact list., credit_cost: Free}
+  - {name: AddContactsToList, category: contact-lists, description: Add people to an existing contact list by person ID., credit_cost: Free}
+  - {name: SearchTechnologies, category: technologies, description: Look up technology names and slugs., credit_cost: 1 credit per search}
+  - {name: LookupTechnologies, category: technologies, description: 'Resolve a list of technology names, slugs, or aliases to canonical IDs, slugs, names, and categories.', credit_cost: 1 credit per 100 matched technologies}
+  - {name: LookupTechnologyCategories, category: technologies, description: Resolve a list of technology category slugs or names to their canonical categories and constituent technologies., credit_cost: 1 credit per 100 matched categories}
+  - {name: LookupProjects, category: projects, description: 'Resolve a list of project names or slugs to canonical IDs, slugs, and names.', credit_cost: 1 credit per 100 matched projects}
+  - {name: ReportDataQualityIssue, category: support, description: Report a data quality or coverage issue; routed to the Sumble data team., credit_cost: Free}
+  - {name: SubmitSupportRequest, category: support, description: 'Submit a general account, billing, or access support request.', credit_cost: Free}
+  - {name: RunSqlQuery, category: database, description: "Run read-only SQL against Sumble's DuckDB (last resort).", credit_cost: 1 credit per 100 bytes of response}
+  - {name: ListTables, category: database, description: List all tables and columns in the database., credit_cost: Free}
+  - {name: GetAccountInformation, category: account, description: 'Check your credit balance, API key status, and plan info.', credit_cost: Free}
+  - {name: GetMyCompanyProfile, category: account, description: "Get your company's profile and target account intelligence profile.", credit_cost: Free}
+  - {name: ListDocumentation, category: documentation, description: 'List every documentation page, with its title and where it sits in the navigation.', credit_cost: Free}
+  - {name: GetDocumentationPage, category: documentation, description: 'Read one documentation page, by the path ListDocumentation returned.', credit_cost: Free}
+tool_count_note: >-
+  33 tools enumerated verbatim from the provider's published tables at
+  https://docs.sumble.com/api/mcp, grouped into 12 categories, as of the
+  checked date. Names and descriptions only — inputSchema is OAuth-gated.
+provider_skills:
+  - url: https://github.com/SumbleData/sumble-mcp
+    kind: Agent Skill
+    note: >-
+      First-party skill teaching agents how to sequence these tools. Its
+      references/tool-reference.md is STALE — it documents a legacy tool set
+      (FindOrganizations, MatchOrganizations, EnrichOrganization,
+      EnrichPerson, FindJobs, GetJobDescription, FindRelatedPeopleToJob,
+      LogOut) that the current docs have collapsed into the unified
+      FindMatchAndEnrich* tools. Trust docs.sumble.com/api/mcp over the repo.
+crosswalk: mcp/sumble-tool-crosswalk.yml
+notes: Backed by the Sumble REST API (openapi/_original/sumble-openapi-original.json).

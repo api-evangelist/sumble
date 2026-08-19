@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists technologies API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "technologies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find technologies by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/technologies/find",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Find technologies by name"
+        },
+        {
+          "info": {
+            "name": "Look up technologies by name, slug, or alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/technologies/lookup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Look up technologies by name, slug, or alias"
+        },
+        {
+          "info": {
+            "name": "Look up technology categories by slug or name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/technologies/categories/lookup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Look up technology categories by slug or name"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

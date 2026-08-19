@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists organizations API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Unified organizations endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/organizations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Unified organizations endpoint"
+        },
+        {
+          "info": {
+            "name": "Retrieve the intelligence brief for an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sumble.com/v9/organizations/:organization_id/intelligence-brief",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the intelligence brief for an organization"
+        },
+        {
+          "info": {
+            "name": "Get organization signals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sumble.com/v9/organizations/:organization_id/signals",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "technology_slugs",
+                "value": "",
+                "type": "query",
+                "description": "Technology slugs to filter signals by. Repeat this query parameter to filter by multiple technologies. Use POST /technologies/lookup to resolve technology names, slugs, or aliases to canonical slugs; use POST /technologies/find to search for matching technologies."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get organization signals"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,599 @@
+{
+  "item": [
+    {
+      "id": "c276ceb3-e27a-4331-ae93-bde7e8d7de71",
+      "name": "organizations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "785db005-c5ab-4a54-8b99-057fcc3952a5",
+          "name": "Unified organizations endpoint",
+          "request": {
+            "name": "Unified organizations endpoint",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "organizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"select\": {},\n  \"organizations\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"location\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"slug\": \"<string>\"\n    }\n  ],\n  \"filter\": {\n    \"query\": \"<string>\"\n  },\n  \"limit\": 10,\n  \"offset\": 0,\n  \"order_by_column\": \"<string>\",\n  \"order_by_direction\": \"<string>\",\n  \"order_by_job_function\": \"<string>\",\n  \"order_by_advanced_query\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8f89a903-ad81-4659-bd49-e64cd0ab725a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"organizations\": [\n    {\n      \"id\": 1726684\n    }\n  ],\n  \"select\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019d06c6-9d55-75a4-bf7f-2bde9b85b772\",\n  \"credits_used\": 73,\n  \"credits_remaining\": 98927,\n  \"organizations\": [\n    {\n      \"input\": {\n        \"name\": \"Sumble\",\n        \"url\": \"sumble.com\"\n      },\n      \"attributes\": {\n        \"id\": 1726684,\n        \"slug\": \"sumble\",\n        \"name\": \"Sumble\",\n        \"url\": \"sumble.com\",\n        \"employee_count\": 120,\n        \"industry\": \"Information\",\n        \"jobs_count\": 42,\n        \"teams_count\": 8,\n        \"headquarters_country\": \"US\",\n        \"sumble_score\": 82.5,\n        \"sumble_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q\",\n        \"subsidiary_ids\": [],\n        \"tags\": [\n          \"digital_native\",\n          \"b2b\",\n          \"is_ai_native\",\n          \"is_venture_backed\"\n        ]\n      },\n      \"entities\": [\n        {\n          \"type\": \"technology\",\n          \"term\": \"kubernetes\",\n          \"job_post_count\": 3,\n          \"job_post_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/jobs\",\n          \"people_count\": 2,\n          \"people_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/people\",\n          \"job_post_count_growth_1y\": 51.9,\n          \"job_post_count_growth_1y_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/trends/technologies\"\n        },\n        {\n          \"type\": \"job_function\",\n          \"term\": \"Data Engineer\",\n          \"job_post_count\": 1,\n          \"job_post_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/jobs\",\n          \"team_count\": 1,\n          \"team_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/teams\",\n          \"people_count\": 0,\n          \"people_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/people\",\n          \"people_concentration\": 0,\n          \"people_count_growth_1y\": 0.25,\n          \"people_count_growth_1y_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/trends/job_functions_people\"\n        },\n        {\n          \"type\": \"advanced_query\",\n          \"term\": \"technology EQ 'react'\",\n          \"job_post_count\": 2,\n          \"job_post_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/jobs\",\n          \"team_count\": 1,\n          \"team_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/teams\",\n          \"people_count\": 1,\n          \"people_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/people\",\n          \"job_post_concentration\": 0.0476\n        },\n        {\n          \"type\": \"technology_category\",\n          \"term\": \"logging-observability-monitoring\",\n          \"granularity\": \"aggregate\",\n          \"job_post_count\": 4,\n          \"job_post_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/jobs\",\n          \"team_count\": 2,\n          \"team_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/teams\",\n          \"people_count\": 3,\n          \"people_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/people\"\n        },\n        {\n          \"type\": \"technology_category\",\n          \"term\": \"logging-observability-monitoring\",\n          \"granularity\": \"exploded\",\n          \"components\": [\n            {\n              \"type\": \"technology\",\n              \"term\": \"datadog\",\n              \"job_post_count\": 3,\n              \"job_post_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/jobs\"\n            },\n            {\n              \"type\": \"technology\",\n              \"term\": \"prometheus\",\n              \"job_post_count\": 1,\n              \"job_post_count_url\": \"https://sumble.com/l/org/TH2y9mGkRr1q/jobs\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"input\": {\n        \"name\": \"Nonexistent\",\n        \"url\": \"nonexistent.example\"\n      },\n      \"attributes\": {},\n      \"entities\": []\n    }\n  ],\n  \"matched_count\": 1,\n  \"total\": 2\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a231887-dbc6-4234-b791-41bbcbea54de",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"organizations\": [\n    {\n      \"id\": 1726684\n    }\n  ],\n  \"select\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "721a3d11-3d17-498e-85a9-42214321a4d3",
+          "name": "Retrieve the intelligence brief for an organization",
+          "request": {
+            "name": "Retrieve the intelligence brief for an organization",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "organizations",
+                ":organization_id",
+                "intelligence-brief"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "organization_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "617750e9-a9f0-45e1-a10d-843a0c0bccf7",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations",
+                    ":organization_id",
+                    "intelligence-brief"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "organization_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019d25ba-90e8-7a3c-a008-7f0bf41ac79a\",\n  \"credits_used\": 50,\n  \"credits_remaining\": 9900,\n  \"organization_id\": 1726684,\n  \"organization_slug\": \"vanta\",\n  \"title\": \"Vanta intelligence brief for Sumble\",\n  \"body\": \"Vanta intelligence brief for Sumble\\n\\nThis brief is also [available on Sumble.com](https://sumble.com/l/org/MIkfQDbGSbraK/overview?intelligence_brief=1)\\n\\n## What's the Angle\\n\\nVanta is hiring into teams...\\n\\n## Who To Contact First\\n\\nPrioritize engineering leaders...\",\n  \"sumble_url\": \"https://sumble.com/l/org/MIkfQDbGSbraK/overview?intelligence_brief=1\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3f9b0dc-784c-4547-9dbb-a50f19b8a282",
+              "name": "The brief is being generated. Retry the same URL after the `Retry-After` header. No credits are consumed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations",
+                    ":organization_id",
+                    "intelligence-brief"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "organization_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Suggested seconds to wait before retrying the same URL",
+                  "key": "Retry-After",
+                  "value": "20"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"pending\",\n  \"organization_id\": 1726684,\n  \"organization_slug\": \"vanta\",\n  \"message\": \"The intelligence brief is being generated. Retry the same URL after the `Retry-After` time. No credits are consumed for this response.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4ad5a3a-7906-4e29-ba8b-8b8f82fa5728",
+              "name": "The organization/domain does not have enough data to generate an intelligence brief. No credits are consumed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations",
+                    ":organization_id",
+                    "intelligence-brief"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "organization_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unfortunately, we don't have enough information for Vanta to generate an intelligence brief.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da7cfb3e-eed6-4706-ac91-70374c55c2e6",
+          "name": "Get organization signals",
+          "request": {
+            "name": "Get organization signals",
+            "description": {},
+            "url": {
+              "path": [
+                "v9",
+                "organizations",
+                ":organization_id",
+                "signals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "technology_slugs",
+                  "value": "<string>",
+                  "description": "Technology slugs to filter signals by. Repeat this query parameter to filter by multiple technologies. Use POST /technologies/lookup to resolve technology names, slugs, or aliases to canonical slugs; use POST /technologies/find to search for matching technologies."
+                },
+                {
+                  "disabled": false,
+                  "key": "technology_slugs",
+                  "value": "<string>",
+                  "description": "Technology slugs to filter signals by. Repeat this query parameter to filter by multiple technologies. Use POST /technologies/lookup to resolve technology names, slugs, or aliases to canonical slugs; use POST /technologies/find to search for matching technologies."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "organization_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1915dd79-8235-4af6-b680-96fb60de12e5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations",
+                    ":organization_id",
+                    "signals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "technology_slugs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "technology_slugs",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "organization_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019c2a87-11f0-78b3-b82d-cdd178cf4018\",\n  \"credits_used\": 1,\n  \"credits_remaining\": 998,\n  \"signals\": [\n    {\n      \"title\": \"Amazon hired Jane Doe\",\n      \"subtitle\": \"Started Jun 2026\",\n      \"explanation\": \"Jane Doe joined the platform team.\",\n      \"sales_angle\": \"The team is expanding Kubernetes.\",\n      \"date\": \"2026-06-17T12:00:00Z\",\n      \"sumble_url\": \"https://sumble.com/orgs/amazon/signals/s/123\",\n      \"display_type\": \"New hire using Kubernetes\",\n      \"type\": \"technology_recent_hires\",\n      \"organization_name\": \"Amazon\",\n      \"organization_id\": 1,\n      \"job_post_id\": 789,\n      \"person_id\": 456,\n      \"linkedin_url\": \"https://www.linkedin.com/in/jane-doe\",\n      \"location\": \"Seattle, WA\",\n      \"job_function\": \"Engineering\",\n      \"priority\": \"high\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "249286e4-d3a9-4b18-87ea-2fb5534c7cb4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "organizations",
+                    ":organization_id",
+                    "signals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "technology_slugs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "technology_slugs",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "organization_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sumble.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "27451b14-1493-46b8-929c-3f0904c72d60",
+    "name": "Sumble contact-lists organizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The official Sumble API for programmatic enrichment.\n\nContact Support:\n Name: Sumble\n Email: support@sumble.com",
+      "type": "text/plain"
+    }
+  }
+}

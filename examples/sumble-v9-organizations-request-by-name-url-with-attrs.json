@@ -1,0 +1,80 @@
+{
+  "organizations": [
+    {
+      "name": "Sumble",
+      "url": "sumble.com"
+    },
+    {
+      "name": "Google",
+      "location": "US"
+    }
+  ],
+  "select": {
+    "attributes": [
+      "id",
+      "slug",
+      "name",
+      "url",
+      "employee_count",
+      "industry",
+      "jobs_count",
+      "teams_count",
+      "headquarters_country",
+      "sumble_score",
+      "sumble_url",
+      "parent_id",
+      "subsidiary_ids",
+      "tags"
+    ],
+    "entities": [
+      {
+        "type": "technology",
+        "term": "kubernetes",
+        "metrics": [
+          "job_post_count",
+          "people_count",
+          "job_post_count_growth_1y"
+        ]
+      },
+      {
+        "type": "technology",
+        "term": "react",
+        "metrics": [
+          "job_post_count",
+          "team_count"
+        ],
+        "since": "2026-02-01"
+      },
+      {
+        "type": "job_function",
+        "term": "Data Engineer",
+        "metrics": "all"
+      },
+      {
+        "type": "advanced_query",
+        "term": "technology EQ 'react'",
+        "metrics": [
+          "job_post_count",
+          "team_count",
+          "people_count",
+          "job_post_concentration"
+        ]
+      },
+      {
+        "type": "technology_category",
+        "term": "logging-observability-monitoring",
+        "granularity": "aggregate",
+        "metrics": "all"
+      },
+      {
+        "type": "technology_category",
+        "term": "logging-observability-monitoring",
+        "granularity": "exploded",
+        "metrics": [
+          "job_post_count"
+        ],
+        "since": "2026-02-01"
+      }
+    ]
+  }
+}

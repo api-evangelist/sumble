@@ -1,0 +1,230 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  mcp/sumble-mcp.yml (tool list published at https://docs.sumble.com/api/mcp)
+  bound against openapi/_original/sumble-openapi-original.json (Sumble API v9,
+  26 operations). Every operationId below was grepped out of the spec verbatim.
+note: >-
+  The live MCP tools/list is OAuth-gated (401 with an RFC 9728 challenge), so
+  tools are mapped to REST operations by published name + description, not by
+  comparing inputSchema to parameters. Confidence is set accordingly: high
+  where the tool and the operation are plainly the same capability with the
+  same noun and verb, medium where the tool fans out or narrows a unified
+  endpoint, low where the mapping is inferential.
+surfaces:
+  openapi:
+    file: openapi/_original/sumble-openapi-original.json
+    refined: openapi/sumble-*-openapi.yml (10 tag-split documents)
+    spec_url: https://api.sumble.com/openapi.json?version=v9
+    version: v9
+    operations: 26
+    gated: false
+  mcp:
+    url: https://mcp.sumble.com
+    manifest: mcp/sumble-mcp.yml
+    tools: 33
+    gated: true
+    gate: OAuth 2.0 (authorization_code + PKCE S256); tools/list returns 401 anonymously
+  graphql:
+    endpoint: null
+    note: Sumble publishes no GraphQL surface.
+crosswalk:
+  - tool: FindMatchAndEnrichOrganizations
+    category: organizations
+    rest: [enrich_organizations_unified__api_version__organizations_post]
+    binding: rest
+    confidence: high
+    note: 'POST /v9/organizations is itself the unified find+match+enrich endpoint; the tool is a 1:1 wrapper.'
+  - tool: GetIntelligenceBrief
+    category: organizations
+    rest: [get_intelligence_brief__api_version__organizations__organization_id__intelligence_brief_get]
+    binding: rest
+    confidence: high
+    note: 'GET /v9/organizations/{organization_id}/intelligence-brief; the REST operation returns 202 while the brief generates.'
+  - tool: ListOrganizationLists
+    category: organization-lists
+    rest: [list_organization_lists__api_version__organization_lists_get]
+    binding: rest
+    confidence: high
+  - tool: GetOrganizationList
+    category: organization-lists
+    rest: [get_organization_list__api_version__organization_lists__list_id__get]
+    binding: rest
+    confidence: high
+  - tool: CreateOrganizationList
+    category: organization-lists
+    rest: [create_organization_list__api_version__organization_lists_post]
+    binding: rest
+    confidence: high
+  - tool: AddOrganizationsToList
+    category: organization-lists
+    rest: [add_organizations_to_list__api_version__organization_lists__list_id__organizations_post]
+    binding: rest
+    confidence: high
+  - tool: SetOrganizationListDeleted
+    category: organization-lists
+    rest: [set_organization_list_deleted__api_version__organization_lists__list_id__deleted_post]
+    binding: rest
+    confidence: high
+  - tool: SetOrganizationListSignals
+    category: organization-lists
+    rest: [set_organization_list_signals__api_version__organization_lists__list_id__signals_post]
+    binding: rest
+    confidence: high
+  - tool: SearchSignals
+    category: signals
+    rest: [search_signals__api_version__signals_post]
+    binding: rest
+    confidence: high
+  - tool: SearchPrioritySignals
+    category: signals
+    rest: [search_priority_signals__api_version__signals_priority_post]
+    binding: rest
+    confidence: high
+  - tool: UpdatePrioritySignalRelevance
+    category: signals
+    rest: [update_priority_signal_relevance__api_version__signals_priority__item_id__relevance_put]
+    binding: rest
+    confidence: high
+  - tool: FindMatchAndEnrichJobs
+    category: jobs
+    rest: [enrich_jobs_unified__api_version__jobs_post]
+    binding: rest
+    confidence: high
+  - tool: LookupJobTitles
+    category: jobs
+    rest: [lookup_job_titles__api_version__jobs_title_lookup_post]
+    binding: rest
+    confidence: high
+  - tool: FindMatchAndEnrichPeople
+    category: people
+    rest: [enrich_people_unified__api_version__people_post]
+    binding: rest
+    confidence: high
+  - tool: ListContactLists
+    category: contact-lists
+    rest: [list_contact_lists__api_version__contact_lists_get]
+    binding: rest
+    confidence: high
+  - tool: GetContactList
+    category: contact-lists
+    rest: [get_contact_list__api_version__contact_lists__list_id__get]
+    binding: rest
+    confidence: high
+  - tool: CreateContactList
+    category: contact-lists
+    rest: [create_contact_list__api_version__contact_lists_post]
+    binding: rest
+    confidence: high
+  - tool: AddContactsToList
+    category: contact-lists
+    rest: [add_contacts_to_list__api_version__contact_lists__list_id__people_post]
+    binding: rest
+    confidence: high
+  - tool: SearchTechnologies
+    category: technologies
+    rest: [get_technologies__api_version__technologies_find_post]
+    binding: rest
+    confidence: high
+    note: POST /v9/technologies/find — the catalog search, distinct from the canonical resolver below.
+  - tool: LookupTechnologies
+    category: technologies
+    rest: [lookup_technologies__api_version__technologies_lookup_post]
+    binding: rest
+    confidence: high
+  - tool: LookupTechnologyCategories
+    category: technologies
+    rest: [lookup_technology_categories__api_version__technologies_categories_lookup_post]
+    binding: rest
+    confidence: high
+  - tool: LookupProjects
+    category: projects
+    rest: [lookup_projects__api_version__projects_lookup_post]
+    binding: rest
+    confidence: high
+  - tool: ReportDataQualityIssue
+    category: support
+    rest: [create_data_quality_report__api_version__support_data_quality_post]
+    binding: rest
+    confidence: high
+  - tool: SubmitSupportRequest
+    category: support
+    rest: [create_support_request__api_version__support_post]
+    binding: rest
+    confidence: high
+mcp_only:
+  - tool: RenameOrganizationList
+    reason: >-
+      No rename/update operation exists on /v9/organization-lists in the
+      published spec. The MCP surface can rename a list; the REST surface
+      cannot.
+  - tool: ListSignalConfigs
+    reason: >-
+      Standing signal-rule configs are readable through MCP but have no
+      published REST path in v9.
+  - tool: RunSqlQuery
+    reason: >-
+      Read-only SQL against Sumble's DuckDB. There is no SQL endpoint in the
+      REST API — this is an MCP-only escape hatch, and the single largest
+      capability divergence between the two surfaces.
+  - tool: ListTables
+    reason: Schema introspection for the DuckDB surface exposed only through MCP.
+  - tool: GetAccountInformation
+    reason: 'Credit balance, API-key status, and plan info have no REST path in v9.'
+  - tool: GetMyCompanyProfile
+    reason: >-
+      The caller's own company + target-account intelligence profile. MCP-only;
+      it is what gives the server contextual awareness of the user's stack.
+  - tool: ListDocumentation
+    reason: Serves the docs site itself so the assistant answers from source rather than web search. Not an API capability.
+  - tool: GetDocumentationPage
+    reason: Serves one docs page by path. Not an API capability.
+  - tool: GetOrganizationTechStack
+    reason: >-
+      Exposed as a first-class tool with its own credit price, but reached in
+      REST only as a select-block projection of POST /v9/organizations rather
+      than a distinct operation.
+rest_only:
+  - capability: teams
+    operations: [find_teams__api_version__teams_post]
+    note: >-
+      POST /v9/teams is a first-class core-data endpoint in the REST docs
+      (resolve or search teams, with ICP fit score, related people, and the
+      team's job posts) and has NO corresponding MCP tool. Teams reach the
+      agent surface only as a per-entity metric inside
+      FindMatchAndEnrichOrganizations. This is the one real capability an
+      agent loses by working through MCP instead of REST.
+  - capability: organization signals (per-organization)
+    operations: [get_organization_signals__api_version__organizations__organization_id__signals_get]
+    note: >-
+      GET /v9/organizations/{organization_id}/signals has no dedicated MCP
+      tool; SearchSignals covers the same ground by organization_ids filter,
+      so this is a shape difference rather than a missing capability.
+coverage:
+  mcp_tools_published: 33
+  mcp_tools_bound_to_rest: 24
+  mcp_only: 9
+  rest_operations_total: 26
+  rest_operations_with_a_tool: 24
+  rest_only: 2
+  bound_confidence: {high: 24, medium: 0, low: 0}
+divergence_summary: >-
+  The two surfaces are close but not identical. MCP is the larger surface: it
+  adds account/self-service reads (GetAccountInformation,
+  GetMyCompanyProfile), signal-rule introspection (ListSignalConfigs), a list
+  rename REST does not offer, docs retrieval, and — most significantly — a
+  raw read-only SQL escape hatch (RunSqlQuery/ListTables) over Sumble's DuckDB
+  that has no REST equivalent at all. REST keeps one capability MCP does not
+  expose at all — POST /v9/teams, the teams core-data endpoint — plus the
+  per-organization signals path, which SearchSignals covers by filter.
+version_drift:
+  finding: >-
+    Sumble's own published Agent Skills (github.com/SumbleData/sumble-skills-public)
+    instruct agents to call POST /v6/organizations and POST /v6/people, while
+    the current published spec and base path are v9. The skills are pinned to
+    an API version three releases behind the contract Sumble publishes.
+  evidence:
+    - {source: 'skills/sumble-crm-cleaning.md', quote: 'matching every account to Sumble organization graph via POST /v6/organizations'}
+    - {source: 'skills/sumble-people-scoring.md', quote: 'via the unified v6 REST endpoints (POST /v6/people)'}
+    - {source: 'https://api.sumble.com/openapi.json?version=v9', quote: 'current published spec version v9'}
+  probe: 'https://api.sumble.com/openapi.json?version=v10 returns HTTP 400 "Invalid API version"; v8 and v9 both return 200.'

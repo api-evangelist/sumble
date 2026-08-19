@@ -1,0 +1,16 @@
+{
+  "filter": {
+    "organization_ids": [
+      171
+    ],
+    "person_ids": [
+      12729201
+    ],
+    "signal_ids": [
+      123
+    ],
+    "job_post_ids": [
+      789
+    ]
+  }
+}

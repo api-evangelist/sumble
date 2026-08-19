@@ -6,11 +6,13 @@
 - [Introduction](https://docs.sumble.com/get-started/introduction.md): Sumble powers go-to-market work across the entire revenue org. Our intelligence layer drives the day-to-day for Sales, RevOps, Marketing, and Customer Success.
 - [Get started with Sumble](https://docs.sumble.com/get-started/get-started-with-sumble.md): Go from account creation to your first organization search and API call in under 10 minutes. This guide walks you through every step.
 - [Our data](https://docs.sumble.com/our-data/our-data.md)
+- [Filter reference](https://docs.sumble.com/our-data/filter-reference.md)
 - [Overview](https://docs.sumble.com/api/api.md)
 - [OpenAPI & client generation](https://docs.sumble.com/api/openapi.md)
 - [Core data endpoints](https://docs.sumble.com/api/core-data.md)
 - [Organizations](https://docs.sumble.com/api/core-data/organizations.md)
 - [Organization signals](https://docs.sumble.com/api/core-data/organizations/organization-signals.md)
+- [Organization tech stack](https://docs.sumble.com/api/core-data/organizations/organization-tech-stack.md)
 - [People](https://docs.sumble.com/api/core-data/people.md)
 - [Job posts](https://docs.sumble.com/api/core-data/jobs.md)
 - [Teams](https://docs.sumble.com/api/core-data/teams.md)
@@ -54,15 +56,18 @@
 - [Overview](https://docs.sumble.com/enterprise-services/enterprise-services.md): Tell us the problem you're trying to solve, and we'll build the solution into the systems your team already works in.
 - [Sumble Enrich](https://docs.sumble.com/enterprise-services/sumble-enrich.md)
 - [Sumble Signals](https://docs.sumble.com/enterprise-services/sumble-signals.md)
+- [Account scoring](https://docs.sumble.com/enterprise-services/account-scoring.md)
 - [Overview](https://docs.sumble.com/system-setup-and-configuration/system-setup.md): Connect Sumble to the tools your team already uses: your identity provider, CRM, data warehouse, and notification channels.
 - [Users & access](https://docs.sumble.com/system-setup-and-configuration/users-access.md): Manage who can access your Sumble workspace and how they authenticate.
 - [SSO / OIDC](https://docs.sumble.com/system-setup-and-configuration/users-access/okta-sso-oidc.md)
 - [CRM](https://docs.sumble.com/system-setup-and-configuration/crm.md): Connect Sumble to your CRM to sync accounts, contacts, and enrichment.
 - [Salesforce](https://docs.sumble.com/system-setup-and-configuration/crm/salesforce-package.md)
+- [Salesforce permissions](https://docs.sumble.com/system-setup-and-configuration/crm/salesforce-package/salesforce-permissions.md)
 - [HubSpot](https://docs.sumble.com/system-setup-and-configuration/crm/hubspot.md)
 - [Data destinations](https://docs.sumble.com/system-setup-and-configuration/data-destinations.md): Push Sumble data into your data warehouse or storage.
 - [Snowflake](https://docs.sumble.com/system-setup-and-configuration/data-destinations/snowflake-share.md)
 - [Databricks](https://docs.sumble.com/system-setup-and-configuration/data-destinations/databricks.md)
+- [BigQuery](https://docs.sumble.com/system-setup-and-configuration/data-destinations/bigquery.md)
 - [Blob store / GCS](https://docs.sumble.com/system-setup-and-configuration/data-destinations/blob-store.md)
 - [Notifications](https://docs.sumble.com/system-setup-and-configuration/notifications.md): Configure where Sumble sends alerts and signal notifications.
 - [Slack alert setup](https://docs.sumble.com/system-setup-and-configuration/notifications/slack-alerts.md): Deliver Sumble Signals alerts to reps in Slack.

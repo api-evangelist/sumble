@@ -1,25 +1,117 @@
-generated: '2026-07-21'
-method: generated
-source: openapi/sumble-openapi-original.json + https://docs.sumble.com/api
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/SumbleData/sumble-skills-public (MIT) and
+  https://github.com/SumbleData/sumble-mcp — Sumble publishes its own Agent
+  Skills; those six SKILL.md documents are saved here VERBATIM. Three
+  additional API Evangelist skills generated in the 2026-07-21 pass from
+  openapi/_original/sumble-openapi-original.json are retained below and
+  clearly marked.
+provider_published:
+  repo: https://github.com/SumbleData/sumble-skills-public
+  license: MIT
+  standard: Agent Skills (agentskills.io) — same folder works in Claude Code, OpenAI Codex CLI, and Cursor
+  install: npx skills add SumbleData/sumble-skills-public --skill <skill>
+  harvested: '2026-08-13'
+  note: >-
+    Saved verbatim as the SKILL.md front matter + body. The upstream skill
+    folders also carry references/, assets/, articles/ and runnable
+    examples/ that are NOT mirrored here — see the repo.
 skills:
+  # --- provider-published, saved verbatim (method: searched) ---
+  - file: sumble-mcp.md
+    name: Sumble MCP
+    method: searched
+    author: Sumble
+    source: https://github.com/SumbleData/sumble-skills-public/blob/main/skills/sumble-mcp/SKILL.md
+    api: mcp/sumble-mcp.yml
+    description: >-
+      Tool sequencing, query rules, workflow patterns and credit guardrails
+      for the Sumble MCP server itself.
+  - file: sumble-account-research.md
+    name: Account Research & Prospecting
+    method: searched
+    author: Sumble
+    source: https://github.com/SumbleData/sumble-skills-public/blob/main/skills/sumble-account-research/SKILL.md
+    api: mcp/sumble-mcp.yml
+    tools: [GetMyCompanyProfile, SearchSignals, FindMatchAndEnrichOrganizations, FindMatchAndEnrichPeople]
+    description: >-
+      Takes a seller from "here's an account" to a finished deliverable —
+      outreach sequences, an account plan, a deck, or a call-prep brief.
+  - file: sumble-account-scoring.md
+    name: Account Scoring
+    method: searched
+    author: Sumble
+    source: https://github.com/SumbleData/sumble-skills-public/blob/main/skills/sumble-account-scoring/SKILL.md
+    api: mcp/sumble-mcp.yml
+    description: >-
+      Builds an account-scoring and/or whitespace web app from Sumble data:
+      interviews the user on ICP, calibrates weights against closed-won
+      customers, emits a zero-dependency Python + HTML/JS app plus a portable
+      scorer. Live demo at https://account-scoring-demo.sumble.com/.
+  - file: sumble-crm-cleaning.md
+    name: CRM Cleaning
+    method: searched
+    author: Sumble
+    source: https://github.com/SumbleData/sumble-skills-public/blob/main/skills/sumble-crm-cleaning/SKILL.md
+    api: openapi/_original/sumble-openapi-original.json
+    description: >-
+      Matches every CRM account to Sumble's organization graph to surface
+      duplicate accounts and missing/conflicting parent-subsidiary links, and
+      builds a review app with an actions.csv export. Live demo at
+      https://crm-cleaning-demo.sumble.com/.
+    note: 'Calls POST /v6/organizations — an API version older than the published v9 spec. See mcp/sumble-tool-crosswalk.yml#version_drift.'
+  - file: sumble-people-scoring.md
+    name: People Scoring
+    method: searched
+    author: Sumble
+    source: https://github.com/SumbleData/sumble-skills-public/blob/main/skills/sumble-people-scoring/SKILL.md
+    api: openapi/_original/sumble-openapi-original.json
+    description: >-
+      Scores people/leads — CRM contacts and never-met people at target
+      accounts — into one ranked list per account, plus a production
+      score_leads.py for an enriched CRM.
+    status: 'marked 🚧 still being refined by the provider'
+    note: 'Calls POST /v6/people — older than the published v9 spec. See mcp/sumble-tool-crosswalk.yml#version_drift.'
+  - file: sumble-territory-planning.md
+    name: Territory Planning
+    method: searched
+    author: Sumble
+    source: https://github.com/SumbleData/sumble-skills-public/blob/main/skills/sumble-territory-planning/SKILL.md
+    api: mcp/sumble-mcp.yml
+    description: >-
+      Companion to account scoring: plans and rebalances territories from
+      account strength, CRM ownership and per-rep activity, exporting approved
+      owner changes as actions.csv.
+  # --- API Evangelist generated, grounded in real operationIds (method: generated) ---
   - file: sumble-enrich-organizations.md
     name: Enrich and search organizations
-    api: openapi/sumble-openapi-original.json
+    method: generated
+    author: API Evangelist
+    api: openapi/_original/sumble-openapi-original.json
     operations:
       - enrich_organizations_unified__api_version__organizations_post
       - get_organization_signals__api_version__organizations__organization_id__signals_get
   - file: sumble-find-technology-users.md
     name: Find companies using a technology
-    api: openapi/sumble-openapi-original.json
+    method: generated
+    author: API Evangelist
+    api: openapi/_original/sumble-openapi-original.json
     operations:
       - get_technologies__api_version__technologies_find_post
       - lookup_technologies__api_version__technologies_lookup_post
       - enrich_organizations_unified__api_version__organizations_post
   - file: sumble-build-account-list-with-signals.md
     name: Build an account list and arm it with signals
-    api: openapi/sumble-openapi-original.json
+    method: generated
+    author: API Evangelist
+    api: openapi/_original/sumble-openapi-original.json
     operations:
       - create_organization_list__api_version__organization_lists_post
       - add_organizations_to_list__api_version__organization_lists__list_id__organizations_post
       - set_organization_list_signals__api_version__organization_lists__list_id__signals_post
       - get_organization_list__api_version__organization_lists__list_id__get
+summary:
+  total: 9
+  provider_published: 6
+  api_evangelist_generated: 3

@@ -1,0 +1,18 @@
+{
+  "filter": {
+    "organization_ids": [
+      1726684
+    ]
+  },
+  "select": {
+    "attributes": [
+      "title",
+      "technologies",
+      "teams",
+      "job_functions",
+      "job_levels",
+      "projects"
+    ]
+  },
+  "limit": 10
+}

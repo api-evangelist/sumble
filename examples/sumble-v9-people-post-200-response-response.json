@@ -1,0 +1,71 @@
+{
+  "id": "019980d2-bc85-7571-9d60-7bc1d3084249",
+  "credits_used": 8,
+  "credits_remaining": 69156,
+  "total": 113,
+  "source_data_url": "https://sumble.com/l/org/xhXARFaWtJL/people",
+  "people": [
+    {
+      "person_id": 181438858,
+      "sumble_url": "https://sumble.com/l/person/MBwjfWREd8Pz",
+      "attributes": {
+        "name": "Akash Gajjar",
+        "linkedin_url": "https://www.linkedin.com/in/akashagajjar",
+        "job_title": "Software Engineer",
+        "job_function": "Software Engineer",
+        "job_level": "Individual Contributor",
+        "location": "Gainesville, Florida, United States",
+        "country": "United States",
+        "current_employer": {
+          "organization_id": 1726684,
+          "name": "Sumble",
+          "start_date": "2024-08",
+          "sumble_url": "https://sumble.com/l/org/xhXARFaWtJL"
+        },
+        "technologies": [
+          {
+            "name": "Kubernetes",
+            "slug": "kubernetes"
+          },
+          {
+            "name": "Python",
+            "slug": "python"
+          }
+        ],
+        "person_score": {
+          "value": 72.4,
+          "skill_contribution": 14.8,
+          "job_function_contribution": 28.2,
+          "seniority_contribution": 29.4,
+          "matched_features": [
+            {
+              "name": "Software Engineer",
+              "slug": "software-engineer",
+              "match_type": "job_function",
+              "contribution": 28.2
+            },
+            {
+              "name": "Kubernetes",
+              "slug": "kubernetes",
+              "match_type": "technology",
+              "contribution": 9.1
+            }
+          ]
+        }
+      },
+      "related_people": {
+        "managers": [
+          {
+            "person_id": 169860318,
+            "sumble_url": "https://sumble.com/l/person/yxGWeupK3yPj",
+            "attributes": {
+              "name": "Jared Nightingale",
+              "job_title": "Business Operations Specialist"
+            }
+          }
+        ],
+        "direct_reports": []
+      }
+    }
+  ]
+}

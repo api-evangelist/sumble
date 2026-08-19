@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists people API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "people",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Unified people endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/people",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Find, match, and enrich people. Provide a `people` list (list mode) or a `filter` (search mode) and compose the response with `select`.\n\nOn **v7 and earlier** this endpoint is synchronous: one call returns the people.\n\nOn **v8 and later** it is **asynchronous** in both modes. Send a `people` or `filter` body to start a background job — the response returns a `request_id` and `status: \"pending\"`, and no credits are charged yet (the request is validated and your balance pre-checked, so you still g"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

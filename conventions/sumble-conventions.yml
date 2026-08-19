@@ -1,37 +1,98 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://docs.sumble.com/api/api + openapi/sumble-openapi-original.json
+source: >-
+  https://docs.sumble.com/api/api + openapi/_original/sumble-openapi-original.json
+  + live probe of https://api.sumble.com/v9/organizations
+base_url: https://api.sumble.com/v9/
+base_url_note: >-
+  The docs explicitly warn that any `sumble.com/paid-api/...` path seen in
+  older examples or support threads is NOT a supported public endpoint;
+  https://api.sumble.com/ is the only base URL.
 authentication:
   style: HTTP bearer API token
   header: 'Authorization: Bearer YOUR_API_KEY'
   key_management: https://sumble.com/account/api-keys
+  mcp: 'OAuth 2.0 + PKCE on https://mcp.sumble.com — a separate credential; see authentication/sumble-authentication.yml'
   ref: authentication/sumble-authentication.yml
+http_style:
+  verbs: >-
+    POST is used for reads as well as writes. The core-data, lookup and search
+    endpoints all take a JSON request body on POST because the query surface
+    (filters, select blocks, entity metrics) is too large for a query string.
+    Only list retrieval, organization signals and the intelligence brief are
+    GET. This matters for agents: a POST here is usually SAFE and idempotent
+    in effect, but nothing in the contract says so.
+  content_type: application/json
 idempotency:
   supported: false
-  note: No idempotency-key contract documented; write endpoints are not declared idempotent.
+  header: null
+  note: >-
+    No idempotency-key contract is documented and no Idempotency-Key parameter
+    appears anywhere in the v9 spec. Write endpoints (create list, add to
+    list, submit support request) are not declared idempotent, so a retried
+    POST may duplicate. NOTE FOR RATING: no `Idempotency` pointer is emitted
+    for this provider — the artifact records the absence, not a capability.
 pagination:
   style: limit/offset
   request_params: [limit, offset]
   response_fields: [total]
   note: >-
     Search/enrich request bodies accept limit and offset; responses include a
-    total count. Applies to organizations, people, jobs, and teams enrich/search.
+    total count. Applies to organizations, people, jobs, and teams
+    enrich/search. Web-app result depth is plan-gated (Free: first page; Pro:
+    up to 10 pages).
 selection:
   mechanism: select block
+  shape: '{"select": {"attributes": [...], "entities": [{"type": ..., "term": ..., "metrics": [...]}]}}'
   note: >-
-    Core-data endpoints use a composable `select` block to choose exactly which
-    attributes and per-entity metrics are returned (drives credit cost).
+    Core-data endpoints use a composable `select` block to choose exactly
+    which attributes and per-entity metrics come back. This is the single most
+    important convention on this API: it is both the field-projection
+    mechanism AND the billing dial — you pay only for what you select, and a
+    technology_category entity with granularity "exploded" multiplies the
+    metric cost by the number of technologies in the category.
+  ordering: {params: [order_by_column, order_by_direction, order_by_job_function, order_by_advanced_query]}
+filtering:
+  mechanism: advanced query string
+  shape: '{"filter": {"query": "technology EQ ''react'' AND job_function EQ ''Data Engineer''"}}'
+  operators: [EQ, NEQ, IN, AND, OR]
+  reference: https://docs.sumble.com/our-data/filter-reference
+  note: 'Human-readable names must first be resolved to canonical slugs through the lookup endpoints (technologies, projects, job titles).'
 versioning:
   style: uri-path + versioned spec query param
   current: v9
+  response_header: 'api_version (observed value: v9)'
   ref: lifecycle/sumble-lifecycle.yml
+request_tracing:
+  request_id_header: none
+  note: No request-id or correlation header is documented or observed on responses.
 rate_limiting:
-  limit: 10 requests/second per user (aggregated across endpoints)
+  limit: 10 requests/second per user (aggregated across all endpoints)
   exceeded_status: 429
-  note: Occasional bursts allowed.
+  headers: none published or observed
+  note: Occasional bursts allowed; no burst size published.
+  ref: rate-limits/sumble-rate-limits.yml
 error_envelope:
   format: http-status + FastAPI detail body on 422
+  problem_json: false
   ref: errors/sumble-problem-types.yml
+async_operations:
+  pattern: 202 + poll
+  operations: [get_intelligence_brief__api_version__organizations__organization_id__intelligence_brief_get]
+  note: >-
+    The intelligence-brief operation declares a 202 alongside its 200 — the
+    brief is LLM-generated (Google Gemini) and the caller retries until it
+    completes. The people enrich endpoint ships a request example literally
+    named "poll". These are the only long-running surfaces.
 billing:
   model: credit-based
-  note: Endpoints consume credits per matched entity/metric; 402 on insufficient credits.
+  exhausted_status: 402
+  note: 'Endpoints consume credits per matched entity/metric; unmatched inputs are free. See plans/sumble-plans-pricing.yml.'
+  ref: plans/sumble-plans-pricing.yml
+events:
+  webhooks: false
+  note: >-
+    No subscriber-supplied webhook endpoints. Signal alerts are pushed to
+    Slack, email digests, and in-app only — a delivery channel, not an event
+    API. No asyncapi/ artifact is emitted.
+checked: '2026-08-13'

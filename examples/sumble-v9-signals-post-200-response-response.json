@@ -1,0 +1,51 @@
+{
+  "id": "019c2a87-11f0-78b3-b82d-cdd178cf4018",
+  "credits_used": 2,
+  "credits_remaining": 998,
+  "signals": [
+    {
+      "title": "Amazon hired Jane Doe",
+      "subtitle": "Started Jun 2026",
+      "explanation": "Jane Doe joined the platform team.",
+      "sales_angle": "The team is expanding Kubernetes.",
+      "date": "2026-06-17T12:00:00Z",
+      "sumble_url": "https://sumble.com/orgs/amazon/signals/s/123",
+      "signal_id": 123,
+      "display_type": "New hire using Kubernetes",
+      "type": "technology_recent_hires",
+      "organization_name": "Amazon",
+      "organization_id": 1,
+      "job_post_id": 789,
+      "person_id": 456,
+      "linkedin_url": "https://www.linkedin.com/in/jane-doe",
+      "location": "Seattle, WA",
+      "job_function": "Engineering",
+      "priority": "high"
+    },
+    {
+      "title": "Amazon is hiring for Kubernetes",
+      "explanation": "Kubernetes mentioned in a job post.",
+      "date": "2026-06-18T12:00:00Z",
+      "sumble_url": "https://sumble.com/orgs/amazon/signals/s/124",
+      "signal_id": 124,
+      "display_type": "Kubernetes mentioned",
+      "type": "technology_any_mentions",
+      "organization_name": "Amazon",
+      "organization_id": 1,
+      "job_post_id": 790,
+      "priority": "medium",
+      "suggested_contacts": {
+        "people": [
+          {
+            "person_id": 456,
+            "name": "John Smith",
+            "title": "Director of Platform Engineering",
+            "linkedin_url": "https://www.linkedin.com/in/john-smith",
+            "score": 7.6
+          }
+        ],
+        "sumble_url": "https://sumble.com/orgs/amazon/teams/platform/jobs/790"
+      }
+    }
+  ]
+}

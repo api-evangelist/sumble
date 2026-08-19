@@ -1,0 +1,26 @@
+{
+  "filter": {
+    "query": "employee_count EQ '1000-'"
+  },
+  "limit": 5,
+  "order_by_column": "job_post_concentration",
+  "order_by_direction": "DESC",
+  "order_by_advanced_query": "technology EQ 'react' AND job_function EQ 'Data Engineer'",
+  "select": {
+    "attributes": [
+      "id",
+      "name",
+      "url"
+    ],
+    "entities": [
+      {
+        "type": "advanced_query",
+        "term": "technology EQ 'react' AND job_function EQ 'Data Engineer'",
+        "metrics": [
+          "job_post_count",
+          "job_post_concentration"
+        ]
+      }
+    ]
+  }
+}

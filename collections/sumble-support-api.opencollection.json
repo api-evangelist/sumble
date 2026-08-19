@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sumble contact-lists support API",
+    "version": "v9"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "support",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Data Quality Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/support/data-quality",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Report a data quality issue. Routed to the data team for triage."
+        },
+        {
+          "info": {
+            "name": "Create Support Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sumble.com/v9/support",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Submit a general support request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

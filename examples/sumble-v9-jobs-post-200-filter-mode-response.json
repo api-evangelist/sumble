@@ -1,0 +1,66 @@
+{
+  "id": "019980d2-bc85-7571-9d60-7bc1d3084249",
+  "credits_used": 9,
+  "credits_remaining": 69156,
+  "total": 113,
+  "source_data_url": "https://sumble.com/l/org/xhXARFaWtJL/jobs",
+  "jobs": [
+    {
+      "job_id": 95107725,
+      "sumble_url": "https://sumble.com/l/job/fdYksIHVnJ",
+      "attributes": {
+        "title": "gtm engineer",
+        "location": "United States",
+        "posted_date": "2026-02-20T12:20:03.687777Z",
+        "organization": {
+          "organization_id": 1726684,
+          "name": "Sumble",
+          "domain": "sumble.com",
+          "sumble_url": "https://sumble.com/l/org/xhXARFaWtJL"
+        },
+        "technologies": [
+          {
+            "name": "Kubernetes",
+            "slug": "kubernetes",
+            "used": true,
+            "sumble_url": "https://sumble.com/l/org/aQw2Ee9TrV/jobs"
+          },
+          {
+            "name": "Salesforce",
+            "slug": "salesforce",
+            "used": false,
+            "sumble_url": "https://sumble.com/l/org/bRx3Ff0UsW/jobs"
+          }
+        ],
+        "teams": [
+          {
+            "team_id": 4242,
+            "name": "Platform Engineering",
+            "slug": "platform-engineering",
+            "sumble_url": "https://sumble.com/l/team/aBcDeF"
+          }
+        ],
+        "job_functions": [
+          {
+            "name": "Data Engineer",
+            "slug": "data-engineer",
+            "sumble_url": "https://sumble.com/l/org/cSy4Gg1VtX/jobs"
+          }
+        ],
+        "job_levels": [
+          {
+            "name": "Senior"
+          }
+        ],
+        "projects": [
+          {
+            "name": "Cloud Migration",
+            "slug": "cloud-migration",
+            "goal": "Migrate on-prem workloads to GCP",
+            "sumble_url": "https://sumble.com/l/org/dTz5Hh2WuY/jobs"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "019c2a87-11f0-78b3-b82d-cdd178cf4018",
+  "credits_used": 1,
+  "credits_remaining": 999,
+  "matched_count": 2,
+  "results": [
+    {
+      "input": "bigquery",
+      "technology": {
+        "id": 176,
+        "slug": "gcp-bigquery",
+        "name": "GCP BigQuery",
+        "categories": [
+          {
+            "slug": "cloud-data-warehouse",
+            "name": "Cloud Data Warehouse",
+            "name_short": "Warehouse"
+          },
+          {
+            "slug": "modern-data-platform",
+            "name": "Modern Data Platform",
+            "name_short": "Modern Data"
+          },
+          {
+            "slug": "olap",
+            "name": "OLAP",
+            "name_short": "OLAP"
+          }
+        ]
+      }
+    },
+    {
+      "input": "windows-azure",
+      "technology": {
+        "id": 9,
+        "slug": "azure",
+        "name": "Azure",
+        "categories": [
+          {
+            "slug": "cloud-vendor",
+            "name": "Cloud Vendor",
+            "name_short": "Cloud"
+          }
+        ]
+      }
+    }
+  ]
+}

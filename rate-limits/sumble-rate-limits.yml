@@ -1,0 +1,45 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.sumble.com/api/api
+limit_count: 1
+rate_limits:
+  - scope: per-user
+    applies_to: all endpoints (aggregated across the whole API surface)
+    limit: 10
+    unit: requests
+    window: 1s
+    burst: >-
+      Occasional bursts are allowed; the documented text is "Each user can do
+      10 requests per second (aggregated through all the endpoints), allowing
+      occasional bursts." No burst size is published.
+    exceeded_status: 429
+    docs: https://docs.sumble.com/api/api#rate-limits
+response_headers:
+  documented: []
+  observed:
+    - name: api_version
+      example: v9
+      note: >-
+        Observed on a live unauthenticated POST to
+        https://api.sumble.com/v9/organizations (HTTP 401). Echoes the API
+        version the request resolved to; it is not a rate-limit signal.
+  rate_limit_headers: none
+  retry_after: not documented
+  note: >-
+    Sumble publishes NO rate-limit response headers — no X-RateLimit-*, no
+    RateLimit-* (RFC 9331 draft), no Retry-After. An agent cannot read its
+    remaining budget from a response; it can only detect exhaustion after the
+    fact from the 429 status. This is the runtime signal gap for this
+    provider.
+quotas:
+  model: credit-based
+  note: >-
+    Separate from rate limiting, every call consumes account credits and a
+    402 is returned on insufficient credits. Per-endpoint credit costs are
+    published at https://docs.sumble.com/api/api#credits and mirrored in
+    plans/sumble-plans-pricing.yml.
+  exhausted_status: 402
+evidence:
+  - {url: 'https://docs.sumble.com/api/api.md', status: 200, kind: docs}
+  - {url: 'https://api.sumble.com/v9/organizations', status: 401, kind: live-probe, note: header inspection}
+checked: '2026-08-13'

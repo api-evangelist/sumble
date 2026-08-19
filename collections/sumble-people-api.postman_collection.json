@@ -1,0 +1,193 @@
+{
+  "item": [
+    {
+      "id": "cdc5f3e5-f578-4913-bb78-aef7ccc54149",
+      "name": "people",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e56f53d3-d5d3-4aa6-abae-304f93134332",
+          "name": "Unified people endpoint",
+          "request": {
+            "name": "Unified people endpoint",
+            "description": {
+              "content": "Find, match, and enrich people. Provide a `people` list (list mode) or a `filter` (search mode) and compose the response with `select`.\n\nOn **v7 and earlier** this endpoint is synchronous: one call returns the people.\n\nOn **v8 and later** it is **asynchronous** in both modes. Send a `people` or `filter` body to start a background job — the response returns a `request_id` and `status: \"pending\"`, and no credits are charged yet (the request is validated and your balance pre-checked, so you still get a `400`/`402` up front). Then send `{ \"request_id\": \"...\" }` to the same endpoint to poll: you get `status` `pending`/`running` until it finishes, then `succeeded` (with the full `people`/`total` result) or `failed`. Credits are charged once, on the first `succeeded` poll; repeat polls report `credits_used: 0`. The async response adds `request_id` and `status` fields.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v9",
+                "people"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"people\": [\n    {\n      \"person_id\": \"<integer>\",\n      \"linkedin_url\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  ],\n  \"filter\": {\n    \"organization_ids\": [\n      \"<integer>\"\n    ],\n    \"organization_list_id\": \"<integer>\",\n    \"query\": {\n      \"query\": \"<string>\"\n    }\n  },\n  \"select\": {\n    \"attributes\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"related_people\": {\n      \"direction\": [\n        \"<string>\"\n      ],\n      \"attributes\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"limit\": 10,\n  \"offset\": 0,\n  \"order_by_column\": \"<string>\",\n  \"order_by_direction\": \"<string>\",\n  \"request_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6e61deca-0565-4275-87a2-bbbc3c892b72",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "people"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter\": {\n    \"organization_ids\": [\n      1726684\n    ]\n  },\n  \"select\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"019980d2-bc85-7571-9d60-7bc1d3084249\",\n  \"credits_used\": 8,\n  \"credits_remaining\": 69156,\n  \"total\": 113,\n  \"source_data_url\": \"https://sumble.com/l/org/xhXARFaWtJL/people\",\n  \"people\": [\n    {\n      \"person_id\": 181438858,\n      \"sumble_url\": \"https://sumble.com/l/person/MBwjfWREd8Pz\",\n      \"attributes\": {\n        \"name\": \"Akash Gajjar\",\n        \"linkedin_url\": \"https://www.linkedin.com/in/akashagajjar\",\n        \"job_title\": \"Software Engineer\",\n        \"job_function\": \"Software Engineer\",\n        \"job_level\": \"Individual Contributor\",\n        \"location\": \"Gainesville, Florida, United States\",\n        \"country\": \"United States\",\n        \"current_employer\": {\n          \"organization_id\": 1726684,\n          \"name\": \"Sumble\",\n          \"start_date\": \"2024-08\",\n          \"sumble_url\": \"https://sumble.com/l/org/xhXARFaWtJL\"\n        },\n        \"technologies\": [\n          {\n            \"name\": \"Kubernetes\",\n            \"slug\": \"kubernetes\"\n          },\n          {\n            \"name\": \"Python\",\n            \"slug\": \"python\"\n          }\n        ],\n        \"person_score\": {\n          \"value\": 72.4,\n          \"skill_contribution\": 14.8,\n          \"job_function_contribution\": 28.2,\n          \"seniority_contribution\": 29.4,\n          \"matched_features\": [\n            {\n              \"name\": \"Software Engineer\",\n              \"slug\": \"software-engineer\",\n              \"match_type\": \"job_function\",\n              \"contribution\": 28.2\n            },\n            {\n              \"name\": \"Kubernetes\",\n              \"slug\": \"kubernetes\",\n              \"match_type\": \"technology\",\n              \"contribution\": 9.1\n            }\n          ]\n        }\n      },\n      \"related_people\": {\n        \"managers\": [\n          {\n            \"person_id\": 169860318,\n            \"sumble_url\": \"https://sumble.com/l/person/yxGWeupK3yPj\",\n            \"attributes\": {\n              \"name\": \"Jared Nightingale\",\n              \"job_title\": \"Business Operations Specialist\"\n            }\n          }\n        ],\n        \"direct_reports\": []\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e000a7e-a6e7-48f6-ae91-1c73cd6b90d2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v9",
+                    "people"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter\": {\n    \"organization_ids\": [\n      1726684\n    ]\n  },\n  \"select\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sumble.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "62a65c31-1b18-4602-973c-4fde6af7b78c",
+    "name": "Sumble contact-lists people API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The official Sumble API for programmatic enrichment.\n\nContact Support:\n Name: Sumble\n Email: support@sumble.com",
+      "type": "text/plain"
+    }
+  }
+}

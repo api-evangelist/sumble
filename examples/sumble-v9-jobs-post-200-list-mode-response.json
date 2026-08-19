@@ -1,0 +1,41 @@
+{
+  "id": "019980d2-bc85-7571-9d60-7bc1d3084249",
+  "credits_used": 4,
+  "credits_remaining": 69152,
+  "matched_count": 1,
+  "total": 2,
+  "jobs": [
+    {
+      "input": {
+        "job_id": 95107725
+      },
+      "job_id": 95107725,
+      "sumble_url": "https://sumble.com/l/job/fdYksIHVnJ",
+      "attributes": {
+        "title": "gtm engineer",
+        "description": "Sumble helps go-to-market teams win with deep account intelligence...",
+        "organization": {
+          "organization_id": 1726684,
+          "name": "Sumble",
+          "domain": "sumble.com",
+          "sumble_url": "https://sumble.com/l/org/xhXARFaWtJL"
+        }
+      },
+      "related_people": [
+        {
+          "person_id": 169860318,
+          "sumble_url": "https://sumble.com/l/person/yxGWeupK3yPj",
+          "attributes": {
+            "name": "Jared Nightingale",
+            "job_title": "Business Operations Specialist"
+          }
+        }
+      ]
+    },
+    {
+      "input": {
+        "job_id": 12345
+      }
+    }
+  ]
+}

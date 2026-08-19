@@ -1,0 +1,22 @@
+{
+  "filter": {
+    "query": "technology EQ 'react'"
+  },
+  "limit": 5,
+  "order_by_column": "employee_count",
+  "order_by_direction": "DESC",
+  "select": {
+    "attributes": [
+      "id",
+      "name",
+      "url"
+    ],
+    "entities": [
+      {
+        "type": "technology",
+        "term": "kubernetes",
+        "metrics": "all"
+      }
+    ]
+  }
+}

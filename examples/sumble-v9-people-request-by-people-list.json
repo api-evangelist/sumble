@@ -1,0 +1,32 @@
+{
+  "people": [
+    {
+      "person_id": 181438858
+    },
+    {
+      "linkedin_url": "https://www.linkedin.com/in/jared-nightingale"
+    },
+    {
+      "email": "lou@sumble.com"
+    }
+  ],
+  "select": {
+    "attributes": [
+      "name",
+      "email",
+      "phone",
+      "job_title",
+      "current_employer"
+    ],
+    "related_people": {
+      "direction": [
+        "managers",
+        "direct_reports"
+      ],
+      "attributes": [
+        "name",
+        "job_title"
+      ]
+    }
+  }
+}

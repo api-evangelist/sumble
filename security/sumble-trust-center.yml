@@ -1,23 +1,46 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
 probe: true
-url: https://docs.sumble.com/trust-and-security/trust-and-security
+url: https://trust.sumble.com/
+platform: Vanta Trust Center
+http_status: 200
+rendering: >-
+  JS-rendered Vanta shell — the certification list and report requests are
+  loaded client-side, so the certifications below are taken from Sumble's own
+  documentation rather than scraped from the trust center HTML.
+docs: https://docs.sumble.com/trust-and-security/trust-and-security
 certifications:
   - SOC 2
   - GDPR
 programs:
   - name: SOC 2
-    detail: Sumble maintains SOC 2 compliance; details available through the trust center.
+    detail: Sumble maintains SOC 2 compliance; reports are requestable through the trust center.
   - name: GDPR
     detail: >-
       Processes data in accordance with GDPR; people data sourced from public
-      professional profiles handled per applicable data protection regulations.
+      professional profiles is handled per applicable data protection
+      regulations.
 infrastructure:
   provider: Google Cloud Platform (GCP)
-  encryption_in_transit: TLS for client and internal service-to-service traffic
-  encryption_at_rest: GCP default encryption at rest
-  network_isolation: Production databases not accessible from the public internet
+  encryption_in_transit: TLS for client traffic and internal service-to-service traffic
+  encryption_at_rest: GCP default encryption at rest for all databases and storage
+  network_isolation: Production databases are not reachable from the public internet; access restricted to authorized services in the GCP project
   access_controls: Least-privilege internal access; administrative actions logged to an audit trail
+data_handling:
+  customer_isolation: Each customer's CRM data (accounts, contacts, enrichments) is logically isolated to authorized users in that customer's org
+  retention: Retained for the duration of the customer relationship; deletion on request
+  resale: 'CRM data shared for enrichment is used only to provide enrichment back to that customer — not shared with other customers and not sold'
+responsible_ai:
+  own_models: Entity extraction, relationship classification and job-function classification over job-market data; no personal communications, private documents or sensitive personal information processed
+  llm_subprocessors:
+    - {vendor: Google, models: Gemini, use: 'user-facing intelligence briefs (web app, REST API, MCP)'}
+    - {vendor: OpenAI, models: GPT, use: 'entity disambiguation, signal title generation'}
+    - {vendor: Anthropic, models: Claude, use: 'entity disambiguation, signal title generation'}
+  controls: Only structured business data and the prompt context required for the task are sent; LLM outputs are validated against structured data
+external_resources:
+  - {name: Trust center, url: 'https://trust.sumble.com/', status: 200}
+  - {name: System status, url: 'https://status.sumble.com/', status: 200}
 evidence:
-  - source: https://docs.sumble.com/trust-and-security/trust-and-security
-    keywords: [soc 2, gdpr, encryption, trust center, access controls]
+  - {source: 'https://trust.sumble.com/', status: 200, keywords: [vanta, trust center]}
+  - {source: 'https://docs.sumble.com/trust-and-security/trust-and-security.md', status: 200, keywords: [soc 2, gdpr, encryption, access controls, trust center]}
+checked: '2026-08-13'

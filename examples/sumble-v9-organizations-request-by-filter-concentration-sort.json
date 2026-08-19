@@ -1,0 +1,26 @@
+{
+  "filter": {
+    "query": "technology EQ 'react'"
+  },
+  "limit": 5,
+  "order_by_column": "people_concentration",
+  "order_by_direction": "DESC",
+  "order_by_job_function": "Data Engineer",
+  "select": {
+    "attributes": [
+      "id",
+      "name",
+      "url"
+    ],
+    "entities": [
+      {
+        "type": "job_function",
+        "term": "Data Engineer",
+        "metrics": [
+          "people_count",
+          "people_concentration"
+        ]
+      }
+    ]
+  }
+}

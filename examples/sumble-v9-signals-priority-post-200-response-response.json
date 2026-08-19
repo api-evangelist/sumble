@@ -1,0 +1,25 @@
+{
+  "id": "019c2a87-11f0-78b3-b82d-cdd178cf4018",
+  "credits_used": 1,
+  "credits_remaining": 998,
+  "priority_signals": [
+    {
+      "url": "https://sumble.com/signals/priority/88",
+      "headline": "Amazon is expanding Kubernetes hiring",
+      "content": "Amazon has multiple high-priority signals...",
+      "date": "2026-06-17",
+      "signal_ids": [
+        123
+      ],
+      "organization_ids": [
+        1
+      ],
+      "person_ids": [
+        456
+      ],
+      "job_post_ids": [
+        789
+      ]
+    }
+  ]
+}

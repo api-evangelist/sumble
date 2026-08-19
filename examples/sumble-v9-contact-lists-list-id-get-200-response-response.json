@@ -1,0 +1,42 @@
+{
+  "id": "019d265b-526d-74cf-a4e0-2c41dc0f4866",
+  "credits_used": 2,
+  "credits_remaining": 99986,
+  "list_info": {
+    "id": 3839,
+    "name": "Target contacts",
+    "people_count": 2,
+    "url": "https://sumble.com/lists/3839"
+  },
+  "people": [
+    {
+      "id": 169860318,
+      "url": "https://sumble.com/l/person/cSAZUHj6Nmt8",
+      "name": "Jared Nightingale",
+      "job_title": "Business Operations Specialist",
+      "job_function_name": "Operations",
+      "job_function_slug": "operations",
+      "linkedin_url": "https://www.linkedin.com/in/jared-nightingale",
+      "organization_id": 1726684,
+      "organization_name": "Sumble",
+      "organization_slug": "sumble"
+    },
+    {
+      "id": 177409621,
+      "url": "https://sumble.com/l/person/mOGBSiARsL83",
+      "name": "Gervasio Marchand",
+      "job_title": "Founding Engineer",
+      "job_function_name": "Engineer",
+      "job_function_slug": "engineer",
+      "linkedin_url": "https://www.linkedin.com/in/g3rv4",
+      "organization_id": 1726684,
+      "organization_name": "Sumble",
+      "organization_slug": "sumble",
+      "contact_info": {
+        "emails": [
+          "gervasio@sumble.com"
+        ]
+      }
+    }
+  ]
+}

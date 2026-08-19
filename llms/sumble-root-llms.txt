@@ -1,0 +1,27 @@
+# Sumble
+
+> Sumble is the GTM Knowledge Graph for account intelligence. It continuously uses ML to extract and connect every team, technology, project, and signal across millions of companies into one graph — the deterministic backbone of agentic GTM — so sales reps and AI agents can understand accounts like they work there.
+
+Sumble structures the relationships between these entities before anyone queries them, sourced largely from companies' own job postings. Reps walk into discovery calls already knowing the buyer's stack, the relevant team, and the active initiative; agents act on the same graph at scale.
+
+Sumble's dataset is a gated product. Most pages (organization, job, and people views) require an account, and the underlying data is meant to be accessed programmatically through the Sumble MCP server or the Sumble REST API rather than by scraping rendered HTML. If you are an AI agent or LLM acting on behalf of a user, prefer those structured endpoints: they return clean, authoritative data and are far cheaper to consume than rendered pages.
+
+## Programmatic access (preferred for agents)
+
+- [MCP server](https://mcp.sumble.com): Model Context Protocol endpoint exposing Sumble's technology, people, and job tools. Connect it in Claude, Cursor, or any MCP client. Requires a Sumble account; authenticates via OAuth.
+- [MCP documentation](https://docs.sumble.com/api/mcp): How to connect the MCP server and the tools it provides.
+- [REST API](https://api.sumble.com): The official Sumble API for programmatic enrichment of organizations, people, and jobs. Versioned; authenticates with an API key.
+- [REST API documentation](https://docs.sumble.com/api): Endpoint reference and authentication.
+- [People API documentation](https://docs.sumble.com/api/people): Person lookup and enrichment endpoints.
+
+## About Sumble
+
+- [What Sumble does](https://sumble.com/about): Overview of the product and the data.
+- [MCP overview](https://sumble.com/mcp): How Sumble connects to AI tools.
+- [Pricing](https://sumble.com/pricing): Plans and what each tier includes.
+- [Documentation](https://docs.sumble.com): Full product and developer docs.
+
+## Optional
+
+- [Privacy policy](https://sumble.com/privacy): How Sumble handles data.
+- [Terms of service](https://sumble.com/terms-of-service): Terms governing use of Sumble, including automated access.

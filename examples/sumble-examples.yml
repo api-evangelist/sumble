@@ -1,0 +1,406 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/sumble-openapi-original.json — request and response examples published by Sumble
+  in its own OpenAPI v9, extracted verbatim
+note: 'Sumble''s v9 spec is unusually example-rich for a 26-operation API: 26 named request bodies and
+  26 named response payloads, covering 200, 202 and 422. They are extracted here one file per example,
+  named by path + method + status + example key, so an agent can load a runnable request body or a shape-accurate
+  response fixture without parsing the whole spec. Every value is the provider''s verbatim payload; nothing
+  was authored.'
+format: json
+request_example_count: 26
+response_example_count: 26
+count: 52
+request_examples:
+- file: sumble-v9-organizations-request-by-id.json
+  tag: organizations
+  operationId: enrich_organizations_unified__api_version__organizations_post
+  method: POST
+  path: /v9/organizations
+  name: by_id
+  summary: Lookup by Sumble id (no attributes requested)
+- file: sumble-v9-organizations-request-by-filter.json
+  tag: organizations
+  operationId: enrich_organizations_unified__api_version__organizations_post
+  method: POST
+  path: /v9/organizations
+  name: by_filter
+  summary: Filter (advanced query) instead of a list
+- file: sumble-v9-organizations-request-by-filter-concentration-sort.json
+  tag: organizations
+  operationId: enrich_organizations_unified__api_version__organizations_post
+  method: POST
+  path: /v9/organizations
+  name: by_filter_concentration_sort
+  summary: Filter sorted by a job function's people concentration (no source_data_url)
+- file: sumble-v9-organizations-request-by-filter-aq-concentration-sort.json
+  tag: organizations
+  operationId: enrich_organizations_unified__api_version__organizations_post
+  method: POST
+  path: /v9/organizations
+  name: by_filter_aq_concentration_sort
+  summary: Filter sorted by an advanced query's job post concentration (no source_data_url)
+- file: sumble-v9-organizations-request-by-name-url-with-attrs.json
+  tag: organizations
+  operationId: enrich_organizations_unified__api_version__organizations_post
+  method: POST
+  path: /v9/organizations
+  name: by_name_url_with_attrs
+  summary: Match by name/URL, request attributes
+- file: sumble-v9-technologies-find-request-filters.json
+  tag: technologies
+  operationId: get_technologies__api_version__technologies_find_post
+  method: POST
+  path: /v9/technologies/find
+  name: filters
+  summary: Search for s3
+- file: sumble-v9-technologies-lookup-request-filters.json
+  tag: technologies
+  operationId: lookup_technologies__api_version__technologies_lookup_post
+  method: POST
+  path: /v9/technologies/lookup
+  name: filters
+  summary: Look up bigquery and windows-azure
+- file: sumble-v9-technologies-categories-lookup-request-filters.json
+  tag: technologies
+  operationId: lookup_technology_categories__api_version__technologies_categories_lookup_post
+  method: POST
+  path: /v9/technologies/categories/lookup
+  name: filters
+  summary: Look up the cloud vendor category
+- file: sumble-v9-people-request-by-org-ids.json
+  tag: people
+  operationId: enrich_people_unified__api_version__people_post
+  method: POST
+  path: /v9/people
+  name: by_org_ids
+  summary: People at specific organizations (no attributes requested)
+- file: sumble-v9-people-request-by-list-with-query.json
+  tag: people
+  operationId: enrich_people_unified__api_version__people_post
+  method: POST
+  path: /v9/people
+  name: by_list_with_query
+  summary: Saved organization list + advanced query, all attributes
+- file: sumble-v9-people-request-by-org-person-score.json
+  tag: people
+  operationId: enrich_people_unified__api_version__people_post
+  method: POST
+  path: /v9/people
+  name: by_org_person_score
+  summary: People at one organization, all attributes, sorted by person score (requires an ICP)
+- file: sumble-v9-people-request-by-people-list.json
+  tag: people
+  operationId: enrich_people_unified__api_version__people_post
+  method: POST
+  path: /v9/people
+  name: by_people_list
+  summary: 'List mode: resolve and enrich specific people'
+- file: sumble-v9-people-request-poll.json
+  tag: people
+  operationId: enrich_people_unified__api_version__people_post
+  method: POST
+  path: /v9/people
+  name: poll
+  summary: (v8+) Poll a started request for its result
+- file: sumble-v9-jobs-request-by-org-ids.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  name: by_org_ids
+  summary: Jobs at specific organizations (no attributes requested)
+- file: sumble-v9-jobs-request-by-query.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  name: by_query
+  summary: Corpus-wide advanced query, some attributes
+- file: sumble-v9-jobs-request-with-extracted-entities.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  name: with_extracted_entities
+  summary: Org-scoped jobs with extracted entities (+1 credit each per job)
+- file: sumble-v9-jobs-request-by-list-all-attributes.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  name: by_list_all_attributes
+  summary: Saved organization list + query, all attributes (includes the full description and extracted
+    entities)
+- file: sumble-v9-jobs-request-by-job-ids.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  name: by_job_ids
+  summary: 'List mode: enrich specific jobs by id'
+- file: sumble-v9-projects-lookup-request-filters.json
+  tag: projects
+  operationId: lookup_projects__api_version__projects_lookup_post
+  method: POST
+  path: /v9/projects/lookup
+  name: filters
+  summary: Look up cloud migration and generative AI projects
+- file: sumble-v9-signals-request-by-technology.json
+  tag: signals
+  operationId: search_signals__api_version__signals_post
+  method: POST
+  path: /v9/signals
+  name: by_technology
+  summary: Signals matching technologies
+- file: sumble-v9-signals-request-by-job-function.json
+  tag: signals
+  operationId: search_signals__api_version__signals_post
+  method: POST
+  path: /v9/signals
+  name: by_job_function
+  summary: Signals matching job functions
+- file: sumble-v9-signals-request-by-accounts.json
+  tag: signals
+  operationId: search_signals__api_version__signals_post
+  method: POST
+  path: /v9/signals
+  name: by_accounts
+  summary: Signals for specific accounts or lists
+- file: sumble-v9-signals-request-by-priority.json
+  tag: signals
+  operationId: search_signals__api_version__signals_post
+  method: POST
+  path: /v9/signals
+  name: by_priority
+  summary: Signals matching priorities
+- file: sumble-v9-signals-priority-request-by-entity-ids.json
+  tag: signals
+  operationId: search_priority_signals__api_version__signals_priority_post
+  method: POST
+  path: /v9/signals/priority
+  name: by_entity_ids
+  summary: Priority signals matching source entities
+- file: sumble-v9-signals-priority-item-id-relevance-request-mark-relevant.json
+  tag: signals
+  operationId: update_priority_signal_relevance__api_version__signals_priority__item_id__relevance_put
+  method: PUT
+  path: /v9/signals/priority/{item_id}/relevance
+  name: mark_relevant
+  summary: Mark relevant
+- file: sumble-v9-signals-priority-item-id-relevance-request-clear-feedback.json
+  tag: signals
+  operationId: update_priority_signal_relevance__api_version__signals_priority__item_id__relevance_put
+  method: PUT
+  path: /v9/signals/priority/{item_id}/relevance
+  name: clear_feedback
+  summary: Clear feedback
+response_examples:
+- file: sumble-v9-organizations-post-200-response-response.json
+  tag: organizations
+  operationId: enrich_organizations_unified__api_version__organizations_post
+  method: POST
+  path: /v9/organizations
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organizations-organization-id-intelligence-brief-get-200-response-response.json
+  tag: organizations
+  operationId: get_intelligence_brief__api_version__organizations__organization_id__intelligence_brief_get
+  method: GET
+  path: /v9/organizations/{organization_id}/intelligence-brief
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organizations-organization-id-intelligence-brief-get-422-response-response.json
+  tag: organizations
+  operationId: get_intelligence_brief__api_version__organizations__organization_id__intelligence_brief_get
+  method: GET
+  path: /v9/organizations/{organization_id}/intelligence-brief
+  status: '422'
+  name: response
+  summary: null
+- file: sumble-v9-organizations-organization-id-intelligence-brief-get-202-response-response.json
+  tag: organizations
+  operationId: get_intelligence_brief__api_version__organizations__organization_id__intelligence_brief_get
+  method: GET
+  path: /v9/organizations/{organization_id}/intelligence-brief
+  status: '202'
+  name: response
+  summary: null
+- file: sumble-v9-organizations-organization-id-signals-get-200-response-response.json
+  tag: organizations
+  operationId: get_organization_signals__api_version__organizations__organization_id__signals_get
+  method: GET
+  path: /v9/organizations/{organization_id}/signals
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-contact-lists-get-200-response-response.json
+  tag: contact-lists
+  operationId: list_contact_lists__api_version__contact_lists_get
+  method: GET
+  path: /v9/contact-lists
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-contact-lists-post-200-response-response.json
+  tag: contact-lists
+  operationId: create_contact_list__api_version__contact_lists_post
+  method: POST
+  path: /v9/contact-lists
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-contact-lists-list-id-people-post-200-response-response.json
+  tag: contact-lists
+  operationId: add_contacts_to_list__api_version__contact_lists__list_id__people_post
+  method: POST
+  path: /v9/contact-lists/{list_id}/people
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-contact-lists-list-id-get-200-response-response.json
+  tag: contact-lists
+  operationId: get_contact_list__api_version__contact_lists__list_id__get
+  method: GET
+  path: /v9/contact-lists/{list_id}
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organization-lists-get-200-response-response.json
+  tag: organization-lists
+  operationId: list_organization_lists__api_version__organization_lists_get
+  method: GET
+  path: /v9/organization-lists
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organization-lists-post-200-response-response.json
+  tag: organization-lists
+  operationId: create_organization_list__api_version__organization_lists_post
+  method: POST
+  path: /v9/organization-lists
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organization-lists-list-id-get-200-response-response.json
+  tag: organization-lists
+  operationId: get_organization_list__api_version__organization_lists__list_id__get
+  method: GET
+  path: /v9/organization-lists/{list_id}
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organization-lists-list-id-deleted-post-200-response-response.json
+  tag: organization-lists
+  operationId: set_organization_list_deleted__api_version__organization_lists__list_id__deleted_post
+  method: POST
+  path: /v9/organization-lists/{list_id}/deleted
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organization-lists-list-id-organizations-post-200-response-response.json
+  tag: organization-lists
+  operationId: add_organizations_to_list__api_version__organization_lists__list_id__organizations_post
+  method: POST
+  path: /v9/organization-lists/{list_id}/organizations
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-organization-lists-list-id-signals-post-200-response-response.json
+  tag: organization-lists
+  operationId: set_organization_list_signals__api_version__organization_lists__list_id__signals_post
+  method: POST
+  path: /v9/organization-lists/{list_id}/signals
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-technologies-find-post-200-response-response.json
+  tag: technologies
+  operationId: get_technologies__api_version__technologies_find_post
+  method: POST
+  path: /v9/technologies/find
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-technologies-lookup-post-200-response-response.json
+  tag: technologies
+  operationId: lookup_technologies__api_version__technologies_lookup_post
+  method: POST
+  path: /v9/technologies/lookup
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-technologies-categories-lookup-post-200-response-response.json
+  tag: technologies
+  operationId: lookup_technology_categories__api_version__technologies_categories_lookup_post
+  method: POST
+  path: /v9/technologies/categories/lookup
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-people-post-200-response-response.json
+  tag: people
+  operationId: enrich_people_unified__api_version__people_post
+  method: POST
+  path: /v9/people
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-jobs-title-lookup-post-200-response-response.json
+  tag: jobs
+  operationId: lookup_job_titles__api_version__jobs_title_lookup_post
+  method: POST
+  path: /v9/jobs/title-lookup
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-jobs-post-200-filter-mode-response.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  status: '200'
+  name: filter_mode
+  summary: Filter mode
+- file: sumble-v9-jobs-post-200-list-mode-response.json
+  tag: jobs
+  operationId: enrich_jobs_unified__api_version__jobs_post
+  method: POST
+  path: /v9/jobs
+  status: '200'
+  name: list_mode
+  summary: List mode (one matched, one unmatched entry)
+- file: sumble-v9-projects-lookup-post-200-response-response.json
+  tag: projects
+  operationId: lookup_projects__api_version__projects_lookup_post
+  method: POST
+  path: /v9/projects/lookup
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-signals-post-200-response-response.json
+  tag: signals
+  operationId: search_signals__api_version__signals_post
+  method: POST
+  path: /v9/signals
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-signals-priority-post-200-response-response.json
+  tag: signals
+  operationId: search_priority_signals__api_version__signals_priority_post
+  method: POST
+  path: /v9/signals/priority
+  status: '200'
+  name: response
+  summary: null
+- file: sumble-v9-signals-priority-item-id-relevance-put-200-response-response.json
+  tag: signals
+  operationId: update_priority_signal_relevance__api_version__signals_priority__item_id__relevance_put
+  method: PUT
+  path: /v9/signals/priority/{item_id}/relevance
+  status: '200'
+  name: response
+  summary: null

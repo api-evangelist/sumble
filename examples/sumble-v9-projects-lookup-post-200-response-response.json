@@ -1,0 +1,24 @@
+{
+  "id": "019c2a87-11f0-78b3-b82d-cdd178cf4018",
+  "credits_used": 1,
+  "credits_remaining": 999,
+  "matched_count": 2,
+  "results": [
+    {
+      "input": "cloud migration",
+      "project": {
+        "id": 1,
+        "slug": "cloud_migration",
+        "name": "Cloud Migration"
+      }
+    },
+    {
+      "input": "generative_ai",
+      "project": {
+        "id": 3,
+        "slug": "generative_ai",
+        "name": "Generative AI"
+      }
+    }
+  ]
+}

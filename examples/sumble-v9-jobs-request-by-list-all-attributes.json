@@ -1,0 +1,12 @@
+{
+  "filter": {
+    "organization_list_id": 123,
+    "query": {
+      "query": "technology EQ 'react'"
+    }
+  },
+  "select": {
+    "attributes": "all"
+  },
+  "limit": 10
+}

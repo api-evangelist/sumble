@@ -1,31 +1,80 @@
-generated: '2026-07-21'
-method: derived
-source: openapi/sumble-openapi-original.json + https://docs.sumble.com/trust-and-security/trust-and-security
+generated: '2026-08-13'
+method: searched
+source: >-
+  openapi/_original/sumble-openapi-original.json +
+  https://docs.sumble.com/trust-and-security/trust-and-security +
+  https://docs.sumble.com/api/api + live probes of mcp.sumble.com discovery
+  documents and https://trust.sumble.com/
 standards:
   - id: openapi-3.1
     conforms: true
-    evidence: spec declares openapi 3.1.0 (Sumble API v9)
+    evidence: spec declares openapi 3.1.0 (Sumble API v9), 26 operations, 123 component schemas
   - id: rest
     conforms: true
     evidence: resource-oriented HTTP+JSON API over https://api.sumble.com
+  - id: mcp
+    conforms: true
+    evidence: 'hosted remote MCP server at https://mcp.sumble.com; JSON-RPC tools/list answers 401 with a spec-correct WWW-Authenticate challenge; 33 tools published'
+  - id: agent-skills
+    conforms: true
+    evidence: 'six SKILL.md Agent Skills published under MIT at github.com/SumbleData/sumble-skills-public, following the agentskills.io cross-tool format'
+  - id: llms-txt
+    conforms: true
+    evidence: 'llms.txt served at both https://sumble.com/llms.txt and https://docs.sumble.com/llms.txt (HTTP 200, real documents)'
   - id: oauth2
-    conforms: false
-    evidence: API auth is an HTTP bearer API token, not an OAuth2 flow
+    conforms: true
+    evidence: 'MCP server implements OAuth 2.0 authorization_code + refresh_token. The REST API does NOT — it uses a bearer API key.'
+  - id: oauth2-pkce
+    conforms: true
+    evidence: code_challenge_methods_supported = [S256] in the MCP authorization-server metadata
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: true
+    evidence: 'https://mcp.sumble.com/.well-known/oauth-authorization-server returns 200 JSON'
+  - id: rfc9728-oauth-protected-resource-metadata
+    conforms: true
+    evidence: 'https://mcp.sumble.com/.well-known/oauth-protected-resource returns 200 JSON and is referenced from the 401 challenge'
+  - id: rfc7591-dynamic-client-registration
+    conforms: true
+    evidence: registration_endpoint https://mcp.sumble.com/register advertised in authorization-server metadata
   - id: oidc
     conforms: true
-    evidence: enterprise user SSO via Okta OIDC (docs system-setup users-access); not the API auth path
+    evidence: 'enterprise user SSO via Okta OIDC (docs system-setup users-access); this is the web-app login path, not the API auth path'
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: 'no /.well-known/security.txt on any Sumble host (404 on api./docs./mcp.; sumble.com returns a soft-200 SPA shell, not a document)'
   - id: rfc9457-problem-details
     conforms: false
-    evidence: errors returned as plain HTTP status codes; 422 uses FastAPI HTTPValidationError, not application/problem+json
+    evidence: 'errors returned as plain HTTP status codes; 422 uses the FastAPI HTTPValidationError shape, not application/problem+json'
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: no Sunset/Deprecation header support and no deprecation policy published
   - id: pagination
     conforms: true
-    evidence: search/enrich requests take limit+offset; responses carry total
+    evidence: search/enrich request bodies take limit + offset; responses carry total
   - id: idempotency
     conforms: false
-    evidence: no Idempotency-Key header or idempotency contract documented
+    evidence: 'no Idempotency-Key header or idempotency contract documented; POST is used for reads as well as writes'
+  - id: rate-limit-headers
+    conforms: false
+    evidence: 'a limit is documented (10 req/s per user, 429 on exhaustion) but no X-RateLimit-*/RateLimit-*/Retry-After response headers are published or observed'
+  - id: a2a
+    conforms: false
+    evidence: 'no agent card at /.well-known/agent-card.json or /.well-known/agent.json on any host'
+  - id: asyncapi
+    conforms: false
+    evidence: 'no event, streaming, or webhook surface is published; alerting is delivered to Slack and email, not to subscriber-supplied endpoints'
   - id: soc2
     conforms: true
-    evidence: Sumble maintains SOC 2 compliance (trust-and-security docs)
+    evidence: 'Sumble maintains SOC 2 compliance (trust-and-security docs); reports available through the Vanta trust center at https://trust.sumble.com/'
   - id: gdpr
     conforms: true
     evidence: processes data in accordance with GDPR (trust-and-security docs)
+  - id: fhir-r4
+    conforms: false
+  - id: pci-dss
+    conforms: false
+  - id: hipaa
+    conforms: false
+  - id: fedramp
+    conforms: false
+checked: '2026-08-13'
