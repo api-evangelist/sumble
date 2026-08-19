@@ -36,7 +36,7 @@ accessModel:
     trial with no credit card. Sign-up is self-serve (magic link) and API keys
     can be generated on all plans, but the underlying data is gated — no
     anonymous access to organization, job or people records.
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-13'
 tags:
