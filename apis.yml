@@ -58,6 +58,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Contact Lists
+  tags_raw:
   - contact-lists
   properties:
   - type: OpenAPI
@@ -70,6 +72,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Job
+  tags_raw:
   - jobs
   properties:
   - type: OpenAPI
@@ -94,6 +98,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Organization
+  tags_raw:
   - organizations
   properties:
   - type: OpenAPI
@@ -106,6 +112,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - People
+  tags_raw:
   - people
   properties:
   - type: OpenAPI
@@ -118,6 +126,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Project
+  tags_raw:
   - projects
   properties:
   - type: OpenAPI
@@ -130,6 +140,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Signals
+  tags_raw:
   - signals
   properties:
   - type: OpenAPI
@@ -142,6 +154,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Support
+  tags_raw:
   - support
   properties:
   - type: OpenAPI
@@ -154,6 +168,8 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
+  - Team
+  tags_raw:
   - teams
   properties:
   - type: OpenAPI
