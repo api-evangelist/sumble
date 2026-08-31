@@ -70,7 +70,7 @@ apis:
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
   tags:
-  - Contact Lists
+  - contact-lists
   tags_raw:
   - contact-lists
   properties:
