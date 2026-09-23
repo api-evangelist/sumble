@@ -1,0 +1,29 @@
+# Front Door AI Index — sumble — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: sumble
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: sumble.com
+  final_host: sumble.com
+  ownership: own
+  owner: sumble
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 6
+  host_score: 6
+  density: 4.88
+  words: 1230
+  tiers:
+    agentic: 1
+    core: 5
+    model: 0
+  ambiguous: 11
+  top_terms:
+    intelligence: 6
+    automation: 5
+    AI: 4
+    LLMs: 1
+    MCP: 1

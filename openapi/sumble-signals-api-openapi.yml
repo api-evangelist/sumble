@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sumble contact-lists signals API
+  title: Sumble Signals API
   description: The official Sumble API for programmatic enrichment.
   contact:
     name: Sumble
@@ -9,12 +9,12 @@ info:
 servers:
 - url: https://api.sumble.com
 tags:
-- name: signals
+- name: Signals
 paths:
   /v9/signals:
     post:
       tags:
-      - signals
+      - Signals
       summary: Search signals
       description: 'Signals are sales-relevant events such as champion job changes, recent hires and promotions, technology and product mentions, projects and initiatives, and technology and job-function trends. Job-post signals (technology and product mentions, projects, and first mentions) also include `suggested_contacts`: the top few people to consider reaching out to at the account, plus a link to view all of them. Each signal also carries `account_status`: the CRM relationship between the signal''s organization and the calling account (''customer'', ''prospect'', or ''not_in_crm''). Only populated when the calling account has a linked CRM seat (Salesforce or HubSpot).'
       operationId: search_signals__api_version__signals_post
@@ -125,7 +125,7 @@ paths:
   /v9/signals/priority:
     post:
       tags:
-      - signals
+      - Signals
       summary: Search priority signals
       description: Priority signals are AI-generated digest items summarizing the most important signals in a user's account feed. They optionally can be searched by signal, organization, person, or job post IDs attached to their source signals. Returns the most recent 20 priority signals based on the specified filters, or omit filters to simply return the latest.
       operationId: search_priority_signals__api_version__signals_priority_post
@@ -184,7 +184,7 @@ paths:
   /v9/signals/priority/{item_id}/relevance:
     put:
       tags:
-      - signals
+      - Signals
       summary: Update priority signal relevance
       description: 'Mark a priority signal (identified by its `id` from Search Priority Signals) as relevant or not relevant, or clear previously-set feedback by passing `is_relevant: null`. Mirrors the relevant / not relevant feedback available in the web app. Free -- does not consume credits.'
       operationId: update_priority_signal_relevance__api_version__signals_priority__item_id__relevance_put
@@ -229,19 +229,46 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    UpdatePrioritySignalRelevanceRequest:
+    SuggestedContacts:
       properties:
-        is_relevant:
+        people:
+          items:
+            $ref: '#/components/schemas/SuggestedContact'
+          type: array
+          title: People
+        sumble_url:
           anyOf:
-          - type: boolean
+          - type: string
           - type: 'null'
-          title: Is Relevant
-          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
-      additionalProperties: false
+          title: Sumble Url
       type: object
       required:
-      - is_relevant
-      title: UpdatePrioritySignalRelevanceRequest
+      - people
+      title: SuggestedContacts
+    PrioritySignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        priority_signals:
+          items:
+            $ref: '#/components/schemas/PrioritySignal'
+          type: array
+          title: Priority Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - priority_signals
+      title: PrioritySignalsResponse
     PrioritySignal:
       properties:
         id:
@@ -294,64 +321,7 @@ components:
       - content
       - date
       title: PrioritySignal
-    SearchPrioritySignalsFilter:
-      properties:
-        organization_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Organization Ids
-          description: Organization IDs to filter priority signals by.
-          examples:
-          - - 171
-        person_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Person Ids
-          description: Sumble person IDs to filter priority signals by.
-          examples:
-          - - 12729201
-        signal_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Signal Ids
-          description: Signal IDs to filter priority signals by.
-          examples:
-          - - 123
-        job_post_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Job Post Ids
-          description: Job post IDs to filter priority signals by.
-          examples:
-          - - 789
-        is_relevant:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Relevant
-          description: 'Filter by your relevance feedback: true for priority signals you marked relevant, false for ones you marked not relevant. Omit to return priority signals regardless of feedback -- this does not match only unreviewed (null-feedback) signals.'
-          examples:
-          - true
-      additionalProperties: false
-      type: object
-      title: SearchPrioritySignalsFilter
-    PrioritySignalsResponse:
+    SignalsResponse:
       properties:
         id:
           type: string
@@ -363,130 +333,26 @@ components:
         credits_remaining:
           type: integer
           title: Credits Remaining
-        priority_signals:
+        signals:
           items:
-            $ref: '#/components/schemas/PrioritySignal'
+            $ref: '#/components/schemas/Signal'
           type: array
-          title: Priority Signals
+          title: Signals
       type: object
       required:
       - id
       - credits_used
       - credits_remaining
-      - priority_signals
-      title: PrioritySignalsResponse
-    SuggestedContact:
+      - signals
+      title: SignalsResponse
+    SearchPrioritySignalsRequest:
       properties:
-        person_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Person Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        linkedin_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linkedin Url
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
-      type: object
-      title: SuggestedContact
-    SearchSignalsFilter:
-      properties:
-        organization_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Organization Ids
-          description: Organization IDs to filter signals by.
-          examples:
-          - - 171
-        person_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Person Ids
-          description: Sumble person IDs to filter signals by.
-          examples:
-          - - 12729201
-        signal_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Signal Ids
-          description: Signal IDs to filter signals by.
-          examples:
-          - - 123
-        technology_slugs:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Technology Slugs
-          description: Canonical technology slugs to filter signals by, such as `kubernetes` or `salesforce`.
-          examples:
-          - - zoominfo
-        job_functions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Job Functions
-          description: Job function names to filter signals by, such as `Engineering` or `Sales`.
-          examples:
-          - - Account Executive
-        priorities:
-          anyOf:
-          - items:
-              type: string
-              enum:
-              - high
-              - medium
-              - low
-            type: array
-          - type: 'null'
-          title: Priorities
-          description: Priorities to filter signals by. Matches the `priority` field returned on each signal.
-          examples:
-          - - high
-        account_list_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Account List Ids
-          description: Account list IDs to filter signals to accounts in those lists.
-          examples:
-          - - 4
+        filter:
+          $ref: '#/components/schemas/SearchPrioritySignalsFilter'
+          description: Filter criteria for priority signals search.
       additionalProperties: false
       type: object
-      title: SearchSignalsFilter
+      title: SearchPrioritySignalsRequest
     ValidationError:
       properties:
         loc:
@@ -513,6 +379,33 @@ components:
       - msg
       - type
       title: ValidationError
+    UpdatePrioritySignalRelevanceRequest:
+      properties:
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
+      additionalProperties: false
+      type: object
+      required:
+      - is_relevant
+      title: UpdatePrioritySignalRelevanceRequest
+    PrioritySignalRelevanceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+      type: object
+      required:
+      - id
+      title: PrioritySignalRelevanceResponse
     Signal:
       properties:
         signal_id:
@@ -622,14 +515,6 @@ components:
       - date
       - display_type
       title: Signal
-    SearchPrioritySignalsRequest:
-      properties:
-        filter:
-          $ref: '#/components/schemas/SearchPrioritySignalsFilter'
-          description: Filter criteria for priority signals search.
-      additionalProperties: false
-      type: object
-      title: SearchPrioritySignalsRequest
     SearchSignalsRequest:
       properties:
         filter:
@@ -638,6 +523,63 @@ components:
       additionalProperties: false
       type: object
       title: SearchSignalsRequest
+    SearchPrioritySignalsFilter:
+      properties:
+        organization_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Organization Ids
+          description: Organization IDs to filter priority signals by.
+          examples:
+          - - 171
+        person_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Person Ids
+          description: Sumble person IDs to filter priority signals by.
+          examples:
+          - - 12729201
+        signal_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Signal Ids
+          description: Signal IDs to filter priority signals by.
+          examples:
+          - - 123
+        job_post_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Job Post Ids
+          description: Job post IDs to filter priority signals by.
+          examples:
+          - - 789
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: 'Filter by your relevance feedback: true for priority signals you marked relevant, false for ones you marked not relevant. Omit to return priority signals regardless of feedback -- this does not match only unreviewed (null-feedback) signals.'
+          examples:
+          - true
+      additionalProperties: false
+      type: object
+      title: SearchPrioritySignalsFilter
     SignalTechnology:
       properties:
         name:
@@ -656,60 +598,118 @@ components:
       - name
       - slug
       title: SignalTechnology
-    SuggestedContacts:
+    SearchSignalsFilter:
       properties:
-        people:
-          items:
-            $ref: '#/components/schemas/SuggestedContact'
-          type: array
-          title: People
-        sumble_url:
+        organization_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Organization Ids
+          description: Organization IDs to filter signals by.
+          examples:
+          - - 171
+        person_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Person Ids
+          description: Sumble person IDs to filter signals by.
+          examples:
+          - - 12729201
+        signal_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Signal Ids
+          description: Signal IDs to filter signals by.
+          examples:
+          - - 123
+        technology_slugs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Technology Slugs
+          description: Canonical technology slugs to filter signals by, such as `kubernetes` or `salesforce`.
+          examples:
+          - - zoominfo
+        job_functions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Job Functions
+          description: Job function names to filter signals by, such as `Engineering` or `Sales`.
+          examples:
+          - - Account Executive
+        priorities:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - high
+              - medium
+              - low
+            type: array
+          - type: 'null'
+          title: Priorities
+          description: Priorities to filter signals by. Matches the `priority` field returned on each signal.
+          examples:
+          - - high
+        account_list_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Account List Ids
+          description: Account list IDs to filter signals to accounts in those lists.
+          examples:
+          - - 4
+      additionalProperties: false
+      type: object
+      title: SearchSignalsFilter
+    SuggestedContact:
+      properties:
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Sumble Url
-      type: object
-      required:
-      - people
-      title: SuggestedContacts
-    PrioritySignalRelevanceResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        is_relevant:
+          title: Name
+        title:
           anyOf:
-          - type: boolean
+          - type: string
           - type: 'null'
-          title: Is Relevant
+          title: Title
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
       type: object
-      required:
-      - id
-      title: PrioritySignalRelevanceResponse
-    SignalsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        signals:
-          items:
-            $ref: '#/components/schemas/Signal'
-          type: array
-          title: Signals
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - signals
-      title: SignalsResponse
+      title: SuggestedContact
     HTTPValidationError:
       properties:
         detail:

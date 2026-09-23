@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sumble contact-lists organization-lists API
+  title: Sumble Organization Lists API
   description: The official Sumble API for programmatic enrichment.
   contact:
     name: Sumble
@@ -309,49 +309,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CreateOrganizationListResponse:
+    HTTPValidationError:
       properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - id
-      - name
-      - url
-      title: CreateOrganizationListResponse
-    AddOrganizationsResponse:
-      properties:
-        added:
-          items:
-            type: integer
-          type: array
-          title: Added
-        failed_ids:
-          items:
-            type: integer
-          type: array
-          title: Failed Ids
-        failed_slugs:
-          items:
-            type: string
-          type: array
-          title: Failed Slugs
-      type: object
-      required:
-      - added
-      - failed_ids
-      - failed_slugs
-      title: AddOrganizationsResponse
+      title: HTTPValidationError
     OrganizationListsResponse:
       properties:
         id:
@@ -376,6 +342,29 @@ components:
       - credits_remaining
       - organization_lists
       title: OrganizationListsResponse
+    AddOrganizationsResponse:
+      properties:
+        added:
+          items:
+            type: integer
+          type: array
+          title: Added
+        failed_ids:
+          items:
+            type: integer
+          type: array
+          title: Failed Ids
+        failed_slugs:
+          items:
+            type: string
+          type: array
+          title: Failed Slugs
+      type: object
+      required:
+      - added
+      - failed_ids
+      - failed_slugs
+      title: AddOrganizationsResponse
     AddOrganizationsRequest:
       properties:
         organization_ids:
@@ -392,12 +381,19 @@ components:
           default: []
       type: object
       title: AddOrganizationsRequest
-    OrganizationListType:
-      type: string
-      enum:
-      - group
-      - user
-      title: OrganizationListType
+    SetOrganizationListDeletedResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - id
+      - deleted
+      title: SetOrganizationListDeletedResponse
     OrganizationListOrganization:
       properties:
         id:
@@ -458,46 +454,15 @@ components:
       required:
       - name
       title: CreateOrganizationListRequest
-    OrganizationListSignalsResponse:
+    SetOrganizationListSignalsRequest:
       properties:
-        id:
-          type: integer
-          title: Id
         include_in_signals:
           type: boolean
           title: Include In Signals
       type: object
       required:
-      - id
       - include_in_signals
-      title: OrganizationListSignalsResponse
-    OrganizationListResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        list_info:
-          $ref: '#/components/schemas/OrganizationListSummary'
-        organizations:
-          items:
-            $ref: '#/components/schemas/OrganizationListOrganization'
-          type: array
-          title: Organizations
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - list_info
-      - organizations
-      title: OrganizationListResponse
+      title: SetOrganizationListSignalsRequest
     ValidationError:
       properties:
         loc:
@@ -524,19 +489,6 @@ components:
       - msg
       - type
       title: ValidationError
-    SetOrganizationListDeletedResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        deleted:
-          type: boolean
-          title: Deleted
-      type: object
-      required:
-      - id
-      - deleted
-      title: SetOrganizationListDeletedResponse
     OrganizationListSummary:
       properties:
         id:
@@ -580,15 +532,39 @@ components:
       - read_only
       - deletable
       title: OrganizationListSummary
-    SetOrganizationListSignalsRequest:
+    OrganizationListSignalsResponse:
       properties:
+        id:
+          type: integer
+          title: Id
         include_in_signals:
           type: boolean
           title: Include In Signals
       type: object
       required:
+      - id
       - include_in_signals
-      title: SetOrganizationListSignalsRequest
+      title: OrganizationListSignalsResponse
+    CreateOrganizationListResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+      type: object
+      required:
+      - id
+      - name
+      - url
+      title: CreateOrganizationListResponse
     SetOrganizationListDeletedRequest:
       properties:
         deleted:
@@ -598,15 +574,39 @@ components:
       required:
       - deleted
       title: SetOrganizationListDeletedRequest
-    HTTPValidationError:
+    OrganizationListResponse:
       properties:
-        detail:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        list_info:
+          $ref: '#/components/schemas/OrganizationListSummary'
+        organizations:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/OrganizationListOrganization'
           type: array
-          title: Detail
+          title: Organizations
       type: object
-      title: HTTPValidationError
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - list_info
+      - organizations
+      title: OrganizationListResponse
+    OrganizationListType:
+      type: string
+      enum:
+      - group
+      - user
+      title: OrganizationListType
   securitySchemes:
     api_token:
       type: http

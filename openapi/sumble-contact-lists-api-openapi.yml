@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sumble contact-lists API
+  title: Sumble Contact Lists API
   description: The official Sumble API for programmatic enrichment.
   contact:
     name: Sumble
@@ -9,12 +9,12 @@ info:
 servers:
 - url: https://api.sumble.com
 tags:
-- name: contact-lists
+- name: Contact Lists
 paths:
   /v9/contact-lists:
     get:
       tags:
-      - contact-lists
+      - Contact Lists
       summary: List contact lists
       operationId: list_contact_lists__api_version__contact_lists_get
       security:
@@ -44,7 +44,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - contact-lists
+      - Contact Lists
       summary: Create a contact list
       operationId: create_contact_list__api_version__contact_lists_post
       security:
@@ -78,7 +78,7 @@ paths:
   /v9/contact-lists/{list_id}/people:
     post:
       tags:
-      - contact-lists
+      - Contact Lists
       summary: Add people to a contact list
       operationId: add_contacts_to_list__api_version__contact_lists__list_id__people_post
       security:
@@ -119,7 +119,7 @@ paths:
   /v9/contact-lists/{list_id}:
     get:
       tags:
-      - contact-lists
+      - Contact Lists
       summary: Get contact list details
       operationId: get_contact_list__api_version__contact_lists__list_id__get
       security:
@@ -210,33 +210,6 @@ components:
       required:
       - people_ids
       title: AddContactsRequest
-    ContactListResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        list_info:
-          $ref: '#/components/schemas/ContactListSummary'
-        people:
-          items:
-            $ref: '#/components/schemas/ContactListPerson'
-          type: array
-          title: People
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - list_info
-      - people
-      title: ContactListResponse
     ContactListSummary:
       properties:
         id:
@@ -291,18 +264,6 @@ components:
         Cadwyn-versioned paid response. This mirrors the shared model''s current paid
 
         contract exactly — `emails`, `phone`, `requested`.'
-    ContactInfoRequested:
-      properties:
-        email:
-          type: boolean
-          title: Email
-          default: false
-        phone:
-          type: boolean
-          title: Phone
-          default: false
-      type: object
-      title: ContactInfoRequested
     ValidationError:
       properties:
         loc:
@@ -329,59 +290,6 @@ components:
       - msg
       - type
       title: ValidationError
-    CreateContactListRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CreateContactListRequest
-    ContactListsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        contact_lists:
-          items:
-            $ref: '#/components/schemas/ContactListSummary'
-          type: array
-          title: Contact Lists
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - contact_lists
-      title: ContactListsResponse
-    AddContactsResponse:
-      properties:
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
-        added:
-          type: integer
-          title: Added
-        already_on_list:
-          type: integer
-          title: Already On List
-      type: object
-      required:
-      - url
-      - added
-      - already_on_list
-      title: AddContactsResponse
     ContactListPerson:
       properties:
         id:
@@ -443,6 +351,98 @@ components:
       - url
       - name
       title: ContactListPerson
+    CreateContactListRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateContactListRequest
+    ContactListResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        list_info:
+          $ref: '#/components/schemas/ContactListSummary'
+        people:
+          items:
+            $ref: '#/components/schemas/ContactListPerson'
+          type: array
+          title: People
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - list_info
+      - people
+      title: ContactListResponse
+    ContactListsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        contact_lists:
+          items:
+            $ref: '#/components/schemas/ContactListSummary'
+          type: array
+          title: Contact Lists
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - contact_lists
+      title: ContactListsResponse
+    ContactInfoRequested:
+      properties:
+        email:
+          type: boolean
+          title: Email
+          default: false
+        phone:
+          type: boolean
+          title: Phone
+          default: false
+      type: object
+      title: ContactInfoRequested
+    AddContactsResponse:
+      properties:
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        added:
+          type: integer
+          title: Added
+        already_on_list:
+          type: integer
+          title: Already On List
+      type: object
+      required:
+      - url
+      - added
+      - already_on_list
+      title: AddContactsResponse
     HTTPValidationError:
       properties:
         detail:

@@ -1,16 +1,7 @@
 {
   "provider": "sumble",
   "sources": [
-    "sumble-contact-lists-api-openapi.yml",
-    "sumble-jobs-api-openapi.yml",
-    "sumble-organization-lists-api-openapi.yml",
-    "sumble-organizations-api-openapi.yml",
-    "sumble-people-api-openapi.yml",
-    "sumble-projects-api-openapi.yml",
-    "sumble-signals-api-openapi.yml",
-    "sumble-support-api-openapi.yml",
-    "sumble-teams-api-openapi.yml",
-    "sumble-technologies-api-openapi.yml"
+    "_original/sumble-openapi-original.json"
   ],
   "outputs": [
     "sumble-contact-lists-api-openapi.yml",
@@ -27,6 +18,31 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sumble-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sumble-openapi-original.json: declared missing tag: contact-lists",
+    "sumble-openapi-original.json: declared missing tag: jobs",
+    "sumble-openapi-original.json: declared missing tag: organization-lists",
+    "sumble-openapi-original.json: declared missing tag: organizations",
+    "sumble-openapi-original.json: declared missing tag: people",
+    "sumble-openapi-original.json: declared missing tag: projects",
+    "sumble-openapi-original.json: declared missing tag: signals",
+    "sumble-openapi-original.json: declared missing tag: support",
+    "sumble-openapi-original.json: declared missing tag: teams",
+    "sumble-openapi-original.json: declared missing tag: technologies",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "sumble-contact-lists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-organization-lists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-people-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-signals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-support-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sumble-technologies-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
