@@ -65,7 +65,7 @@ tags:
 image: https://www.sumble.com/logo512
 apis:
 - aid: sumble:sumble-contact-lists-api
-  name: Sumble contact-lists API
+  name: Sumble Contact Lists API
   description: The contact-lists API from Sumble — 3 operation(s) for contact-lists.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -79,7 +79,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-jobs-api
-  name: Sumble jobs API
+  name: Sumble Jobs API
   description: The jobs API from Sumble — 2 operation(s) for jobs.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -93,7 +93,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-organization-lists-api
-  name: Sumble organization-lists API
+  name: Sumble Organization Lists API
   description: The organization-lists API from Sumble — 5 operation(s) for organization-lists.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -105,7 +105,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-organizations-api
-  name: Sumble organizations API
+  name: Sumble Organizations API
   description: The organizations API from Sumble — 3 operation(s) for organizations.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -119,7 +119,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-people-api
-  name: Sumble people API
+  name: Sumble People API
   description: The people API from Sumble — 1 operation(s) for people.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -133,7 +133,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-projects-api
-  name: Sumble projects API
+  name: Sumble Projects API
   description: The projects API from Sumble — 1 operation(s) for projects.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -147,7 +147,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-signals-api
-  name: Sumble signals API
+  name: Sumble Signals API
   description: The signals API from Sumble — 3 operation(s) for signals.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -161,7 +161,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-support-api
-  name: Sumble support API
+  name: Sumble Support API
   description: The support API from Sumble — 2 operation(s) for support.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -175,7 +175,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-teams-api
-  name: Sumble teams API
+  name: Sumble Teams API
   description: The teams API from Sumble — 1 operation(s) for teams.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com
@@ -189,7 +189,7 @@ apis:
   - type: APIReference
     url: https://api.sumble.com/docs
 - aid: sumble:sumble-technologies-api
-  name: Sumble technologies API
+  name: Sumble Technologies API
   description: The technologies API from Sumble — 3 operation(s) for technologies.
   humanURL: https://docs.sumble.com/api/api
   baseURL: https://api.sumble.com

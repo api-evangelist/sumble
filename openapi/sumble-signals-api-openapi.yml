@@ -229,6 +229,14 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SearchSignalsRequest:
+      properties:
+        filter:
+          $ref: '#/components/schemas/SearchSignalsFilter'
+          description: Filter criteria for signals search.
+      additionalProperties: false
+      type: object
+      title: SearchSignalsRequest
     SuggestedContacts:
       properties:
         people:
@@ -245,106 +253,6 @@ components:
       required:
       - people
       title: SuggestedContacts
-    PrioritySignalsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        priority_signals:
-          items:
-            $ref: '#/components/schemas/PrioritySignal'
-          type: array
-          title: Priority Signals
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - priority_signals
-      title: PrioritySignalsResponse
-    PrioritySignal:
-      properties:
-        id:
-          type: integer
-          title: Id
-        url:
-          type: string
-          title: Url
-        headline:
-          type: string
-          title: Headline
-        content:
-          type: string
-          title: Content
-        date:
-          type: string
-          format: date
-          title: Date
-        signal_ids:
-          items:
-            type: integer
-          type: array
-          title: Signal Ids
-        organization_ids:
-          items:
-            type: integer
-          type: array
-          title: Organization Ids
-        person_ids:
-          items:
-            type: integer
-          type: array
-          title: Person Ids
-        job_post_ids:
-          items:
-            type: integer
-          type: array
-          title: Job Post Ids
-        is_relevant:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Relevant
-          description: 'Your relevance feedback on this priority signal: true (relevant), false (not relevant), or null (no feedback given). Update it with the Update Priority Signal Relevance endpoint.'
-      type: object
-      required:
-      - id
-      - url
-      - headline
-      - content
-      - date
-      title: PrioritySignal
-    SignalsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        signals:
-          items:
-            $ref: '#/components/schemas/Signal'
-          type: array
-          title: Signals
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - signals
-      title: SignalsResponse
     SearchPrioritySignalsRequest:
       properties:
         filter:
@@ -353,59 +261,6 @@ components:
       additionalProperties: false
       type: object
       title: SearchPrioritySignalsRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    UpdatePrioritySignalRelevanceRequest:
-      properties:
-        is_relevant:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Relevant
-          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
-      additionalProperties: false
-      type: object
-      required:
-      - is_relevant
-      title: UpdatePrioritySignalRelevanceRequest
-    PrioritySignalRelevanceResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        is_relevant:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Relevant
-      type: object
-      required:
-      - id
-      title: PrioritySignalRelevanceResponse
     Signal:
       properties:
         signal_id:
@@ -515,71 +370,87 @@ components:
       - date
       - display_type
       title: Signal
-    SearchSignalsRequest:
+    PrioritySignal:
       properties:
-        filter:
-          $ref: '#/components/schemas/SearchSignalsFilter'
-          description: Filter criteria for signals search.
-      additionalProperties: false
-      type: object
-      title: SearchSignalsRequest
-    SearchPrioritySignalsFilter:
-      properties:
-        organization_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Organization Ids
-          description: Organization IDs to filter priority signals by.
-          examples:
-          - - 171
-        person_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
-          title: Person Ids
-          description: Sumble person IDs to filter priority signals by.
-          examples:
-          - - 12729201
+        id:
+          type: integer
+          title: Id
+        url:
+          type: string
+          title: Url
+        headline:
+          type: string
+          title: Headline
+        content:
+          type: string
+          title: Content
+        date:
+          type: string
+          format: date
+          title: Date
         signal_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
+          items:
+            type: integer
+          type: array
           title: Signal Ids
-          description: Signal IDs to filter priority signals by.
-          examples:
-          - - 123
+        organization_ids:
+          items:
+            type: integer
+          type: array
+          title: Organization Ids
+        person_ids:
+          items:
+            type: integer
+          type: array
+          title: Person Ids
         job_post_ids:
-          anyOf:
-          - items:
-              type: integer
-              exclusiveMinimum: 0.0
-            type: array
-          - type: 'null'
+          items:
+            type: integer
+          type: array
           title: Job Post Ids
-          description: Job post IDs to filter priority signals by.
-          examples:
-          - - 789
         is_relevant:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Is Relevant
-          description: 'Filter by your relevance feedback: true for priority signals you marked relevant, false for ones you marked not relevant. Omit to return priority signals regardless of feedback -- this does not match only unreviewed (null-feedback) signals.'
-          examples:
-          - true
-      additionalProperties: false
+          description: 'Your relevance feedback on this priority signal: true (relevant), false (not relevant), or null (no feedback given). Update it with the Update Priority Signal Relevance endpoint.'
       type: object
-      title: SearchPrioritySignalsFilter
+      required:
+      - id
+      - url
+      - headline
+      - content
+      - date
+      title: PrioritySignal
+    SuggestedContact:
+      properties:
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+      type: object
+      title: SuggestedContact
     SignalTechnology:
       properties:
         name:
@@ -598,6 +469,19 @@ components:
       - name
       - slug
       title: SignalTechnology
+    UpdatePrioritySignalRelevanceRequest:
+      properties:
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
+      additionalProperties: false
+      type: object
+      required:
+      - is_relevant
+      title: UpdatePrioritySignalRelevanceRequest
     SearchSignalsFilter:
       properties:
         organization_ids:
@@ -681,35 +565,125 @@ components:
       additionalProperties: false
       type: object
       title: SearchSignalsFilter
-    SuggestedContact:
+    SignalsResponse:
       properties:
-        person_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Person Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        linkedin_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linkedin Url
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        signals:
+          items:
+            $ref: '#/components/schemas/Signal'
+          type: array
+          title: Signals
       type: object
-      title: SuggestedContact
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - signals
+      title: SignalsResponse
+    SearchPrioritySignalsFilter:
+      properties:
+        organization_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Organization Ids
+          description: Organization IDs to filter priority signals by.
+          examples:
+          - - 171
+        person_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Person Ids
+          description: Sumble person IDs to filter priority signals by.
+          examples:
+          - - 12729201
+        signal_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Signal Ids
+          description: Signal IDs to filter priority signals by.
+          examples:
+          - - 123
+        job_post_ids:
+          anyOf:
+          - items:
+              type: integer
+              exclusiveMinimum: 0.0
+            type: array
+          - type: 'null'
+          title: Job Post Ids
+          description: Job post IDs to filter priority signals by.
+          examples:
+          - - 789
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: 'Filter by your relevance feedback: true for priority signals you marked relevant, false for ones you marked not relevant. Omit to return priority signals regardless of feedback -- this does not match only unreviewed (null-feedback) signals.'
+          examples:
+          - true
+      additionalProperties: false
+      type: object
+      title: SearchPrioritySignalsFilter
+    PrioritySignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        priority_signals:
+          items:
+            $ref: '#/components/schemas/PrioritySignal'
+          type: array
+          title: Priority Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - priority_signals
+      title: PrioritySignalsResponse
+    PrioritySignalRelevanceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+      type: object
+      required:
+      - id
+      title: PrioritySignalRelevanceResponse
     HTTPValidationError:
       properties:
         detail:
@@ -719,6 +693,32 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     api_token:
       type: http

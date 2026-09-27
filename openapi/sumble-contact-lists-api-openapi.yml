@@ -179,61 +179,68 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CreateContactListResponse:
+    ContactListsResponse:
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
           title: Id
-        name:
-          type: string
-          title: Name
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
-      type: object
-      required:
-      - id
-      - name
-      - url
-      title: CreateContactListResponse
-    AddContactsRequest:
-      properties:
-        people_ids:
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        contact_lists:
           items:
-            type: integer
+            $ref: '#/components/schemas/ContactListSummary'
           type: array
-          title: People Ids
-      type: object
-      required:
-      - people_ids
-      title: AddContactsRequest
-    ContactListSummary:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        people_count:
-          type: integer
-          title: People Count
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
+          title: Contact Lists
       type: object
       required:
       - id
-      - name
-      - people_count
-      - url
-      title: ContactListSummary
+      - credits_used
+      - credits_remaining
+      - contact_lists
+      title: ContactListsResponse
+    ContactInfoRequested:
+      properties:
+        email:
+          type: boolean
+          title: Email
+          default: false
+        phone:
+          type: boolean
+          title: Phone
+          default: false
+      type: object
+      title: ContactInfoRequested
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ContactListContactInfo:
       properties:
         emails:
@@ -264,32 +271,15 @@ components:
         Cadwyn-versioned paid response. This mirrors the shared model''s current paid
 
         contract exactly — `emails`, `phone`, `requested`.'
-    ValidationError:
+    CreateContactListRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Name
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      title: CreateContactListRequest
     ContactListPerson:
       properties:
         id:
@@ -351,15 +341,66 @@ components:
       - url
       - name
       title: ContactListPerson
-    CreateContactListRequest:
+    AddContactsRequest:
       properties:
+        people_ids:
+          items:
+            type: integer
+          type: array
+          title: People Ids
+      type: object
+      required:
+      - people_ids
+      title: AddContactsRequest
+    AddContactsResponse:
+      properties:
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        added:
+          type: integer
+          title: Added
+        already_on_list:
+          type: integer
+          title: Already On List
+      type: object
+      required:
+      - url
+      - added
+      - already_on_list
+      title: AddContactsResponse
+    CreateContactListResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
         name:
           type: string
           title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
       type: object
       required:
+      - id
       - name
-      title: CreateContactListRequest
+      - url
+      title: CreateContactListResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ContactListResponse:
       properties:
         id:
@@ -387,71 +428,30 @@ components:
       - list_info
       - people
       title: ContactListResponse
-    ContactListsResponse:
+    ContactListSummary:
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
           title: Id
-        credits_used:
+        name:
+          type: string
+          title: Name
+        people_count:
           type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        contact_lists:
-          items:
-            $ref: '#/components/schemas/ContactListSummary'
-          type: array
-          title: Contact Lists
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - contact_lists
-      title: ContactListsResponse
-    ContactInfoRequested:
-      properties:
-        email:
-          type: boolean
-          title: Email
-          default: false
-        phone:
-          type: boolean
-          title: Phone
-          default: false
-      type: object
-      title: ContactInfoRequested
-    AddContactsResponse:
-      properties:
+          title: People Count
         url:
           type: string
           maxLength: 2083
           minLength: 1
           format: uri
           title: Url
-        added:
-          type: integer
-          title: Added
-        already_on_list:
-          type: integer
-          title: Already On List
       type: object
       required:
+      - id
+      - name
+      - people_count
       - url
-      - added
-      - already_on_list
-      title: AddContactsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: ContactListSummary
   securitySchemes:
     api_token:
       type: http

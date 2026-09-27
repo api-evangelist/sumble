@@ -319,23 +319,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Technology:
-      properties:
-        id:
-          type: integer
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      title: Technology
     GetTechnologiesResponse:
       properties:
         id:
@@ -364,29 +347,6 @@ components:
       - technologies
       - total_count
       title: GetTechnologiesResponse
-    app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult:
-      properties:
-        input:
-          type: string
-          title: Input
-        category:
-          anyOf:
-          - $ref: '#/components/schemas/CategoryDetails'
-          - type: 'null'
-      type: object
-      required:
-      - input
-      - category
-      title: LookupResult
-    GetTechnologiesRequest:
-      properties:
-        query:
-          type: string
-          title: Query
-      type: object
-      required:
-      - query
-      title: GetTechnologiesRequest
     LookupTechnologyCategoriesResponse:
       properties:
         id:
@@ -415,23 +375,20 @@ components:
       - matched_count
       - results
       title: LookupTechnologyCategoriesResponse
-    TechCategory:
+    LookupTechnologiesRequest:
       properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        name_short:
-          type: string
-          title: Name Short
+        technologies:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Technologies
+          description: List of technology names, slugs, or aliases to look up
       type: object
       required:
-      - slug
-      - name
-      - name_short
-      title: TechCategory
+      - technologies
+      title: LookupTechnologiesRequest
     LookupTechnologiesResponse:
       properties:
         id:
@@ -460,20 +417,38 @@ components:
       - matched_count
       - results
       title: LookupTechnologiesResponse
-    LookupTechnologyCategoriesRequest:
+    GetTechnologiesRequest:
       properties:
-        technology_categories:
-          items:
-            type: string
-          type: array
-          maxItems: 1000
-          minItems: 1
-          title: Technology Categories
-          description: List of technology category slugs or names to look up
+        query:
+          type: string
+          title: Query
       type: object
       required:
-      - technology_categories
-      title: LookupTechnologyCategoriesRequest
+      - query
+      title: GetTechnologiesRequest
+    app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        categories:
+          items:
+            $ref: '#/components/schemas/TechCategory'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - categories
+      title: TechDetails
     app__schemas__paid_api__technologies__GetTechnologiesResponse__TechDetails:
       properties:
         slug:
@@ -491,6 +466,115 @@ components:
       - name
       - count
       title: TechDetails
+    app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/CategoryDetails'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - category
+      title: LookupResult
+    TechCategory:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        name_short:
+          type: string
+          title: Name Short
+      type: object
+      required:
+      - slug
+      - name
+      - name_short
+      title: TechCategory
+    app__schemas__paid_api__technologies__LookupTechnologiesResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        technology:
+          anyOf:
+          - $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - technology
+      title: LookupResult
+    Technology:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      title: Technology
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LookupTechnologyCategoriesRequest:
+      properties:
+        technology_categories:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Technology Categories
+          description: List of technology category slugs or names to look up
+      type: object
+      required:
+      - technology_categories
+      title: LookupTechnologyCategoriesRequest
+    CategoryDetails:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        name_short:
+          type: string
+          title: Name Short
+        technologies:
+          items:
+            $ref: '#/components/schemas/Technology'
+          type: array
+          title: Technologies
+          description: Technologies in the category. Technologies mentioned most often in job postings appear first.
+      type: object
+      required:
+      - slug
+      - name
+      - name_short
+      - technologies
+      title: CategoryDetails
     ValidationError:
       properties:
         loc:
@@ -517,90 +601,6 @@ components:
       - msg
       - type
       title: ValidationError
-    LookupTechnologiesRequest:
-      properties:
-        technologies:
-          items:
-            type: string
-          type: array
-          maxItems: 1000
-          minItems: 1
-          title: Technologies
-          description: List of technology names, slugs, or aliases to look up
-      type: object
-      required:
-      - technologies
-      title: LookupTechnologiesRequest
-    app__schemas__paid_api__technologies__LookupTechnologiesResponse__LookupResult:
-      properties:
-        input:
-          type: string
-          title: Input
-        technology:
-          anyOf:
-          - $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails'
-          - type: 'null'
-      type: object
-      required:
-      - input
-      - technology
-      title: LookupResult
-    app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails:
-      properties:
-        id:
-          type: integer
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        categories:
-          items:
-            $ref: '#/components/schemas/TechCategory'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - categories
-      title: TechDetails
-    CategoryDetails:
-      properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        name_short:
-          type: string
-          title: Name Short
-        technologies:
-          items:
-            $ref: '#/components/schemas/Technology'
-          type: array
-          title: Technologies
-          description: Technologies in the category. Technologies mentioned most often in job postings appear first.
-      type: object
-      required:
-      - slug
-      - name
-      - name_short
-      - technologies
-      title: CategoryDetails
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     api_token:
       type: http

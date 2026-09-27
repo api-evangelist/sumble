@@ -309,78 +309,77 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrganizationListsResponse:
+    OrganizationListSummary:
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
           title: Id
-        credits_used:
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        organizations_count:
           type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        organization_lists:
-          items:
-            $ref: '#/components/schemas/OrganizationListSummary'
-          type: array
-          title: Organization Lists
+          title: Organizations Count
+        type:
+          $ref: '#/components/schemas/OrganizationListType'
+        read_only:
+          type: boolean
+          title: Read Only
+        deletable:
+          type: boolean
+          title: Deletable
+        deleted:
+          type: boolean
+          title: Deleted
+          default: false
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
+          default: true
       type: object
       required:
       - id
-      - credits_used
-      - credits_remaining
-      - organization_lists
-      title: OrganizationListsResponse
-    AddOrganizationsResponse:
+      - name
+      - url
+      - organizations_count
+      - type
+      - read_only
+      - deletable
+      title: OrganizationListSummary
+    SetOrganizationListSignalsRequest:
       properties:
-        added:
-          items:
-            type: integer
-          type: array
-          title: Added
-        failed_ids:
-          items:
-            type: integer
-          type: array
-          title: Failed Ids
-        failed_slugs:
-          items:
-            type: string
-          type: array
-          title: Failed Slugs
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
       type: object
       required:
-      - added
-      - failed_ids
-      - failed_slugs
-      title: AddOrganizationsResponse
-    AddOrganizationsRequest:
+      - include_in_signals
+      title: SetOrganizationListSignalsRequest
+    OrganizationListType:
+      type: string
+      enum:
+      - group
+      - user
+      title: OrganizationListType
+    OrganizationListSignalsResponse:
       properties:
-        organization_ids:
-          items:
-            type: integer
-          type: array
-          title: Organization Ids
-          default: []
-        organization_slugs:
-          items:
-            type: string
-          type: array
-          title: Organization Slugs
-          default: []
+        id:
+          type: integer
+          title: Id
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
       type: object
-      title: AddOrganizationsRequest
+      required:
+      - id
+      - include_in_signals
+      title: OrganizationListSignalsResponse
     SetOrganizationListDeletedResponse:
       properties:
         id:
@@ -445,126 +444,22 @@ components:
           title: Crm Url
       type: object
       title: OrganizationListOrganization
-    CreateOrganizationListRequest:
+    AddOrganizationsRequest:
       properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CreateOrganizationListRequest
-    SetOrganizationListSignalsRequest:
-      properties:
-        include_in_signals:
-          type: boolean
-          title: Include In Signals
-      type: object
-      required:
-      - include_in_signals
-      title: SetOrganizationListSignalsRequest
-    ValidationError:
-      properties:
-        loc:
+        organization_ids:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            type: integer
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Organization Ids
+          default: []
+        organization_slugs:
+          items:
+            type: string
+          type: array
+          title: Organization Slugs
+          default: []
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrganizationListSummary:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
-        organizations_count:
-          type: integer
-          title: Organizations Count
-        type:
-          $ref: '#/components/schemas/OrganizationListType'
-        read_only:
-          type: boolean
-          title: Read Only
-        deletable:
-          type: boolean
-          title: Deletable
-        deleted:
-          type: boolean
-          title: Deleted
-          default: false
-        include_in_signals:
-          type: boolean
-          title: Include In Signals
-          default: true
-      type: object
-      required:
-      - id
-      - name
-      - url
-      - organizations_count
-      - type
-      - read_only
-      - deletable
-      title: OrganizationListSummary
-    OrganizationListSignalsResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        include_in_signals:
-          type: boolean
-          title: Include In Signals
-      type: object
-      required:
-      - id
-      - include_in_signals
-      title: OrganizationListSignalsResponse
-    CreateOrganizationListResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
-      type: object
-      required:
-      - id
-      - name
-      - url
-      title: CreateOrganizationListResponse
+      title: AddOrganizationsRequest
     SetOrganizationListDeletedRequest:
       properties:
         deleted:
@@ -574,6 +469,29 @@ components:
       required:
       - deleted
       title: SetOrganizationListDeletedRequest
+    AddOrganizationsResponse:
+      properties:
+        added:
+          items:
+            type: integer
+          type: array
+          title: Added
+        failed_ids:
+          items:
+            type: integer
+          type: array
+          title: Failed Ids
+        failed_slugs:
+          items:
+            type: string
+          type: array
+          title: Failed Slugs
+      type: object
+      required:
+      - added
+      - failed_ids
+      - failed_slugs
+      title: AddOrganizationsResponse
     OrganizationListResponse:
       properties:
         id:
@@ -601,12 +519,94 @@ components:
       - list_info
       - organizations
       title: OrganizationListResponse
-    OrganizationListType:
-      type: string
-      enum:
-      - group
-      - user
-      title: OrganizationListType
+    OrganizationListsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organization_lists:
+          items:
+            $ref: '#/components/schemas/OrganizationListSummary'
+          type: array
+          title: Organization Lists
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organization_lists
+      title: OrganizationListsResponse
+    CreateOrganizationListResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+      type: object
+      required:
+      - id
+      - name
+      - url
+      title: CreateOrganizationListResponse
+    CreateOrganizationListRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateOrganizationListRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     api_token:
       type: http
