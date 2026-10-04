@@ -64,6 +64,20 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    LookupProjectsRequest:
+      properties:
+        projects:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Projects
+          description: List of project names or slugs to look up
+      type: object
+      required:
+      - projects
+      title: LookupProjectsRequest
     ValidationError:
       properties:
         loc:
@@ -99,23 +113,20 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ProjectDetails:
+    app__schemas__paid_api__projects__LookupProjectsResponse__LookupResult:
       properties:
-        id:
-          type: integer
-          title: Id
-        slug:
+        input:
           type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
+          title: Input
+        project:
+          anyOf:
+          - $ref: '#/components/schemas/ProjectDetails'
+          - type: 'null'
       type: object
       required:
-      - id
-      - slug
-      - name
-      title: ProjectDetails
+      - input
+      - project
+      title: LookupResult
     LookupProjectsResponse:
       properties:
         id:
@@ -144,34 +155,23 @@ components:
       - matched_count
       - results
       title: LookupProjectsResponse
-    app__schemas__paid_api__projects__LookupProjectsResponse__LookupResult:
+    ProjectDetails:
       properties:
-        input:
+        id:
+          type: integer
+          title: Id
+        slug:
           type: string
-          title: Input
-        project:
-          anyOf:
-          - $ref: '#/components/schemas/ProjectDetails'
-          - type: 'null'
+          title: Slug
+        name:
+          type: string
+          title: Name
       type: object
       required:
-      - input
-      - project
-      title: LookupResult
-    LookupProjectsRequest:
-      properties:
-        projects:
-          items:
-            type: string
-          type: array
-          maxItems: 1000
-          minItems: 1
-          title: Projects
-          description: List of project names or slugs to look up
-      type: object
-      required:
-      - projects
-      title: LookupProjectsRequest
+      - id
+      - slug
+      - name
+      title: ProjectDetails
   securitySchemes:
     api_token:
       type: http

@@ -378,116 +378,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    IntelligenceBriefResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        organization_id:
-          type: integer
-          title: Organization Id
-        organization_slug:
-          type: string
-          title: Organization Slug
-        title:
-          type: string
-          title: Title
-        body:
-          type: string
-          title: Body
-        sumble_url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Sumble Url
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - organization_id
-      - organization_slug
-      - title
-      - body
-      - sumble_url
-      title: IntelligenceBriefResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ResultRow:
-      properties:
-        input:
-          anyOf:
-          - $ref: '#/components/schemas/MatchOrganizationInput'
-          - type: 'null'
-        attributes:
-          anyOf:
-          - $ref: '#/components/schemas/Attributes'
-          - type: 'null'
-        entities:
-          items:
-            $ref: '#/components/schemas/EntityResult'
-          type: array
-          title: Entities
-          default: []
-      type: object
-      title: ResultRow
-    SuggestedContacts:
-      properties:
-        people:
-          items:
-            $ref: '#/components/schemas/SuggestedContact'
-          type: array
-          title: People
-        sumble_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sumble Url
-      type: object
-      required:
-      - people
-      title: SuggestedContacts
-    Query:
-      properties:
-        query:
-          type: string
-          title: Query
-      type: object
-      required:
-      - query
-      title: Query
     Select:
       properties:
         attributes:
@@ -528,6 +418,154 @@ components:
       additionalProperties: false
       type: object
       title: Select
+    IntelligenceBriefPendingResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Always 'pending' for 202 responses
+          default: pending
+        organization_id:
+          type: integer
+          title: Organization Id
+        organization_slug:
+          type: string
+          title: Organization Slug
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - organization_id
+      - organization_slug
+      - message
+      title: IntelligenceBriefPendingResponse
+      description: 'Returned with HTTP 202 when the brief is being generated.
+
+
+        The caller should retry the same URL after the `Retry-After` header. No
+
+        credits are consumed for 202 responses.'
+    SignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        signals:
+          items:
+            $ref: '#/components/schemas/Signal'
+          type: array
+          title: Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - signals
+      title: SignalsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Query:
+      properties:
+        query:
+          type: string
+          title: Query
+      type: object
+      required:
+      - query
+      title: Query
+    ResultRow:
+      properties:
+        input:
+          anyOf:
+          - $ref: '#/components/schemas/MatchOrganizationInput'
+          - type: 'null'
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/Attributes'
+          - type: 'null'
+        entities:
+          items:
+            $ref: '#/components/schemas/EntityResult'
+          type: array
+          title: Entities
+          default: []
+      type: object
+      title: ResultRow
+    SuggestedContacts:
+      properties:
+        people:
+          items:
+            $ref: '#/components/schemas/SuggestedContact'
+          type: array
+          title: People
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+      type: object
+      required:
+      - people
+      title: SuggestedContacts
+    SignalTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      type: object
+      required:
+      - name
+      - slug
+      title: SignalTechnology
     EnrichOrganizationsResponse:
       properties:
         id:
@@ -569,96 +607,6 @@ components:
       - organizations
       - total
       title: EnrichOrganizationsResponse
-    IntelligenceBriefPendingResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Always 'pending' for 202 responses
-          default: pending
-        organization_id:
-          type: integer
-          title: Organization Id
-        organization_slug:
-          type: string
-          title: Organization Slug
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - organization_id
-      - organization_slug
-      - message
-      title: IntelligenceBriefPendingResponse
-      description: 'Returned with HTTP 202 when the brief is being generated.
-
-
-        The caller should retry the same URL after the `Retry-After` header. No
-
-        credits are consumed for 202 responses.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MatchOrganizationInput:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Organization name
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-          description: Organization website URL or domain
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-          description: Organization location (country name or code)
-        id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Id
-          description: Organization Id on Sumble. When set, the row identifies a Sumble org directly and bypasses matching; name/url/location are not required.
-        slug:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Slug
-          description: Organization slug on Sumble. When set, the row identifies a Sumble org directly and bypasses matching; name/url/location are not required.
-      additionalProperties: false
-      type: object
-      title: MatchOrganizationInput
-    SignalTechnology:
-      properties:
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-      type: object
-      required:
-      - name
-      - slug
-      title: SignalTechnology
     EnrichOrganizationsRequest:
       properties:
         organizations:
@@ -743,6 +691,70 @@ components:
       required:
       - select
       title: EnrichOrganizationsRequest
+    SuggestedContact:
+      properties:
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+      type: object
+      title: SuggestedContact
+    MatchOrganizationInput:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Organization name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Organization website URL or domain
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+          description: Organization location (country name or code)
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+          description: Organization Id on Sumble. When set, the row identifies a Sumble org directly and bypasses matching; name/url/location are not required.
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+          description: Organization slug on Sumble. When set, the row identifies a Sumble org directly and bypasses matching; name/url/location are not required.
+      additionalProperties: false
+      type: object
+      title: MatchOrganizationInput
     Attributes:
       properties:
         id:
@@ -867,35 +879,6 @@ components:
           title: Cloud Spend Estimate Millions Usd
       type: object
       title: Attributes
-    SuggestedContact:
-      properties:
-        person_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Person Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        linkedin_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linkedin Url
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
-      type: object
-      title: SuggestedContact
     EntityResult:
       properties:
         type:
@@ -998,6 +981,47 @@ components:
       - type
       - term
       title: EntityResult
+    IntelligenceBriefResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organization_id:
+          type: integer
+          title: Organization Id
+        organization_slug:
+          type: string
+          title: Organization Slug
+        title:
+          type: string
+          title: Title
+        body:
+          type: string
+          title: Body
+        sumble_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Sumble Url
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organization_id
+      - organization_slug
+      - title
+      - body
+      - sumble_url
+      title: IntelligenceBriefResponse
     Signal:
       properties:
         signal_id:
@@ -1155,30 +1179,6 @@ components:
       - type
       - term
       title: EntitySelection
-    SignalsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        signals:
-          items:
-            $ref: '#/components/schemas/Signal'
-          type: array
-          title: Signals
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - signals
-      title: SignalsResponse
   securitySchemes:
     api_token:
       type: http

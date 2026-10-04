@@ -229,6 +229,44 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    PrioritySignalRelevanceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+      type: object
+      required:
+      - id
+      title: PrioritySignalRelevanceResponse
+    SignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        signals:
+          items:
+            $ref: '#/components/schemas/Signal'
+          type: array
+          title: Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - signals
+      title: SignalsResponse
     ValidationError:
       properties:
         loc:
@@ -255,6 +293,19 @@ components:
       - msg
       - type
       title: ValidationError
+    UpdatePrioritySignalRelevanceRequest:
+      properties:
+        is_relevant:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Relevant
+          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
+      additionalProperties: false
+      type: object
+      required:
+      - is_relevant
+      title: UpdatePrioritySignalRelevanceRequest
     HTTPValidationError:
       properties:
         detail:
@@ -264,22 +315,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SuggestedContacts:
-      properties:
-        people:
-          items:
-            $ref: '#/components/schemas/SuggestedContact'
-          type: array
-          title: People
-        sumble_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sumble Url
-      type: object
-      required:
-      - people
-      title: SuggestedContacts
     SearchPrioritySignalsFilter:
       properties:
         organization_ids:
@@ -337,6 +372,56 @@ components:
       additionalProperties: false
       type: object
       title: SearchPrioritySignalsFilter
+    SuggestedContacts:
+      properties:
+        people:
+          items:
+            $ref: '#/components/schemas/SuggestedContact'
+          type: array
+          title: People
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+      type: object
+      required:
+      - people
+      title: SuggestedContacts
+    SearchPrioritySignalsRequest:
+      properties:
+        filter:
+          $ref: '#/components/schemas/SearchPrioritySignalsFilter'
+          description: Filter criteria for priority signals search.
+      additionalProperties: false
+      type: object
+      title: SearchPrioritySignalsRequest
+    SearchSignalsRequest:
+      properties:
+        filter:
+          $ref: '#/components/schemas/SearchSignalsFilter'
+          description: Filter criteria for signals search.
+      additionalProperties: false
+      type: object
+      title: SearchSignalsRequest
+    SignalTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      type: object
+      required:
+      - name
+      - slug
+      title: SignalTechnology
     SearchSignalsFilter:
       properties:
         organization_ids:
@@ -420,91 +505,6 @@ components:
       additionalProperties: false
       type: object
       title: SearchSignalsFilter
-    UpdatePrioritySignalRelevanceRequest:
-      properties:
-        is_relevant:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Relevant
-          description: Whether this priority signal is relevant (true) or not relevant (false). Pass null to clear previously-set feedback.
-      additionalProperties: false
-      type: object
-      required:
-      - is_relevant
-      title: UpdatePrioritySignalRelevanceRequest
-    SearchSignalsRequest:
-      properties:
-        filter:
-          $ref: '#/components/schemas/SearchSignalsFilter'
-          description: Filter criteria for signals search.
-      additionalProperties: false
-      type: object
-      title: SearchSignalsRequest
-    SignalTechnology:
-      properties:
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-      type: object
-      required:
-      - name
-      - slug
-      title: SignalTechnology
-    PrioritySignalsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        priority_signals:
-          items:
-            $ref: '#/components/schemas/PrioritySignal'
-          type: array
-          title: Priority Signals
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - priority_signals
-      title: PrioritySignalsResponse
-    PrioritySignalRelevanceResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        is_relevant:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Relevant
-      type: object
-      required:
-      - id
-      title: PrioritySignalRelevanceResponse
-    SearchPrioritySignalsRequest:
-      properties:
-        filter:
-          $ref: '#/components/schemas/SearchPrioritySignalsFilter'
-          description: Filter criteria for priority signals search.
-      additionalProperties: false
-      type: object
-      title: SearchPrioritySignalsRequest
     SuggestedContact:
       properties:
         person_id:
@@ -695,7 +695,7 @@ components:
       - date
       - display_type
       title: Signal
-    SignalsResponse:
+    PrioritySignalsResponse:
       properties:
         id:
           type: string
@@ -707,18 +707,18 @@ components:
         credits_remaining:
           type: integer
           title: Credits Remaining
-        signals:
+        priority_signals:
           items:
-            $ref: '#/components/schemas/Signal'
+            $ref: '#/components/schemas/PrioritySignal'
           type: array
-          title: Signals
+          title: Priority Signals
       type: object
       required:
       - id
       - credits_used
       - credits_remaining
-      - signals
-      title: SignalsResponse
+      - priority_signals
+      title: PrioritySignalsResponse
   securitySchemes:
     api_token:
       type: http

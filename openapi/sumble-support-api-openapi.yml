@@ -71,6 +71,28 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CreateDataQualityReportRequest:
+      properties:
+        message:
+          type: string
+          maxLength: 5000
+          title: Message
+        url:
+          anyOf:
+          - type: string
+            maxLength: 2048
+          - type: 'null'
+          title: Url
+        page_title:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Page Title
+      type: object
+      required:
+      - message
+      title: CreateDataQualityReportRequest
     ValidationError:
       properties:
         loc:
@@ -115,28 +137,6 @@ components:
       required:
       - message
       title: SupportRequestResponse
-    CreateDataQualityReportRequest:
-      properties:
-        message:
-          type: string
-          maxLength: 5000
-          title: Message
-        url:
-          anyOf:
-          - type: string
-            maxLength: 2048
-          - type: 'null'
-          title: Url
-        page_title:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Page Title
-      type: object
-      required:
-      - message
-      title: CreateDataQualityReportRequest
     CreateSupportRequestRequest:
       properties:
         message:

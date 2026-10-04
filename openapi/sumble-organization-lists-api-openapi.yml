@@ -309,6 +309,48 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    OrganizationListSignalsResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
+      type: object
+      required:
+      - id
+      - include_in_signals
+      title: OrganizationListSignalsResponse
+    SetOrganizationListDeletedRequest:
+      properties:
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - deleted
+      title: SetOrganizationListDeletedRequest
+    CreateOrganizationListResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+      type: object
+      required:
+      - id
+      - name
+      - url
+      title: CreateOrganizationListResponse
     ValidationError:
       properties:
         loc:
@@ -335,12 +377,6 @@ components:
       - msg
       - type
       title: ValidationError
-    OrganizationListType:
-      type: string
-      enum:
-      - group
-      - user
-      title: OrganizationListType
     HTTPValidationError:
       properties:
         detail:
@@ -350,15 +386,30 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SetOrganizationListDeletedRequest:
+    OrganizationListsResponse:
       properties:
-        deleted:
-          type: boolean
-          title: Deleted
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organization_lists:
+          items:
+            $ref: '#/components/schemas/OrganizationListSummary'
+          type: array
+          title: Organization Lists
       type: object
       required:
-      - deleted
-      title: SetOrganizationListDeletedRequest
+      - id
+      - credits_used
+      - credits_remaining
+      - organization_lists
+      title: OrganizationListsResponse
     OrganizationListResponse:
       properties:
         id:
@@ -386,101 +437,6 @@ components:
       - list_info
       - organizations
       title: OrganizationListResponse
-    OrganizationListSignalsResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        include_in_signals:
-          type: boolean
-          title: Include In Signals
-      type: object
-      required:
-      - id
-      - include_in_signals
-      title: OrganizationListSignalsResponse
-    SetOrganizationListDeletedResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        deleted:
-          type: boolean
-          title: Deleted
-      type: object
-      required:
-      - id
-      - deleted
-      title: SetOrganizationListDeletedResponse
-    CreateOrganizationListResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Url
-      type: object
-      required:
-      - id
-      - name
-      - url
-      title: CreateOrganizationListResponse
-    SetOrganizationListSignalsRequest:
-      properties:
-        include_in_signals:
-          type: boolean
-          title: Include In Signals
-      type: object
-      required:
-      - include_in_signals
-      title: SetOrganizationListSignalsRequest
-    AddOrganizationsRequest:
-      properties:
-        organization_ids:
-          items:
-            type: integer
-          type: array
-          title: Organization Ids
-          default: []
-        organization_slugs:
-          items:
-            type: string
-          type: array
-          title: Organization Slugs
-          default: []
-      type: object
-      title: AddOrganizationsRequest
-    OrganizationListsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        organization_lists:
-          items:
-            $ref: '#/components/schemas/OrganizationListSummary'
-          type: array
-          title: Organization Lists
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - organization_lists
-      title: OrganizationListsResponse
     CreateOrganizationListRequest:
       properties:
         name:
@@ -490,6 +446,12 @@ components:
       required:
       - name
       title: CreateOrganizationListRequest
+    OrganizationListType:
+      type: string
+      enum:
+      - group
+      - user
+      title: OrganizationListType
     OrganizationListOrganization:
       properties:
         id:
@@ -541,6 +503,22 @@ components:
           title: Crm Url
       type: object
       title: OrganizationListOrganization
+    AddOrganizationsRequest:
+      properties:
+        organization_ids:
+          items:
+            type: integer
+          type: array
+          title: Organization Ids
+          default: []
+        organization_slugs:
+          items:
+            type: string
+          type: array
+          title: Organization Slugs
+          default: []
+      type: object
+      title: AddOrganizationsRequest
     OrganizationListSummary:
       properties:
         id:
@@ -584,6 +562,28 @@ components:
       - read_only
       - deletable
       title: OrganizationListSummary
+    SetOrganizationListSignalsRequest:
+      properties:
+        include_in_signals:
+          type: boolean
+          title: Include In Signals
+      type: object
+      required:
+      - include_in_signals
+      title: SetOrganizationListSignalsRequest
+    SetOrganizationListDeletedResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - id
+      - deleted
+      title: SetOrganizationListDeletedResponse
     AddOrganizationsResponse:
       properties:
         added:
