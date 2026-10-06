@@ -50,7 +50,7 @@ accessModel:
     anonymous access to organization, job or people records.
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-08-13'
+modified: '2026-10-06'
 tags:
 - Company
 - Account Intelligence
@@ -206,6 +206,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- url: https://blog.sumble.com/rss/
+  type: BlogRSS
 - type: Overlay
   url: overlays/sumble-openapi-overlay.yaml
 - type: DeveloperPortal
