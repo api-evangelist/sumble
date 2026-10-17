@@ -234,101 +234,151 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    JobAttributes:
+    PersonAttributes:
       properties:
-        title:
+        name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Title
-        description:
+          title: Name
+        email:
           anyOf:
           - type: string
           - type: 'null'
-          title: Description
+          title: Email
+          description: Revealed work email (match mode only). The first successful reveal per person costs 10 credits; repeat reveals while active are free.
+        phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone
+          description: Revealed phone number (match mode only). The first successful reveal per person costs 80 credits; repeat reveals while active are free.
+        linkedin_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Linkedin Url
+        job_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Title
+        job_function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function
+        job_level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Level
         location:
           anyOf:
           - type: string
           - type: 'null'
           title: Location
-        posted_date:
+        country:
           anyOf:
           - type: string
-            format: date-time
           - type: 'null'
-          title: Posted Date
-        organization:
+          title: Country
+        current_employer:
           anyOf:
-          - $ref: '#/components/schemas/JobOrganization'
+          - $ref: '#/components/schemas/CurrentEmployer'
           - type: 'null'
         technologies:
           anyOf:
           - items:
-              $ref: '#/components/schemas/JobTechnology'
+              $ref: '#/components/schemas/PersonTechnology'
             type: array
           - type: 'null'
           title: Technologies
-          description: All technologies extracted from the posting; empty list when requested but none were extracted.
-        teams:
+          description: Technologies from the skills on the person's LinkedIn profile, normalized to Sumble's technology catalog. The slug can be used in `filter.query` (technology EQ '<slug>'). Empty when none of the profile's skills map to a known technology.
+        person_score:
           anyOf:
-          - items:
-              $ref: '#/components/schemas/JobTeam'
-            type: array
+          - $ref: '#/components/schemas/PersonScore'
           - type: 'null'
-          title: Teams
-          description: Teams extracted from the posting; empty list when requested but none were extracted.
-        job_functions:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/app__schemas__paid_api__jobs_unified__JobFunction'
-            type: array
-          - type: 'null'
-          title: Job Functions
-          description: Job functions classified from the posting; empty list when requested but none were classified.
-        job_levels:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/app__schemas__paid_api__jobs_unified__JobLevel'
-            type: array
-          - type: 'null'
-          title: Job Levels
-          description: Seniority levels classified from the posting; empty list when requested but none were classified.
-        projects:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/JobProject'
-            type: array
-          - type: 'null'
-          title: Projects
-          description: Projects extracted from the posting; empty list when requested but none were extracted.
+          description: 'How well the person matches your ideal customer profile (ICP), 0-100, with a per-feature breakdown. Priced like other paid attributes. Filter mode only; selecting it explicitly requires the filter to resolve to exactly one organization and an ICP configured for your account (`attributes: "all"` skips it instead when unavailable). Included automatically when sorting with `order_by_column="person_score"`.'
       type: object
-      title: JobAttributes
-    HTTPValidationError:
+      title: PersonAttributes
+    LookupTitlesRequest:
       properties:
-        detail:
+        titles:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
           type: array
-          title: Detail
+          maxItems: 1000
+          minItems: 1
+          title: Titles
+          description: List of job titles to look up
       type: object
-      title: HTTPValidationError
-    app__schemas__paid_api__jobs__LookupTitlesResponse__JobLevel:
+      required:
+      - titles
+      title: LookupTitlesRequest
+    PersonScore:
+      properties:
+        value:
+          type: number
+          title: Value
+          description: How well the person matches your ideal customer profile (ICP), 0-100. Sum of the three contributions below.
+        skill_contribution:
+          type: number
+          title: Skill Contribution
+          description: Points from technologies the person uses that match your ICP.
+        job_function_contribution:
+          type: number
+          title: Job Function Contribution
+          description: Points from the person's job function matching your ICP.
+        seniority_contribution:
+          type: number
+          title: Seniority Contribution
+          description: Points from the person's job level (seniority).
+        matched_features:
+          items:
+            $ref: '#/components/schemas/PersonScoreFeature'
+          type: array
+          title: Matched Features
+          description: The matched technologies and job functions behind the skill and job-function contributions, highest contribution first.
+      type: object
+      required:
+      - value
+      - skill_contribution
+      - job_function_contribution
+      - seniority_contribution
+      - matched_features
+      title: PersonScore
+    LookupTitlesResponse:
       properties:
         id:
-          type: integer
-          title: Id
-        name:
           type: string
-          title: Name
-        level_rank:
+          format: uuid
+          title: Id
+        credits_used:
           type: integer
-          title: Level Rank
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        matched_count:
+          type: integer
+          title: Matched Count
+        results:
+          items:
+            $ref: '#/components/schemas/app__schemas__paid_api__jobs__LookupTitlesResponse__LookupResult'
+          type: array
+          title: Results
       type: object
       required:
       - id
-      - name
-      - level_rank
-      title: JobLevel
+      - credits_used
+      - credits_remaining
+      - matched_count
+      - results
+      title: LookupTitlesResponse
     JobProject:
       properties:
         name:
@@ -356,21 +406,121 @@ components:
       - name
       - slug
       title: JobProject
-    LookupTitlesRequest:
+    PersonTechnology:
       properties:
-        titles:
-          items:
-            type: string
-          type: array
-          maxItems: 1000
-          minItems: 1
-          title: Titles
-          description: List of job titles to look up
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
       type: object
       required:
-      - titles
-      title: LookupTitlesRequest
-    JobOrganization:
+      - name
+      - slug
+      title: PersonTechnology
+    app__schemas__paid_api__jobs__LookupTitlesResponse__JobFunction:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      title: JobFunction
+    JobsFilter:
+      properties:
+        organization_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+            maxItems: 1000
+            minItems: 1
+          - type: 'null'
+          title: Organization Ids
+          description: Sumble organization ids to scope the search to. Unknown ids simply match no jobs.
+        organization_list_id:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Organization List Id
+          description: Id of one of your saved organization lists (see /organization-lists) whose organizations to search within. Combined with `organization_ids` when both are provided.
+        query:
+          anyOf:
+          - $ref: '#/components/schemas/Query'
+          - type: 'null'
+          description: Advanced query narrowing the jobs returned (technologies, technology categories, job functions, countries, hiring period, ...).
+      additionalProperties: false
+      type: object
+      title: JobsFilter
+    JobTeam:
+      properties:
+        team_id:
+          type: integer
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the team's Sumble page.
+      type: object
+      required:
+      - team_id
+      - name
+      - slug
+      title: JobTeam
+    JobsSelect:
+      properties:
+        attributes:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - title
+              - description
+              - location
+              - posted_date
+              - organization
+              - technologies
+              - teams
+              - job_functions
+              - job_levels
+              - projects
+            type: array
+          - type: string
+            const: all
+          title: Attributes
+          description: Job attributes to include, or 'all' for every available attribute (including the full `description`). Off by default. Note that 'all' grows — and its cost grows — as new attributes are added to the endpoint.
+          default: []
+        related_people:
+          anyOf:
+          - $ref: '#/components/schemas/JobRelatedPeopleSelection'
+          - type: 'null'
+          description: Also return the people likely involved in each job's hiring — scored hiring managers and team members at the posting organization, inferred from team, job function, location and technology similarity, not actual reporting lines. Available in both modes, for at most 200 jobs per request. Each related person returned costs 1 credit.
+      additionalProperties: false
+      type: object
+      title: JobsSelect
+    CurrentEmployer:
       properties:
         organization_id:
           type: integer
@@ -380,11 +530,12 @@ components:
           - type: string
           - type: 'null'
           title: Name
-        domain:
+        start_date:
           anyOf:
           - type: string
           - type: 'null'
-          title: Domain
+          title: Start Date
+          description: Start of the person's current role (YYYY-MM).
         sumble_url:
           anyOf:
           - type: string
@@ -397,7 +548,77 @@ components:
       type: object
       required:
       - organization_id
-      title: JobOrganization
+      title: CurrentEmployer
+    RelatedPersonConfidence:
+      properties:
+        score:
+          type: number
+          title: Score
+          description: How strongly this person relates to the source person (people endpoint) or job posting (jobs endpoint), 0-1. Sum of the five contributions below. Measures similarity on shared features (technologies, job functions, teams, locations, job titles) — unrelated to the ICP-based `person_score` attribute.
+        technology_contribution:
+          type: number
+          title: Technology Contribution
+          description: Share from technologies shared with the source.
+        job_function_contribution:
+          type: number
+          title: Job Function Contribution
+          description: Share from matching job functions.
+        team_contribution:
+          type: number
+          title: Team Contribution
+          description: Share from shared teams.
+        location_contribution:
+          type: number
+          title: Location Contribution
+          description: Share from matching locations.
+        title_similarity_contribution:
+          type: number
+          title: Title Similarity Contribution
+          description: Share from semantic similarity between job titles.
+        matched_features:
+          items:
+            $ref: '#/components/schemas/RelatedPersonConfidenceFeature'
+          type: array
+          title: Matched Features
+          description: The specific matched features behind the contributions, highest contribution first.
+      type: object
+      required:
+      - score
+      - technology_contribution
+      - job_function_contribution
+      - team_contribution
+      - location_contribution
+      - title_similarity_contribution
+      - matched_features
+      title: RelatedPersonConfidence
+    app__schemas__paid_api__jobs_unified__JobLevel:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: JobLevel
+    app__schemas__paid_api__jobs__LookupTitlesResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        job_function:
+          anyOf:
+          - $ref: '#/components/schemas/app__schemas__paid_api__jobs__LookupTitlesResponse__JobFunction'
+          - type: 'null'
+        job_level:
+          anyOf:
+          - $ref: '#/components/schemas/app__schemas__paid_api__jobs__LookupTitlesResponse__JobLevel'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - job_function
+      - job_level
+      title: LookupResult
     EnrichJobsResponse:
       properties:
         id:
@@ -471,299 +692,23 @@ components:
       - name
       - contribution
       title: RelatedPersonConfidenceFeature
-    Query:
-      properties:
-        query:
-          type: string
-          title: Query
-      type: object
-      required:
-      - query
-      title: Query
-    RelatedPersonConfidence:
-      properties:
-        score:
-          type: number
-          title: Score
-          description: How strongly this person relates to the source person (people endpoint) or job posting (jobs endpoint), 0-1. Sum of the five contributions below. Measures similarity on shared features (technologies, job functions, teams, locations, job titles) — unrelated to the ICP-based `person_score` attribute.
-        technology_contribution:
-          type: number
-          title: Technology Contribution
-          description: Share from technologies shared with the source.
-        job_function_contribution:
-          type: number
-          title: Job Function Contribution
-          description: Share from matching job functions.
-        team_contribution:
-          type: number
-          title: Team Contribution
-          description: Share from shared teams.
-        location_contribution:
-          type: number
-          title: Location Contribution
-          description: Share from matching locations.
-        title_similarity_contribution:
-          type: number
-          title: Title Similarity Contribution
-          description: Share from semantic similarity between job titles.
-        matched_features:
-          items:
-            $ref: '#/components/schemas/RelatedPersonConfidenceFeature'
-          type: array
-          title: Matched Features
-          description: The specific matched features behind the contributions, highest contribution first.
-      type: object
-      required:
-      - score
-      - technology_contribution
-      - job_function_contribution
-      - team_contribution
-      - location_contribution
-      - title_similarity_contribution
-      - matched_features
-      title: RelatedPersonConfidence
-    PersonAttributes:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        email:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Email
-          description: Revealed work email (match mode only). The first successful reveal per person costs 10 credits; repeat reveals while active are free.
-        phone:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone
-          description: Revealed phone number (match mode only). The first successful reveal per person costs 80 credits; repeat reveals while active are free.
-        linkedin_url:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Linkedin Url
-        job_title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Job Title
-        job_function:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Job Function
-        job_level:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Job Level
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-        current_employer:
-          anyOf:
-          - $ref: '#/components/schemas/CurrentEmployer'
-          - type: 'null'
-        technologies:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/PersonTechnology'
-            type: array
-          - type: 'null'
-          title: Technologies
-          description: Technologies from the skills on the person's LinkedIn profile, normalized to Sumble's technology catalog. The slug can be used in `filter.query` (technology EQ '<slug>'). Empty when none of the profile's skills map to a known technology.
-        person_score:
-          anyOf:
-          - $ref: '#/components/schemas/PersonScore'
-          - type: 'null'
-          description: 'How well the person matches your ideal customer profile (ICP), 0-100, with a per-feature breakdown. Priced like other paid attributes. Filter mode only; selecting it explicitly requires the filter to resolve to exactly one organization and an ICP configured for your account (`attributes: "all"` skips it instead when unavailable). Included automatically when sorting with `order_by_column="person_score"`.'
-      type: object
-      title: PersonAttributes
-    CurrentEmployer:
-      properties:
-        organization_id:
-          type: integer
-          title: Organization Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        start_date:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Start Date
-          description: Start of the person's current role (YYYY-MM).
-        sumble_url:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Sumble Url
-          description: Link to the organization's Sumble profile page.
-      type: object
-      required:
-      - organization_id
-      title: CurrentEmployer
-    PersonScore:
-      properties:
-        value:
-          type: number
-          title: Value
-          description: How well the person matches your ideal customer profile (ICP), 0-100. Sum of the three contributions below.
-        skill_contribution:
-          type: number
-          title: Skill Contribution
-          description: Points from technologies the person uses that match your ICP.
-        job_function_contribution:
-          type: number
-          title: Job Function Contribution
-          description: Points from the person's job function matching your ICP.
-        seniority_contribution:
-          type: number
-          title: Seniority Contribution
-          description: Points from the person's job level (seniority).
-        matched_features:
-          items:
-            $ref: '#/components/schemas/PersonScoreFeature'
-          type: array
-          title: Matched Features
-          description: The matched technologies and job functions behind the skill and job-function contributions, highest contribution first.
-      type: object
-      required:
-      - value
-      - skill_contribution
-      - job_function_contribution
-      - seniority_contribution
-      - matched_features
-      title: PersonScore
-    app__schemas__paid_api__jobs__LookupTitlesResponse__JobFunction:
+    app__schemas__paid_api__jobs__LookupTitlesResponse__JobLevel:
       properties:
         id:
           type: integer
           title: Id
-        slug:
-          type: string
-          title: Slug
         name:
           type: string
           title: Name
+        level_rank:
+          type: integer
+          title: Level Rank
       type: object
       required:
       - id
-      - slug
       - name
-      title: JobFunction
-    JobsSelect:
-      properties:
-        attributes:
-          anyOf:
-          - items:
-              type: string
-              enum:
-              - title
-              - description
-              - location
-              - posted_date
-              - organization
-              - technologies
-              - teams
-              - job_functions
-              - job_levels
-              - projects
-            type: array
-          - type: string
-            const: all
-          title: Attributes
-          description: Job attributes to include, or 'all' for every available attribute (including the full `description`). Off by default. Note that 'all' grows — and its cost grows — as new attributes are added to the endpoint.
-          default: []
-        related_people:
-          anyOf:
-          - $ref: '#/components/schemas/JobRelatedPeopleSelection'
-          - type: 'null'
-          description: Also return the people likely involved in each job's hiring — scored hiring managers and team members at the posting organization, inferred from team, job function, location and technology similarity, not actual reporting lines. Available in both modes, for at most 200 jobs per request. Each related person returned costs 1 credit.
-      additionalProperties: false
-      type: object
-      title: JobsSelect
-    app__schemas__paid_api__jobs_unified__JobLevel:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
+      - level_rank
       title: JobLevel
-    JobsFilter:
-      properties:
-        organization_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-            maxItems: 1000
-            minItems: 1
-          - type: 'null'
-          title: Organization Ids
-          description: Sumble organization ids to scope the search to. Unknown ids simply match no jobs.
-        organization_list_id:
-          anyOf:
-          - type: integer
-            minimum: 1.0
-          - type: 'null'
-          title: Organization List Id
-          description: Id of one of your saved organization lists (see /organization-lists) whose organizations to search within. Combined with `organization_ids` when both are provided.
-        query:
-          anyOf:
-          - $ref: '#/components/schemas/Query'
-          - type: 'null'
-          description: Advanced query narrowing the jobs returned (technologies, technology categories, job functions, countries, hiring period, ...).
-      additionalProperties: false
-      type: object
-      title: JobsFilter
-    JobTeam:
-      properties:
-        team_id:
-          type: integer
-          title: Team Id
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        sumble_url:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Sumble Url
-          description: Link to the team's Sumble page.
-      type: object
-      required:
-      - team_id
-      - name
-      - slug
-      title: JobTeam
     JobRelatedPeopleSelection:
       properties:
         attributes:
@@ -830,121 +775,75 @@ components:
       additionalProperties: false
       type: object
       title: JobRelatedPeopleSelection
-    ValidationError:
+    JobAttributes:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    app__schemas__paid_api__jobs_unified__JobFunction:
-      properties:
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        sumble_url:
+        posted_date:
           anyOf:
           - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
+            format: date-time
           - type: 'null'
-          title: Sumble Url
-          description: The posting organization's jobs page filtered to this job function.
-      type: object
-      required:
-      - name
-      - slug
-      title: JobFunction
-    JobTechnology:
-      properties:
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        used:
-          type: boolean
-          title: Used
-          description: True when the posting indicates the technology is used by the team, not merely mentioned.
-        sumble_url:
+          title: Posted Date
+        organization:
           anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
+          - $ref: '#/components/schemas/JobOrganization'
           - type: 'null'
-          title: Sumble Url
-          description: The posting organization's jobs page filtered to this technology.
+        technologies:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobTechnology'
+            type: array
+          - type: 'null'
+          title: Technologies
+          description: All technologies extracted from the posting; empty list when requested but none were extracted.
+        teams:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobTeam'
+            type: array
+          - type: 'null'
+          title: Teams
+          description: Teams extracted from the posting; empty list when requested but none were extracted.
+        job_functions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/app__schemas__paid_api__jobs_unified__JobFunction'
+            type: array
+          - type: 'null'
+          title: Job Functions
+          description: Job functions classified from the posting; empty list when requested but none were classified.
+        job_levels:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/app__schemas__paid_api__jobs_unified__JobLevel'
+            type: array
+          - type: 'null'
+          title: Job Levels
+          description: Seniority levels classified from the posting; empty list when requested but none were classified.
+        projects:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobProject'
+            type: array
+          - type: 'null'
+          title: Projects
+          description: Projects extracted from the posting; empty list when requested but none were extracted.
       type: object
-      required:
-      - name
-      - slug
-      - used
-      title: JobTechnology
-    JobInput:
-      properties:
-        job_id:
-          type: integer
-          minimum: 1.0
-          title: Job Id
-          description: Job id on Sumble.
-      additionalProperties: false
-      type: object
-      required:
-      - job_id
-      title: JobInput
-    LookupTitlesResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        matched_count:
-          type: integer
-          title: Matched Count
-        results:
-          items:
-            $ref: '#/components/schemas/app__schemas__paid_api__jobs__LookupTitlesResponse__LookupResult'
-          type: array
-          title: Results
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - matched_count
-      - results
-      title: LookupTitlesResponse
+      title: JobAttributes
     JobRow:
       properties:
         input:
@@ -982,77 +881,81 @@ components:
           description: Scored hiring managers / team members for the job. Present (possibly empty) when `select.related_people` is requested and the job matched; absent otherwise.
       type: object
       title: JobRow
-    app__schemas__paid_api__jobs__LookupTitlesResponse__LookupResult:
+    JobInput:
       properties:
-        input:
-          type: string
-          title: Input
-        job_function:
-          anyOf:
-          - $ref: '#/components/schemas/app__schemas__paid_api__jobs__LookupTitlesResponse__JobFunction'
-          - type: 'null'
-        job_level:
-          anyOf:
-          - $ref: '#/components/schemas/app__schemas__paid_api__jobs__LookupTitlesResponse__JobLevel'
-          - type: 'null'
-      type: object
-      required:
-      - input
-      - job_function
-      - job_level
-      title: LookupResult
-    RelatedPersonRow:
-      properties:
-        person_id:
+        job_id:
           type: integer
-          title: Person Id
-        sumble_url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Sumble Url
-          description: Link to the person's Sumble profile page.
-        confidence:
-          anyOf:
-          - $ref: '#/components/schemas/RelatedPersonConfidence'
-          - type: 'null'
-          description: 'Why this person was returned: confidence score (0-1) with per-category and per-feature breakdowns. Present when the `confidence` attribute is requested. Not the ICP-based `person_score`.'
-        attributes:
-          anyOf:
-          - $ref: '#/components/schemas/PersonAttributes'
-          - type: 'null'
-          description: The requested person-level attributes; absent when none resolve.
+          minimum: 1.0
+          title: Job Id
+          description: Job id on Sumble.
+      additionalProperties: false
       type: object
       required:
-      - person_id
-      - sumble_url
-      title: RelatedPersonRow
-    PersonScoreFeature:
+      - job_id
+      title: JobInput
+    Query:
       properties:
-        name:
+        query:
           type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        match_type:
-          type: string
-          enum:
-          - technology
-          - job_function
-          title: Match Type
-        contribution:
-          type: number
-          title: Contribution
-          description: Points of the 0-100 score attributable to this feature.
+          title: Query
       type: object
       required:
-      - name
-      - slug
-      - match_type
-      - contribution
-      title: PersonScoreFeature
+      - query
+      title: Query
+    JobOrganization:
+      properties:
+        organization_id:
+          type: integer
+          title: Organization Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        domain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Domain
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: Link to the organization's Sumble profile page.
+      type: object
+      required:
+      - organization_id
+      title: JobOrganization
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     EnrichJobsRequest:
       properties:
         jobs:
@@ -1092,7 +995,7 @@ components:
       required:
       - select
       title: EnrichJobsRequest
-    PersonTechnology:
+    PersonScoreFeature:
       properties:
         name:
           type: string
@@ -1100,11 +1003,108 @@ components:
         slug:
           type: string
           title: Slug
+        match_type:
+          type: string
+          enum:
+          - technology
+          - job_function
+          title: Match Type
+        contribution:
+          type: number
+          title: Contribution
+          description: Points of the 0-100 score attributable to this feature.
       type: object
       required:
       - name
       - slug
-      title: PersonTechnology
+      - match_type
+      - contribution
+      title: PersonScoreFeature
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JobTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        used:
+          type: boolean
+          title: Used
+          description: True when the posting indicates the technology is used by the team, not merely mentioned.
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: The posting organization's jobs page filtered to this technology.
+      type: object
+      required:
+      - name
+      - slug
+      - used
+      title: JobTechnology
+    app__schemas__paid_api__jobs_unified__JobFunction:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        sumble_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Sumble Url
+          description: The posting organization's jobs page filtered to this job function.
+      type: object
+      required:
+      - name
+      - slug
+      title: JobFunction
+    RelatedPersonRow:
+      properties:
+        person_id:
+          type: integer
+          title: Person Id
+        sumble_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Sumble Url
+          description: Link to the person's Sumble profile page.
+        confidence:
+          anyOf:
+          - $ref: '#/components/schemas/RelatedPersonConfidence'
+          - type: 'null'
+          description: 'Why this person was returned: confidence score (0-1) with per-category and per-feature breakdowns. Present when the `confidence` attribute is requested. Not the ICP-based `person_score`.'
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/PersonAttributes'
+          - type: 'null'
+          description: The requested person-level attributes; absent when none resolve.
+      type: object
+      required:
+      - person_id
+      - sumble_url
+      title: RelatedPersonRow
   securitySchemes:
     api_token:
       type: http

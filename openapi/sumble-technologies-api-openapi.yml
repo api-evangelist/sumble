@@ -319,15 +319,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GetTechnologiesRequest:
-      properties:
-        query:
-          type: string
-          title: Query
-      type: object
-      required:
-      - query
-      title: GetTechnologiesRequest
     ValidationError:
       properties:
         loc:
@@ -354,6 +345,115 @@ components:
       - msg
       - type
       title: ValidationError
+    app__schemas__paid_api__technologies__GetTechnologiesResponse__TechDetails:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - slug
+      - name
+      - count
+      title: TechDetails
+    TechCategory:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        name_short:
+          type: string
+          title: Name Short
+      type: object
+      required:
+      - slug
+      - name
+      - name_short
+      title: TechCategory
+    LookupTechnologyCategoriesResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        matched_count:
+          type: integer
+          title: Matched Count
+        results:
+          items:
+            $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult'
+          type: array
+          title: Results
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - matched_count
+      - results
+      title: LookupTechnologyCategoriesResponse
+    CategoryDetails:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        name_short:
+          type: string
+          title: Name Short
+        technologies:
+          items:
+            $ref: '#/components/schemas/Technology'
+          type: array
+          title: Technologies
+          description: Technologies in the category. Technologies mentioned most often in job postings appear first.
+      type: object
+      required:
+      - slug
+      - name
+      - name_short
+      - technologies
+      title: CategoryDetails
+    app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails:
+      properties:
+        id:
+          type: integer
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        categories:
+          items:
+            $ref: '#/components/schemas/TechCategory'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - categories
+      title: TechDetails
     LookupTechnologyCategoriesRequest:
       properties:
         technology_categories:
@@ -396,141 +496,6 @@ components:
       - technologies
       - total_count
       title: GetTechnologiesResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CategoryDetails:
-      properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        name_short:
-          type: string
-          title: Name Short
-        technologies:
-          items:
-            $ref: '#/components/schemas/Technology'
-          type: array
-          title: Technologies
-          description: Technologies in the category. Technologies mentioned most often in job postings appear first.
-      type: object
-      required:
-      - slug
-      - name
-      - name_short
-      - technologies
-      title: CategoryDetails
-    TechCategory:
-      properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        name_short:
-          type: string
-          title: Name Short
-      type: object
-      required:
-      - slug
-      - name
-      - name_short
-      title: TechCategory
-    LookupTechnologiesRequest:
-      properties:
-        technologies:
-          items:
-            type: string
-          type: array
-          maxItems: 1000
-          minItems: 1
-          title: Technologies
-          description: List of technology names, slugs, or aliases to look up
-      type: object
-      required:
-      - technologies
-      title: LookupTechnologiesRequest
-    Technology:
-      properties:
-        id:
-          type: integer
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      title: Technology
-    app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails:
-      properties:
-        id:
-          type: integer
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        categories:
-          items:
-            $ref: '#/components/schemas/TechCategory'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - categories
-      title: TechDetails
-    app__schemas__paid_api__technologies__LookupTechnologiesResponse__LookupResult:
-      properties:
-        input:
-          type: string
-          title: Input
-        technology:
-          anyOf:
-          - $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails'
-          - type: 'null'
-      type: object
-      required:
-      - input
-      - technology
-      title: LookupResult
-    app__schemas__paid_api__technologies__GetTechnologiesResponse__TechDetails:
-      properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        count:
-          type: integer
-          title: Count
-      type: object
-      required:
-      - slug
-      - name
-      - count
-      title: TechDetails
     LookupTechnologiesResponse:
       properties:
         id:
@@ -559,6 +524,38 @@ components:
       - matched_count
       - results
       title: LookupTechnologiesResponse
+    GetTechnologiesRequest:
+      properties:
+        query:
+          type: string
+          title: Query
+      type: object
+      required:
+      - query
+      title: GetTechnologiesRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LookupTechnologiesRequest:
+      properties:
+        technologies:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Technologies
+          description: List of technology names, slugs, or aliases to look up
+      type: object
+      required:
+      - technologies
+      title: LookupTechnologiesRequest
     app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult:
       properties:
         input:
@@ -573,34 +570,37 @@ components:
       - input
       - category
       title: LookupResult
-    LookupTechnologyCategoriesResponse:
+    Technology:
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
           title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        matched_count:
-          type: integer
-          title: Matched Count
-        results:
-          items:
-            $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologyCategoriesResponse__LookupResult'
-          type: array
-          title: Results
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
       type: object
       required:
       - id
-      - credits_used
-      - credits_remaining
-      - matched_count
-      - results
-      title: LookupTechnologyCategoriesResponse
+      - slug
+      - name
+      title: Technology
+    app__schemas__paid_api__technologies__LookupTechnologiesResponse__LookupResult:
+      properties:
+        input:
+          type: string
+          title: Input
+        technology:
+          anyOf:
+          - $ref: '#/components/schemas/app__schemas__paid_api__technologies__LookupTechnologiesResponse__TechDetails'
+          - type: 'null'
+      type: object
+      required:
+      - input
+      - technology
+      title: LookupResult
   securitySchemes:
     api_token:
       type: http

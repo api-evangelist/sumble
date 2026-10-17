@@ -378,46 +378,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Select:
+    ValidationError:
       properties:
-        attributes:
+        loc:
           items:
-            type: string
-            enum:
-            - id
-            - slug
-            - name
-            - url
-            - employee_count
-            - industry
-            - jobs_count
-            - teams_count
-            - headquarters_country
-            - sumble_score
-            - sumble_url
-            - parent_id
-            - subsidiary_ids
-            - tags
-            - account_status
-            - funding_total_raised
-            - funding_valuation
-            - funding_last_round_raised
-            - funding_last_round_type
-            - funding_last_round_date
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Attributes
-          description: Baseline company attributes to include. Off by default.
-          default: []
-        entities:
-          items:
-            $ref: '#/components/schemas/EntitySelection'
-          type: array
-          title: Entities
-          description: Per-entity metric selections.
-          default: []
-      additionalProperties: false
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
-      title: Select
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     IntelligenceBriefPendingResponse:
       properties:
         status:
@@ -446,167 +432,6 @@ components:
         The caller should retry the same URL after the `Retry-After` header. No
 
         credits are consumed for 202 responses.'
-    SignalsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        signals:
-          items:
-            $ref: '#/components/schemas/Signal'
-          type: array
-          title: Signals
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - signals
-      title: SignalsResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Query:
-      properties:
-        query:
-          type: string
-          title: Query
-      type: object
-      required:
-      - query
-      title: Query
-    ResultRow:
-      properties:
-        input:
-          anyOf:
-          - $ref: '#/components/schemas/MatchOrganizationInput'
-          - type: 'null'
-        attributes:
-          anyOf:
-          - $ref: '#/components/schemas/Attributes'
-          - type: 'null'
-        entities:
-          items:
-            $ref: '#/components/schemas/EntityResult'
-          type: array
-          title: Entities
-          default: []
-      type: object
-      title: ResultRow
-    SuggestedContacts:
-      properties:
-        people:
-          items:
-            $ref: '#/components/schemas/SuggestedContact'
-          type: array
-          title: People
-        sumble_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sumble Url
-      type: object
-      required:
-      - people
-      title: SuggestedContacts
-    SignalTechnology:
-      properties:
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-      type: object
-      required:
-      - name
-      - slug
-      title: SignalTechnology
-    EnrichOrganizationsResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        organizations:
-          items:
-            $ref: '#/components/schemas/ResultRow'
-          type: array
-          title: Organizations
-        matched_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Matched Count
-        total:
-          type: integer
-          title: Total
-        source_data_url:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Source Data Url
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - organizations
-      - total
-      title: EnrichOrganizationsResponse
     EnrichOrganizationsRequest:
       properties:
         organizations:
@@ -691,35 +516,63 @@ components:
       required:
       - select
       title: EnrichOrganizationsRequest
-    SuggestedContact:
+    SuggestedContacts:
       properties:
-        person_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Person Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        title:
+        people:
+          items:
+            $ref: '#/components/schemas/SuggestedContact'
+          type: array
+          title: People
+        sumble_url:
           anyOf:
           - type: string
           - type: 'null'
-          title: Title
-        linkedin_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linkedin Url
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
+          title: Sumble Url
       type: object
-      title: SuggestedContact
+      required:
+      - people
+      title: SuggestedContacts
+    IntelligenceBriefResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organization_id:
+          type: integer
+          title: Organization Id
+        organization_slug:
+          type: string
+          title: Organization Slug
+        title:
+          type: string
+          title: Title
+        body:
+          type: string
+          title: Body
+        sumble_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Sumble Url
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organization_id
+      - organization_slug
+      - title
+      - body
+      - sumble_url
+      title: IntelligenceBriefResponse
     MatchOrganizationInput:
       properties:
         name:
@@ -755,6 +608,351 @@ components:
       additionalProperties: false
       type: object
       title: MatchOrganizationInput
+    Select:
+      properties:
+        attributes:
+          items:
+            type: string
+            enum:
+            - id
+            - slug
+            - name
+            - url
+            - employee_count
+            - industry
+            - jobs_count
+            - teams_count
+            - headquarters_country
+            - sumble_score
+            - sumble_url
+            - parent_id
+            - subsidiary_ids
+            - tags
+            - account_status
+            - funding_total_raised
+            - funding_valuation
+            - funding_last_round_raised
+            - funding_last_round_type
+            - funding_last_round_date
+          type: array
+          title: Attributes
+          description: Baseline company attributes to include. Off by default.
+          default: []
+        entities:
+          items:
+            $ref: '#/components/schemas/EntitySelection'
+          type: array
+          title: Entities
+          description: Per-entity metric selections.
+          default: []
+      additionalProperties: false
+      type: object
+      title: Select
+    ResultRow:
+      properties:
+        input:
+          anyOf:
+          - $ref: '#/components/schemas/MatchOrganizationInput'
+          - type: 'null'
+        attributes:
+          anyOf:
+          - $ref: '#/components/schemas/Attributes'
+          - type: 'null'
+        entities:
+          items:
+            $ref: '#/components/schemas/EntityResult'
+          type: array
+          title: Entities
+          default: []
+      type: object
+      title: ResultRow
+    SignalTechnology:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      type: object
+      required:
+      - name
+      - slug
+      title: SignalTechnology
+    SignalsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        signals:
+          items:
+            $ref: '#/components/schemas/Signal'
+          type: array
+          title: Signals
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - signals
+      title: SignalsResponse
+    EnrichOrganizationsResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        credits_used:
+          type: integer
+          title: Credits Used
+        credits_remaining:
+          type: integer
+          title: Credits Remaining
+        organizations:
+          items:
+            $ref: '#/components/schemas/ResultRow'
+          type: array
+          title: Organizations
+        matched_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Matched Count
+        total:
+          type: integer
+          title: Total
+        source_data_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Source Data Url
+      type: object
+      required:
+      - id
+      - credits_used
+      - credits_remaining
+      - organizations
+      - total
+      title: EnrichOrganizationsResponse
+    EntitySelection:
+      properties:
+        type:
+          type: string
+          enum:
+          - job_function
+          - technology
+          - project
+          - advanced_query
+          - technology_category
+          title: Type
+          description: The entity type to enrich against.
+        term:
+          type: string
+          minLength: 1
+          title: Term
+          description: 'The entity term: a technology name, job function, project, category, or advanced query string.'
+        metrics:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: string
+            const: all
+          - type: 'null'
+          title: Metrics
+          description: Metric names valid for `type`, or "all". Required for every type.
+        granularity:
+          anyOf:
+          - type: string
+            enum:
+            - aggregate
+            - exploded
+          - type: 'null'
+          title: Granularity
+          description: '`technology_category` only (required there, disallowed elsewhere). `aggregate` rolls the category up into one set of counts; `exploded` decomposes into per-component-technology counts.'
+        since:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Since
+          description: Scopes job_post_count, job_post_used_count, team_count, and people_count to activity since this date (YYYY-MM-DD). Does not affect people_count_growth_1y.
+      additionalProperties: false
+      type: object
+      required:
+      - type
+      - term
+      title: EntitySelection
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Signal:
+      properties:
+        signal_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Signal Id
+        title:
+          type: string
+          title: Title
+        subtitle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subtitle
+        explanation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Explanation
+        sales_angle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sales Angle
+        date:
+          type: string
+          format: date-time
+          title: Date
+        sumble_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sumble Url
+        display_type:
+          type: string
+          title: Display Type
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+        matched_technologies:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SignalTechnology'
+            type: array
+          - type: 'null'
+          title: Matched Technologies
+        organization_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Name
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+        job_post_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Job Post Id
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        job_function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Function
+        priority:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Priority
+        suggested_contacts:
+          anyOf:
+          - $ref: '#/components/schemas/SuggestedContacts'
+          - type: 'null'
+        account_status:
+          anyOf:
+          - type: string
+            enum:
+            - customer
+            - prospect
+            - not_in_crm
+          - type: 'null'
+          title: Account Status
+          description: 'CRM relationship between the signal''s organization and the calling account: ''customer'' (a customer account in the calling account''s CRM), ''prospect'' (tracked in CRM but not a customer), or ''not_in_crm'' (no CRM record). Only populated when the calling account has a linked CRM seat (Salesforce or HubSpot); omitted otherwise, even when requested.'
+      type: object
+      required:
+      - title
+      - date
+      - display_type
+      title: Signal
+    SuggestedContact:
+      properties:
+        person_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Person Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+      type: object
+      title: SuggestedContact
+    Query:
+      properties:
+        query:
+          type: string
+          title: Query
+      type: object
+      required:
+      - query
+      title: Query
     Attributes:
       properties:
         id:
@@ -981,204 +1179,6 @@ components:
       - type
       - term
       title: EntityResult
-    IntelligenceBriefResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        credits_used:
-          type: integer
-          title: Credits Used
-        credits_remaining:
-          type: integer
-          title: Credits Remaining
-        organization_id:
-          type: integer
-          title: Organization Id
-        organization_slug:
-          type: string
-          title: Organization Slug
-        title:
-          type: string
-          title: Title
-        body:
-          type: string
-          title: Body
-        sumble_url:
-          type: string
-          maxLength: 2083
-          minLength: 1
-          format: uri
-          title: Sumble Url
-      type: object
-      required:
-      - id
-      - credits_used
-      - credits_remaining
-      - organization_id
-      - organization_slug
-      - title
-      - body
-      - sumble_url
-      title: IntelligenceBriefResponse
-    Signal:
-      properties:
-        signal_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Signal Id
-        title:
-          type: string
-          title: Title
-        subtitle:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Subtitle
-        explanation:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Explanation
-        sales_angle:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sales Angle
-        date:
-          type: string
-          format: date-time
-          title: Date
-        sumble_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sumble Url
-        display_type:
-          type: string
-          title: Display Type
-        type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Type
-        matched_technologies:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SignalTechnology'
-            type: array
-          - type: 'null'
-          title: Matched Technologies
-        organization_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Organization Name
-        organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Organization Id
-        job_post_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Job Post Id
-        person_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Person Id
-        linkedin_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linkedin Url
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-        job_function:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Job Function
-        priority:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Priority
-        suggested_contacts:
-          anyOf:
-          - $ref: '#/components/schemas/SuggestedContacts'
-          - type: 'null'
-        account_status:
-          anyOf:
-          - type: string
-            enum:
-            - customer
-            - prospect
-            - not_in_crm
-          - type: 'null'
-          title: Account Status
-          description: 'CRM relationship between the signal''s organization and the calling account: ''customer'' (a customer account in the calling account''s CRM), ''prospect'' (tracked in CRM but not a customer), or ''not_in_crm'' (no CRM record). Only populated when the calling account has a linked CRM seat (Salesforce or HubSpot); omitted otherwise, even when requested.'
-      type: object
-      required:
-      - title
-      - date
-      - display_type
-      title: Signal
-    EntitySelection:
-      properties:
-        type:
-          type: string
-          enum:
-          - job_function
-          - technology
-          - project
-          - advanced_query
-          - technology_category
-          title: Type
-          description: The entity type to enrich against.
-        term:
-          type: string
-          minLength: 1
-          title: Term
-          description: 'The entity term: a technology name, job function, project, category, or advanced query string.'
-        metrics:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: string
-            const: all
-          - type: 'null'
-          title: Metrics
-          description: Metric names valid for `type`, or "all". Required for every type.
-        granularity:
-          anyOf:
-          - type: string
-            enum:
-            - aggregate
-            - exploded
-          - type: 'null'
-          title: Granularity
-          description: '`technology_category` only (required there, disallowed elsewhere). `aggregate` rolls the category up into one set of counts; `exploded` decomposes into per-component-technology counts.'
-        since:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Since
-          description: Scopes job_post_count, job_post_used_count, team_count, and people_count to activity since this date (YYYY-MM-DD). Does not affect people_count_growth_1y.
-      additionalProperties: false
-      type: object
-      required:
-      - type
-      - term
-      title: EntitySelection
   securitySchemes:
     api_token:
       type: http
