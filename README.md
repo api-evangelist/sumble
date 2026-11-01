@@ -64,6 +64,184 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Sumble is a company surfaced as a portfolio company of bloomberg-beta and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Sumble provides account intelligence data that powers go-to-market work across the revenue org — sales, RevOps, marketing, and customer success. Its data captures the most detailed view of what companies use (technologies and projects), who works there (people, teams, job posts), and when they are ready to buy (signals). Sumble exposes this as a RESTful enrichment API (OpenAPI 3.1, bearer-token auth) plus a hosted MCP server, letting teams enrich CRM data, build lead-generation tools, and run market research programmatically. Surfaced as a portfolio company of Bloomberg Beta and enriched into the API Evangelist network from its public developer surface.
 
-Backed by: bloomberg-beta — https://sumble.com/
+**Areas:** Company · Account Intelligence · Sales Intelligence · Data Enrichment · Go-To-Market · Technographics · People Data · Job Posts · Signals · MCP
+
+## Sumble on APIs.io
+
+Everything profiled for Sumble is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/sumble/](https://apis.io/providers/sumble/)** — or go straight to one of the APIs or properties below.
+
+### APIs (10)
+
+- [Sumble Contact Lists API](https://apis.io/apis/sumble/sumble-contact-lists-api/) — The contact-lists API from Sumble — 3 operation(s) for contact-lists.
+- [Sumble Jobs API](https://apis.io/apis/sumble/sumble-jobs-api/) — The jobs API from Sumble — 2 operation(s) for jobs.
+- [Sumble Organization Lists API](https://apis.io/apis/sumble/sumble-organization-lists-api/) — The organization-lists API from Sumble — 5 operation(s) for organization-lists.
+- [Sumble Organizations API](https://apis.io/apis/sumble/sumble-organizations-api/) — The organizations API from Sumble — 3 operation(s) for organizations.
+- [Sumble People API](https://apis.io/apis/sumble/sumble-people-api/) — The people API from Sumble — 1 operation(s) for people.
+- [Sumble Projects API](https://apis.io/apis/sumble/sumble-projects-api/) — The projects API from Sumble — 1 operation(s) for projects.
+- [Sumble Signals API](https://apis.io/apis/sumble/sumble-signals-api/) — The signals API from Sumble — 3 operation(s) for signals.
+- [Sumble Support API](https://apis.io/apis/sumble/sumble-support-api/) — The support API from Sumble — 2 operation(s) for support.
+- [Sumble Teams API](https://apis.io/apis/sumble/sumble-teams-api/) — The teams API from Sumble — 1 operation(s) for teams.
+- [Sumble Technologies API](https://apis.io/apis/sumble/sumble-technologies-api/) — The technologies API from Sumble — 3 operation(s) for technologies.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [sumble](https://apis.io/servers/sumble/sumble/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Sumble Agentic Access](https://apis.io/agentic-access/sumble/sumble-agentic-access/)
+
+#### Examples (52)
+
+Example requests and responses.
+
+- [Sumble V9 Contact Lists Get 200 Response Response](https://apis.io/examples/sumble/sumble-v9-contact-lists-get-200-response-response/)
+- [Sumble V9 Contact Lists List Id Get 200 Response Response](https://apis.io/examples/sumble/sumble-v9-contact-lists-list-id-get-200-response-response/)
+- [Sumble V9 Contact Lists List Id People Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-contact-lists-list-id-people-post-200-response-response/)
+- [Sumble V9 Contact Lists Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-contact-lists-post-200-response-response/)
+- [Sumble V9 Jobs Post 200 Filter Mode Response](https://apis.io/examples/sumble/sumble-v9-jobs-post-200-filter-mode-response/)
+- [Sumble V9 Jobs Post 200 List Mode Response](https://apis.io/examples/sumble/sumble-v9-jobs-post-200-list-mode-response/)
+- [Sumble V9 Jobs Request By Job Ids](https://apis.io/examples/sumble/sumble-v9-jobs-request-by-job-ids/)
+- [Sumble V9 Jobs Request By List All Attributes](https://apis.io/examples/sumble/sumble-v9-jobs-request-by-list-all-attributes/)
+- [Sumble V9 Jobs Request By Org Ids](https://apis.io/examples/sumble/sumble-v9-jobs-request-by-org-ids/)
+- [Sumble V9 Jobs Request By Query](https://apis.io/examples/sumble/sumble-v9-jobs-request-by-query/)
+- [Sumble V9 Jobs Request With Extracted Entities](https://apis.io/examples/sumble/sumble-v9-jobs-request-with-extracted-entities/)
+- [Sumble V9 Jobs Title Lookup Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-jobs-title-lookup-post-200-response-response/)
+- [Sumble V9 Organization Lists Get 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organization-lists-get-200-response-response/)
+- [Sumble V9 Organization Lists List Id Deleted Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organization-lists-list-id-deleted-post-200-response-response/)
+- [Sumble V9 Organization Lists List Id Get 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organization-lists-list-id-get-200-response-response/)
+- [Sumble V9 Organization Lists List Id Organizations Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organization-lists-list-id-organizations-post-200-response-response/)
+- [Sumble V9 Organization Lists List Id Signals Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organization-lists-list-id-signals-post-200-response-response/)
+- [Sumble V9 Organization Lists Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organization-lists-post-200-response-response/)
+- [Sumble V9 Organizations Organization Id Intelligence Brief Get 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organizations-organization-id-intelligence-brief-get-200-response-response/)
+- [Sumble V9 Organizations Organization Id Intelligence Brief Get 202 Response Response](https://apis.io/examples/sumble/sumble-v9-organizations-organization-id-intelligence-brief-get-202-response-response/)
+- [Sumble V9 Organizations Organization Id Intelligence Brief Get 422 Response Response](https://apis.io/examples/sumble/sumble-v9-organizations-organization-id-intelligence-brief-get-422-response-response/)
+- [Sumble V9 Organizations Organization Id Signals Get 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organizations-organization-id-signals-get-200-response-response/)
+- [Sumble V9 Organizations Post 200 Response Response](https://apis.io/examples/sumble/sumble-v9-organizations-post-200-response-response/)
+- [Sumble V9 Organizations Request By Filter](https://apis.io/examples/sumble/sumble-v9-organizations-request-by-filter/)
+- [Sumble V9 Organizations Request By Filter Aq Concentration Sort](https://apis.io/examples/sumble/sumble-v9-organizations-request-by-filter-aq-concentration-sort/)
+- …and 27 more published on APIs.io
+
+#### Collections (10)
+
+Postman and Open Collection request collections.
+
+- [Sumble contact-lists API](https://apis.io/collections/sumble/open-sumble-contact-lists-api/)
+- [Sumble contact-lists jobs API](https://apis.io/collections/sumble/open-sumble-jobs-api/)
+- [Sumble contact-lists organization-lists API](https://apis.io/collections/sumble/open-sumble-organization-lists-api/)
+- [Sumble contact-lists organizations API](https://apis.io/collections/sumble/open-sumble-organizations-api/)
+- [Sumble contact-lists people API](https://apis.io/collections/sumble/open-sumble-people-api/)
+- [Sumble contact-lists projects API](https://apis.io/collections/sumble/open-sumble-projects-api/)
+- [Sumble contact-lists signals API](https://apis.io/collections/sumble/open-sumble-signals-api/)
+- [Sumble contact-lists support API](https://apis.io/collections/sumble/open-sumble-support-api/)
+- [Sumble contact-lists teams API](https://apis.io/collections/sumble/open-sumble-teams-api/)
+- [Sumble contact-lists technologies API](https://apis.io/collections/sumble/open-sumble-technologies-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Sumble Openapi Overlay](https://apis.io/overlays/sumble/sumble-openapi-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Sumble Authentication](https://apis.io/security/sumble/sumble-authentication/)
+- [Sumble Domain Security](https://apis.io/security/sumble/sumble-domain-security/)
+- [Sumble Trust Center](https://apis.io/security/sumble/sumble-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Sumble Plans Pricing](https://apis.io/plans/sumble/sumble-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Sumble Rate Limits](https://apis.io/rate-limits/sumble/sumble-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://sumble.com/)
+- [Documentation](https://docs.sumble.com/api/api)
+- [Getting started](https://docs.sumble.com/get-started/get-started-with-sumble)
+- [API reference](https://api.sumble.com/docs)
+- [Pricing](https://sumble.com/pricing)
+- [Sign up](https://sumble.com/signup)
+- [Blog](https://blog.sumble.com/)
+- [Compliance](https://docs.sumble.com/trust-and-security/trust-and-security)
+- [Trust centre](https://trust.sumble.com/)
+- [Terms of service](https://sumble.com/terms-of-service)
+- [Privacy policy](https://sumble.com/privacy)
+- [GitHub](https://github.com/SumbleData)
+- [Status](https://status.sumble.com)
+
+## API Evangelist rating
+
+**Kin Score 55.4** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 55.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 64.3 |
+| Access clarity | 67.1 |
+
+**Agent readiness 62.3** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | verified |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 29.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/sumble/](https://apis.io/providers/sumble/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Sumble: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/sumble/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
